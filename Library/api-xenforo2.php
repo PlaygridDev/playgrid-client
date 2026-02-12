@@ -1,8 +1,5 @@
 <?php
-/********************************
- * Dev and Code by MmoWeb
- * Date: 18.03.2020
- ********************************/
+
 header("Content-type: application/json; charset=utf-8");
 
 //error_reporting(E_ALL & ~E_NOTICE  & ~E_USER_NOTICE);

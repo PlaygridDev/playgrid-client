@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 23.09.2019
- * Time: 13:08
- */
+
 namespace Modules\Globals\HeadInfo;
 use Modules\MainModulesClass;
 
@@ -32,7 +27,7 @@ class HeadInfo extends MainModulesClass
                 'ru' => 'Виджет информации о балансе',
                 'en' => 'Balance Information Widget',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "23.09.2019",
             "lastUpdated" => "23.09.2019",
             "class" => __CLASS__,

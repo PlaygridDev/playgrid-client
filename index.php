@@ -1,12 +1,12 @@
 <?php
-/********************************
- * Dev and Code by MmoWeb
- ********************************/
-
 
 define("ROOT_DIR", dirname(__FILE__));
-require_once ROOT_DIR . "/Config.php";
-//Developer log error
+
+if(file_exists(ROOT_DIR . '/Config.php')) {
+    require_once ROOT_DIR . "/Config.php";
+} else {
+    header('Location: /install.php');
+}
 
 if (DEBUG OR $_SERVER[HEADER_IP] == DEBUG_IP) {
     error_reporting(E_ALL & ~E_NOTICE);
@@ -93,6 +93,10 @@ $ignore_detect_lang_page = array(
     '/api/send_email',
     '/api/update_session',
     '/api/connection_check',
+    '/api/updater_check_connection',
+    '/api/install_update',
+    '/api/get_updater_process_progress',
+    '/api/get_version',
     '/api/config',
     '/api/shop',
     '/api/market',
@@ -103,34 +107,39 @@ $ignore_detect_lang_page = array(
     '/api/gift_code',
     '/api/money_withdrawal',
     '/api/item',
-    '/api/payment/unitpay/'.PAYMENT_KEY,
-    '/api/payment/unitpay_two/'.PAYMENT_KEY,
-    '/api/payment/nextpay/'.PAYMENT_KEY,
     '/api/payment/freekassa/'.PAYMENT_KEY,
-    '/api/payment/paypal/'.PAYMENT_KEY,
-    '/api/payment/paygol/'.PAYMENT_KEY,
-    '/api/payment/g2a/'.PAYMENT_KEY,
-    '/api/payment/payop/'.PAYMENT_KEY,
-    '/api/payment/alikassa/'.PAYMENT_KEY,
+    '/api/payment/unitpay/'.PAYMENT_KEY,
     '/api/payment/payu/'.PAYMENT_KEY,
+    '/api/payment/paypal/'.PAYMENT_KEY,
+    '/api/payment/payop/'.PAYMENT_KEY,
+    '/api/payment/paygol/'.PAYMENT_KEY,
     '/api/payment/enot/'.PAYMENT_KEY,
     '/api/payment/ipay/'.PAYMENT_KEY,
-    '/api/payment/paysafecard/'.PAYMENT_KEY,
-    '/api/payment/ips_payment/'.PAYMENT_KEY,
-    '/api/payment/digiseller/'.PAYMENT_KEY,
     '/api/payment/paymentwall/'.PAYMENT_KEY,
-    '/api/payment/qiwi/'.PAYMENT_KEY,
-    '/api/payment/paymaster/'.PAYMENT_KEY,
-    '/api/payment/payssion/'.PAYMENT_KEY,
-    '/api/payment/advcash/'.PAYMENT_KEY,
     '/api/payment/interkassa/'.PAYMENT_KEY,
-    '/api/payment/interkassa_two/'.PAYMENT_KEY,
     '/api/payment/primepayments/'.PAYMENT_KEY,
     '/api/payment/liqpay/'.PAYMENT_KEY,
+    '/api/payment/unitpay_two/'.PAYMENT_KEY,
+    '/api/payment/hotskins/'.PAYMENT_KEY,
+    '/api/payment/interkassa_two/'.PAYMENT_KEY,
     '/api/payment/paypalych/'.PAYMENT_KEY,
-    '/api/payment/lava/'.PAYMENT_KEY,
+    '/api/payment/paypalych_two/'.PAYMENT_KEY,
+    '/api/payment/payze/'.PAYMENT_KEY,
+    '/api/payment/moneytigo/'.PAYMENT_KEY,
+    '/api/payment/stripe/'.PAYMENT_KEY,
+    '/api/payment/pagseguro/'.PAYMENT_KEY,
+    '/api/payment/tome/'.PAYMENT_KEY,
+    '/api/payment/binance/'.PAYMENT_KEY,
+    '/api/payment/portmone/'.PAYMENT_KEY,
+    '/api/payment/capitalist/'.PAYMENT_KEY,
+    '/api/payment/pgs/'.PAYMENT_KEY,
+    '/api/payment/monobank/'.PAYMENT_KEY,
+    '/api/payment/b2pay/'.PAYMENT_KEY,
+    '/api/payment/antilopay/'.PAYMENT_KEY,
+    '/api/payment/cryptocloud/'.PAYMENT_KEY,
+    '/api/payment/paddle/'.PAYMENT_KEY,
     '/text',
-    '/captcha/img',
+    '/captcha/altcha',
     '/prefix/refresh',
     '/promo-game',
     '/input',

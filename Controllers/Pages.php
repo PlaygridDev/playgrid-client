@@ -1,8 +1,5 @@
 <?php
-/********************************
- * Dev and Code by MmoWeb
-  * Date: 06.10.2015
- ********************************/
+
 if (! defined ( 'ROOT_DIR' )){ exit ( "Error, wrong way to file.<a href=\"/\">Go to main</a>.");}
 
 class Pages extends Controller {
@@ -50,7 +47,6 @@ class Pages extends Controller {
         $this->fenom->addFunctionSmart('streams', 'SiteComponents::Streams');
         $this->fenom->addFunctionSmart('language', 'SiteComponents::Language');
         $this->fenom->addFunctionSmart('iblock', 'SiteComponents::IBlock');
-        $this->fenom->addFunctionSmart('patchnotes', 'SiteComponents::PatchNotes');
         if (method_exists($this, 'tpl__construct')) {
             if (file_exists(ROOT_DIR . TEMPLATE_DIR . '/SiteComponents.php')) {
                 include_once ROOT_DIR . TEMPLATE_DIR . '/SiteComponents.php';

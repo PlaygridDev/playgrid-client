@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 23.09.2019
- * Time: 13:49
- */
+
 
 namespace HeadInfo;
 

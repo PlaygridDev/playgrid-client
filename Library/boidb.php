@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 28.02.2020
- * Time: 21:21
- */
 
 return array(
 

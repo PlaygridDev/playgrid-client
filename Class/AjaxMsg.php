@@ -1,8 +1,5 @@
 <?php
-/********************************
- * Dev and Code by MmoWeb
- * Date: 23.12.2015
- ********************************/
+
 if (! defined ( 'ROOT_DIR' )){ exit ( "Error, wrong way to file.<a href=\"/\">Go to main</a>.");}
 
 

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 09.10.2019
- * Time: 11:59
- */
+
 
 return array(
     'ru' => array(
@@ -23,7 +18,7 @@ return array(
 
     ),
     'en' => array(
-	
+
 	        'lang_title' => 'Enter your Telegram username',
         'lang_text' => 'The Telegram bot is a digital assistant that will keep you up to date with the most important news and updates.
             <dt>1. Enter your username</dt>
@@ -35,11 +30,11 @@ return array(
         'lang_btn_confirm_telegram' => 'Connect',
         'lang_btn_disable_telegram' => 'Disconnect',
 
-	
-	
+
+
     ),
     'gr' => array(
-	
+
         'lang_title' => 'Εισάγετε το Telegram username σας',
     'lang_text' => 'Το Telegram bot είναι ένας ψηφιακός βοηθός ο οποίος σας ενημερώνει σχετικά με τα πιο σημαντικά νέα και ενημερώσεις.
         <dt>1. Εισάγετε το username σας</dt>
@@ -55,7 +50,7 @@ return array(
 
 	),
 	'es' => array(
-	
+
 	        'lang_title' => 'Ingresa tu nombre de usuario de Telegram',
         'lang_text' => 'El bot de Telegram es un asistente digital que te mantendrá actualizado con las más importantes noticias y actualizaciones.
             <dt>1. Ingresa tu nombre de usuario</dt>
@@ -67,13 +62,13 @@ return array(
         'lang_btn_confirm_telegram' => 'Conectado',
         'lang_btn_disable_telegram' => 'Desconectado',
 
-	
-	
+
+
     ),
     'pt' => array(
-    
+
             'lang_title' => 'Digite seu nome de usuário do Telegram',
-        'lang_text' => 'O bot do Telegram é um assistente digital que o manterá atualizado com as notícias e atualizações mais importantes. 
+        'lang_text' => 'O bot do Telegram é um assistente digital que o manterá atualizado com as notícias e atualizações mais importantes.
             <dt>1. Entre com seu nome de usuário </dt>
             <dd><p>Para que o bot seja capaz de identificá-lo, digite seu <a href="https://telegram.org.ru/387-kak-ustanovit-ili-izmenit-imya-v-telegramm.html">nome de usuário< / a> no Telegram.</p></dd>
             <dt>2. Contate o bot</dt>
@@ -81,11 +76,11 @@ return array(
             <dd>Alternativamente, você pode encontrá-lo no aplicativo pelo nome: <code>@MMORoBot</code></dd>',
 
         'lang_btn_confirm_telegram' => 'Conectar',
-        'lang_btn_disable_telegram' => 'Desconectar',    
-    
+        'lang_btn_disable_telegram' => 'Desconectar',
+
     ),
 	'cn' => array(
-	
+
 	        'lang_title' => '输入您的电报用户名',
         'lang_text' => '电报机器人是数字助理，可让您随时了解最重要的新闻和更新.
             <dt>1. 输入用户名</dt>
@@ -97,11 +92,11 @@ return array(
         'lang_btn_confirm_telegram' => '联系',
         'lang_btn_disable_telegram' => '断开连接',
 
-	
-	
+
+
     ),
 	'ko' => array(
-	
+
 	        'lang_title' => '텔레 그램 사용자 이름을 입력하십시오',
         'lang_text' => '전보 봇은 가장 중요한 뉴스와 업데이트를 최신 상태로 유지하는 디지털 비서입니다..
             <dt>1. 사용자 이름을 입력</dt>
@@ -113,7 +108,7 @@ return array(
         'lang_btn_confirm_telegram' => '연결',
         'lang_btn_disable_telegram' => '분리',
 
-	
-	
+
+
     ),
 );

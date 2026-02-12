@@ -3,9 +3,9 @@
 /**
  *  %site_name%             => Имя проекта,
  *  %server_name%           => Имя текушего сервера,
- *  %platform_server_name%  => Платформа и имя сервера пример: Lineage2 > Gracia Final,
- *  %url%                   => ссылка на сайт пример: https://mw4.mmoweb.ru/,
- *  %this_url%              => текуший адрес пример: https://mw4.mmoweb.ru/shop,
+ *  %platform_server_name%  => Платформа и имя сервера
+ *  %url%                   => ссылка на сайт пример: https://test.mmoweb.biz/,
+ *  %this_url%              => текуший адрес пример: https://test.mmoweb.biz/shop,
  *
  *  Class/SeoX.php method initReplaceTeg() Добовление тегов
  */
@@ -324,7 +324,7 @@ return array(
 
             ),
         ),
-	
+
     ),
     'gr'=> array(
 
@@ -465,8 +465,8 @@ return array(
 
             ),
         ),
-	
-    ),  
+
+    ),
 	'es'=> array(
 
         // Configuración general para tu cuenta personal,
@@ -606,7 +606,7 @@ return array(
 
             ),
         ),
-	
+
     ),
 		'cn'=> array(
 
@@ -747,7 +747,7 @@ return array(
 
             ),
         ),
-	
+
     ),
 		'ko'=> array(
 
@@ -888,6 +888,6 @@ return array(
 
             ),
         ),
-	
+
     ),
 );

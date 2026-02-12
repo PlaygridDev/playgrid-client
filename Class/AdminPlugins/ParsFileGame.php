@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 14.03.2020
- * Time: 23:31
- */
 
 namespace AdminPlugins;
-
 
 use ParserItem;
 use PDO;
@@ -325,12 +318,12 @@ class ParsFileGame
                                   `stackable` int(1) NOT NULL DEFAULT '0',
                                   `sid` int(11) NOT NULL DEFAULT '0'
                                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-                                
+
                                 ALTER TABLE `mw_item_db`
                                   ADD PRIMARY KEY (`id`),
                                   ADD KEY `item_id` (`item_id`),
                                   ADD KEY `sid` (`sid`);
-                                
+
                                 ALTER TABLE `mw_item_db`
                                   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;");
     }

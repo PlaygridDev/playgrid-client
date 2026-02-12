@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 28.01.2020
- * Time: 14:15
- */
+
 
 namespace Modules\Globals\InGameCurrency;
 use Modules\MainModulesClass;
@@ -32,7 +27,7 @@ class InGameCurrency extends MainModulesClass
                 'ru' => 'Покупка внутриигровой валюты',
                 'en' => 'In-game currency purchase',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "28.01.2020",
             "lastUpdated" => "28.01.2020",
             "class" => __CLASS__,

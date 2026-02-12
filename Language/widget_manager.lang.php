@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 04.10.2019
- * Time: 17:46
- */
+
 
 return array(
     'ru' => array(
@@ -39,7 +34,7 @@ return array(
 
     ),
     'en' => array(
-	
+
         'lang_title_dropdown' => 'Master Account Management',
         'lang_btn_add' => 'Add Master Account',
         'lang_title' => 'Connect Master Account',
@@ -66,11 +61,11 @@ return array(
         "ajax_empty_key" => "The 'Key' field cannot be empty!",
         'ajax_empty_email' => 'The \'Mobile or e-mail\' field cannot be empty!',
         'ajax_empty_password' => 'The \'Password\' field cannot be empty!',
-	
-	
+
+
     ),
     'gr' => array(
-	
+
         'lang_title_dropdown' => 'Διαχείρηση Master Accounts',
         'lang_btn_add' => 'Προσθήκη Master Account',
         'lang_title' => 'Σύνδεση Master Account',
@@ -97,11 +92,11 @@ return array(
         "ajax_empty_key" => "Το πεδίο «Κλειδί» δεν μπορεί να είναι κενό!",
         'ajax_empty_email' => 'Το πεδίο «Αριθμός κινητού ή e-mail» δεν μπορεί να είναι κενό!',
         'ajax_empty_password' => 'Το πεδίο «Password» δεν μπορεί να είναι κενό!',
-	
-	
+
+
 	),
 	'es' => array(
-	
+
         'lang_title_dropdown' => 'Administración de Cuenta Maestra',
         'lang_btn_add' => 'Agregar Cuenta Maestra',
         'lang_title' => 'Conectar Cuenta Maestra',
@@ -128,11 +123,11 @@ return array(
         "ajax_empty_key" => "El campo 'Llave' no puede estar vacío!",
         'ajax_empty_email' => 'El campo \'Móvil o Correo Electrónico\' no puede estar vacío!',
         'ajax_empty_password' => 'El campo \'Contraseña\' no puede estar vacío!',
-	
-	
+
+
     ),
     'pt' => array(
-    
+
         'lang_title_dropdown' => 'Gerenciamento de conta mestre',
         'lang_btn_add' => 'Adicionar Conta Mestre',
         'lang_title' => 'Conectar Conta Mestre',
@@ -158,10 +153,10 @@ return array(
         "ajax_empty_key" => "O campo 'Chave' não pode estar vazio!",
         'ajax_empty_email' => 'O campo \'Celular ou e-mail\' não pode estar vazio!',
         'ajax_empty_password' => 'O campo \'Senha\' não pode estar vazio! ',
-    
+
     ),
 	'cn' => array(
-	
+
         'lang_title_dropdown' => '主客户管理',
         'lang_btn_add' => '添加主帐户',
         'lang_title' => '连接主帐户',
@@ -188,11 +183,11 @@ return array(
         "ajax_empty_key" => "\"密钥\"字段不能为空!",
         'ajax_empty_email' => '\'移动或电子邮件\' 字段不能为空!',
         'ajax_empty_password' => '\'密码\' 字段不能为空!',
-	
-	
+
+
     ),
 	'ko' => array(
-	
+
         'lang_title_dropdown' => '마스터 계정 관리',
         'lang_btn_add' => '마스터 계정 추가',
         'lang_title' => '마스터 계정을 연결',
@@ -219,7 +214,7 @@ return array(
         "ajax_empty_key" => "'키' 필드를 비울 수 없습니다!",
         'ajax_empty_email' => '\'모바일 또는 전자 메일\' 필드를 비울 수 없습니다!',
         'ajax_empty_password' => '\'비밀번호 \'필드는 비워 둘 수 없습니다.!',
-	
-	
+
+
     ),
 );

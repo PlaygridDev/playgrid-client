@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 28.02.2020
- * Time: 16:33
- */
+
 return array(
     'ru' => array(
         'lang_page' => array(
@@ -89,9 +84,9 @@ return array(
             'clan' => 'Clans',
         ),
 
-        'server_rating_empty' => 'No information available yet. Please check back later.',	
-	
-	
+        'server_rating_empty' => 'No information available yet. Please check back later.',
+
+
     ),
     'gr' => array(
 
@@ -131,9 +126,9 @@ return array(
             'clan' => 'Clans',
         ),
 
-        'server_rating_empty' => 'Δεν υπάρχουν ακόμη διαθέσιμες πληροφορίες. Ελέγξτε ξανά αργότερα.',	
-	
-	
+        'server_rating_empty' => 'Δεν υπάρχουν ακόμη διαθέσιμες πληροφορίες. Ελέγξτε ξανά αργότερα.',
+
+
     ),
 	'es' => array(
 
@@ -173,9 +168,9 @@ return array(
             'clan' => 'Clanes',
         ),
 
-        'server_rating_empty' => 'Todavía no hay información disponible. Por favor verifica nuevamente más tarde.',	
-	
-	
+        'server_rating_empty' => 'Todavía no hay información disponible. Por favor verifica nuevamente más tarde.',
+
+
     ),
     'pt' => array(
 
@@ -215,8 +210,8 @@ return array(
             'clan' => 'Clans',
         ),
 
-        'server_rating_empty' => 'Nenhuma informação disponível ainda. Por favor, volte mais tarde.',  
-    
+        'server_rating_empty' => 'Nenhuma informação disponível ainda. Por favor, volte mais tarde.',
+
     ),
 	'cn' => array(
 
@@ -256,9 +251,9 @@ return array(
             'clan' => '氏族属',
         ),
 
-        'server_rating_empty' => '尚无可用信息。请稍后再检查.',	
-	
-	
+        'server_rating_empty' => '尚无可用信息。请稍后再检查.',
+
+
     ),
 	'ko' => array(
 
@@ -298,8 +293,8 @@ return array(
             'clan' => '클랜',
         ),
 
-        'server_rating_empty' => '아직 사용 가능한 정보가 없습 나중에 다시 확인하십시.',	
-	
-	
+        'server_rating_empty' => '아직 사용 가능한 정보가 없습 나중에 다시 확인하십시.',
+
+
     ),
 );

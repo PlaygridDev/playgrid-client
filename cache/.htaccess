@@ -1,4 +1,12 @@
-order allow,deny
-<Files ~ "\.(png)$">
-   allow from all
-</Files>
+SetEnvIf Request_URI "\.png$" allow_png
+
+<IfModule mod_authz_core.c>
+    Require all denied
+    Require env allow_png
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+    Allow from env=allow_png
+</IfModule>

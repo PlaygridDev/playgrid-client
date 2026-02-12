@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 24.09.2019
- * Time: 17:18
- */
+
 namespace Statistic;
 
 use ApiLib\GlobalApi;
@@ -79,13 +74,11 @@ class func
 
     public function pars_rating($data, $platform){
 
-        //lineage2 - 'top_pvp','top_pk','top_exp','top_clan','top_clan_pvp','top_ally','top_castle','top_clanhols','top_statistic'
-
         switch ($platform){
 
             case 'lineage2':
                 //Загружаем бибилотеку
-                $lib = include_once ROOT_DIR.'/Library/lineage2db.php';
+                $lib = include_once ROOT_DIR.'/Library/ladb.php';
                 //перебираем массивы с рейтингами
                 foreach ($data as $type_rating => &$top_data) {
                     //если есть ошибка пропускаем

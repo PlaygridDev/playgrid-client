@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 29.09.2019
- * Time: 21:00
- */
 
 namespace Modules\Globals\Settings;
 use Modules\MainModulesClass;
@@ -31,7 +25,7 @@ class Settings extends MainModulesClass
                 'ru' => 'Виджет настроек мастер аккаунта',
                 'en' => 'Wizard account settings widget',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "29.09.2019",
             "lastUpdated" => "29.09.2019",
             "class" => __CLASS__,

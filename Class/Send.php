@@ -1,8 +1,4 @@
 <?php
-/********************************
- * Dev and Code by MmoWeb
- * Date: 06.10.2015
- ********************************/
 
 class Send {
 
@@ -36,7 +32,7 @@ class Send {
 
     public function sendServer($Params,$test = false , $msg_time_out = 'echo' , $timeout = true){
 
-        
+
         if( !$this->core->session->getSpam() AND $timeout) {
             if($msg_time_out == 'echo') {
                 echo $this->core->ajaxmsg->text("Server timeout 2 seconds")->warning();

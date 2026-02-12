@@ -141,7 +141,7 @@
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text type_icon"><i class="fa fa-user"></i></span>
-                                                </div><input type="email" id="email" class="form-control" name="email" placeholder="demo@mmoweb.ru">
+                                                </div><input type="email" id="email" class="form-control" name="email" placeholder="demo@mmoweb.biz">
                                             </div>
                                         </div>
                                         <p>{$lang_label_wh_desc_no_login}</p>
@@ -184,22 +184,7 @@
                     <div class="row gutters-tiny mt-20 text-center">
                         <div class="col-12">
 
-                            {if $config_cabinet.captcha == 'captcha'}
-                                <div class="col-12">
-                                    <div class="form-group row justify-content-center text-center">
-                                        <div class="col-12 col-md-6">
-                                            <label for="captcha">Captcha</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text p-0"><img id="captcha-img" style="border-radius: 3px 0 0 3px;" class="btn-secondary" src="/captcha/img"></span>
-                                                    <button type="button" class="btn btn-secondary" onclick="$('#captcha-img').attr('src','/captcha/img?'+Math.random());"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-                                                </div>
-                                                <input type="text" class="form-control" id="captcha" name="captcha" placeholder="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {elseif $config_cabinet.captcha == 'recaptchav2'}
+                            {if $config_cabinet.captcha == 'recaptchav2'}
                                 <div class="col-12">
                                     <div class="form-group row justify-content-center text-center">
                                         <div class="col-12 col-md-6">
@@ -220,6 +205,14 @@
                                             });
                                     });
                                 </script>
+                            {elseif $config_cabinet.captcha == 'turnstile'}
+                                <div class="d-flex justify-content-center w-100 my-3">
+                                    <div class="cf-turnstile" data-sitekey="{$config_cabinet.turnstile_site_key}"></div>
+                                </div>
+                            {elseif $config_cabinet.captcha == 'altcha'}
+                                <div class="d-flex justify-content-center w-100 my-3">
+                                    <altcha-widget id="altcha" challengeurl="/captcha/altcha" auto="onfocus"></altcha-widget>
+                                </div>
                             {/if}
                         </div>
                     </div>
@@ -387,3 +380,11 @@
 
     });
 </script>
+
+{if $config_cabinet.captcha == 'altcha'}
+    {$.site._SEO->addTegHTML('footer', 'altcha', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/js/plugins/altcha/altcha.min.js', 'type' => 'module'])}
+{/if}
+
+{if $config_cabinet.captcha == 'turnstile'}
+    {$.site._SEO->addTegHTML('footer', 'altcha', 'script', ['src'=> 'https://challenges.cloudflare.com/turnstile/v0/api.js'])}
+{/if}

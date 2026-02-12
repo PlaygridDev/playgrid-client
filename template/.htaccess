@@ -1,0 +1,14 @@
+SetEnvIf Request_URI "\.(css|js|map|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|otf|eot|mp3)$" allow_static
+
+SetEnvIf Request_URI "^/template/error\.html$" allow_static
+
+<IfModule mod_authz_core.c>
+    Require all denied
+    Require env allow_static
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+    Allow from env=allow_static
+</IfModule>

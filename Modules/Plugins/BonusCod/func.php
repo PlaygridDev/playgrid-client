@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 24.09.2019
- * Time: 17:18
- */
 
 namespace BonusCod;
 

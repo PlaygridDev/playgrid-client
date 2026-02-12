@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 20.10.2019
- * Time: 23:12
- */
 
 return array(
     'ru' => array(

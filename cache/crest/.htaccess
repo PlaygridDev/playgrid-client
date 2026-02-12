@@ -1,4 +1,0 @@
-order allow,deny
-<Files ~ "\.(png)$">
-   allow from all
-</Files>

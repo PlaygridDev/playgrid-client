@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 24.09.2019
- * Time: 17:18
- */
 
 
 namespace Support;
@@ -32,22 +26,36 @@ class func
     );
     public $payment_list = array(
         'freekassa',
-        'g2a',
         'unitpay',
         'payu',
         'paypal',
         'payop',
-        'paymentwall',
-        'pagseguro',
-        'nextpay',
         'paygol',
-        'alikassa',
         'enot',
         'ipay',
-        'paysafecard',
-        'ips_payment',
-        'digiseller',
-        'qiwi',
+        'paymentwall',
+        'interkassa',
+        'primepayments',
+        'liqpay',
+        'unitpay_two',
+        'hotskins',
+        'interkassa_two',
+        'paypalych',
+        'paypalych_two',
+        'payze',
+        'moneytigo',
+        'stripe',
+        'pagseguro',
+        'tome',
+        'binance',
+        'portmone',
+        'capitalist',
+        'pgs',
+        'monobank',
+        'b2pay',
+        'antilopay',
+        'cryptocloud',
+        'paddle'
     );
     //Список тикетов
     public $tickets = array(

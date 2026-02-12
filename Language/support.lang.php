@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 04.10.2019
- * Time: 17:46
- */
 
 return array(
     'ru' => array(
@@ -106,7 +100,7 @@ return array(
 
     ),
     'en' => array(
-	
+
         'support_ajax_empty_tid' => 'Invalid ticket ID specified',
         'support_ajax_empty_category' => 'You need to select a ticket topic',
         'support_ajax_empty_details' => 'You need to provide the ticket details',
@@ -201,12 +195,12 @@ return array(
             8 => 'Issues with Balance Top-ups',
             9 => 'Other',
         ),
-	
-	
-	
+
+
+
     ),
     'gr' => array(
-	
+
         'support_ajax_empty_tid' => 'Λανθασμένο ID αιτήματος υποστήριξης',
         'support_ajax_empty_category' => 'Πρέπει να επιλέξετε θέμα αιτήματος υποστήριξης',
         'support_ajax_empty_details' => 'Πρέπει να εισάγετε τις λεπτομέρειες του αιτήματος υποστήριξης',
@@ -301,12 +295,12 @@ return array(
             8 => 'Προβλήματα με Ανανεώση Υπολοίπου',
             9 => 'Άλλα',
         ),
-	
-	
-	
+
+
+
 	),
 	'es' => array(
-	
+
         'support_ajax_empty_tid' => 'ID de ticket especificado inválido',
         'support_ajax_empty_category' => 'Debes elegir un tema de ticket',
         'support_ajax_empty_details' => 'Debes proveer los detalles del ticket',
@@ -401,12 +395,12 @@ return array(
             8 => 'Problemas con Recargas de Saldo',
             9 => 'Otros',
         ),
-	
-	
-	
+
+
+
     ),
     'pt' => array(
-    
+
         'support_ajax_empty_tid' => 'ID de ticket inválido especificado ',
         'support_ajax_empty_category' => 'Você precisa selecionar um tópico de ticket',
         'support_ajax_empty_details' => 'Você precisa fornecer os detalhes do ticket',
@@ -493,11 +487,11 @@ return array(
             8 => 'Problemas com recargas de saldo',
             9 => 'Outros',
         ),
-    
-    
+
+
     ),
 	'cn' => array(
-	
+
         'support_ajax_empty_tid' => '指定的票证ID无效',
         'support_ajax_empty_category' => '您需要选择票证主题',
         'support_ajax_empty_details' => '您需要提供机票详细信息',
@@ -592,12 +586,12 @@ return array(
             8 => '平衡顶盖的问题',
             9 => '其他的',
         ),
-	
-	
-	
+
+
+
     ),
 	'ko' => array(
-	
+
         'support_ajax_empty_tid' => '잘못된 티켓 ID가 지정',
         'support_ajax_empty_category' => '티켓 주제를 선택해야합니다',
         'support_ajax_empty_details' => '티켓 세부 정보를 제공해야합니다',
@@ -692,8 +686,8 @@ return array(
             8 => '밸런스 탑업 문제',
             9 => '다른 사람',
         ),
-	
-	
-	
+
+
+
     ),
 );

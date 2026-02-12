@@ -1,18 +1,11 @@
-<!-- Page Content -->
 {if $_IFRAME == false}
 <div class="row mx-0 justify-content-center">
     <div class="col-lg-6 col-xl-4">
         <div class="content content-full overflow-hidden">
-            <!-- Header -->
             <div class="pb-20 text-center">
                 <h1 class="h4 font-w700 mt-30 mb-10">{$signin_title_lang}</h1>
             </div>
-            <!-- END Header -->
 {/if}
-
-            <!-- Sign In Form -->
-            <!-- jQuery Validation (.js-validation-signin class is initialized in js/pages/op_auth_signin.js) -->
-            <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
             <form class="js-validation-signin" action="/input" method="post" onsubmit="return false;">
                 {$.php.form_hide_input("Modules\Globals\SignIn\SignIn", "signin")}
                 <input id="type_login" name="type_login" type="hidden" value="email">
@@ -44,7 +37,6 @@
                             </select>
                         </div>
 
-
                         {set $activ_tab = true}
                         {if $config.cabinet.signin_type.email? OR $config.cabinet.signin_type.login?}
                         <div class="form-group row input-email">
@@ -70,14 +62,11 @@
                             {set $activ_tab = false}
                         {/if}
 
-
-
                         {if $activ_tab}
 
                             {$signin_title_not_active_login_type}
 
                         {else}
-
 
                             <div class="form-group row">
                                 <div class="col-12">
@@ -87,27 +76,7 @@
                                 </div>
                             </div>
 
-                            {if $config.cabinet.captcha == 'captcha'}
-                                <div class="form-group row">
-                                    <div class="col-12">
-                                        <label for="captcha">{$signin_title_input_captcha_lang}</label>
-                                        <div class="input-group">
-
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text p-0"><img id="captcha-img"
-                                                                                        style="border-radius: 3px 0 0 3px;"
-                                                                                        class="btn-secondary"
-                                                                                        src="/captcha/img"></span>
-                                                <button type="button" class="btn btn-secondary"
-                                                        onclick="$('#captcha-img').attr('src','/captcha/img?'+Math.random());">
-                                                    <i class="fa fa-refresh" aria-hidden="true"></i></button>
-                                            </div>
-                                            <input type="text" class="form-control" id="captcha" name="captcha"
-                                                   placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                            {elseif $config.cabinet.captcha == 'recaptchav2'}
+                            {if $config.cabinet.captcha == 'recaptchav2'}
                                 <script src='https://www.google.com/recaptcha/api.js'></script>
                                 <div class="g-recaptcha" data-sitekey="{$config.cabinet.recaptcha_public_key}"></div>
                                 <br>
@@ -122,6 +91,15 @@
                                             });
                                     });
                                 </script>
+                            {elseif $config.cabinet.captcha == 'turnstile'}
+                                <div class="d-flex justify-content-center w-100 my-3">
+                                    <div class="cf-turnstile" data-sitekey="{$config.cabinet.turnstile_site_key}"></div>
+                                </div>
+                            {elseif $config.cabinet.captcha == 'altcha'}
+
+                                <div class="d-flex justify-content-center w-100 my-3">
+                                    <altcha-widget id="altcha" challengeurl="/captcha/altcha" auto="onfocus"></altcha-widget>
+                                </div>
                             {/if}
 
                         {/if}
@@ -180,10 +158,9 @@
 <!-- END Page Content -->
 {/if}
 
-
 {if $config.cabinet.signin_type.phone?}
-    {$.site._SEO->addTegHTML('head', 'telInput_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/css/intl-telInput/intlTelInput.css?ver=0.1'])}
-    {$.site._SEO->addTegHTML('footer', 'telInput', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/js/plugins/intl-telInput/intlTelInput.js?ver=0.1'])}
+    {$.site._SEO->addTegHTML('head', 'telInput_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/css/intl-telInput/intlTelInput.css'])}
+    {$.site._SEO->addTegHTML('footer', 'telInput', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/js/plugins/intl-telInput/intlTelInput.js'])}
 
 <script>
     {ignore}
@@ -251,4 +228,11 @@
 
     });
 </script>
+{/if}
+
+{if $config.cabinet.captcha == 'altcha'}
+    {$.site._SEO->addTegHTML('footer', 'altcha', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/js/plugins/altcha/altcha.min.js', 'type' => 'module'])}
+{/if}
+{if $config.cabinet.captcha == 'turnstile'}
+    {$.site._SEO->addTegHTML('footer', 'altcha', 'script', ['src'=> 'https://challenges.cloudflare.com/turnstile/v0/api.js'])}
 {/if}

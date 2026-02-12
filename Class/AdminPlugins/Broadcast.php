@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 14.03.2020
- * Time: 23:31
- */
 
 namespace AdminPlugins;
 use PDO;
@@ -152,7 +146,7 @@ class Broadcast
                 );
             }
         }
-        
+
         return error_404_html();
     }
 
@@ -215,13 +209,13 @@ class Broadcast
         }
 
     }
-    
+
     public function addSave() {
-        
+
         $stream = trim($_POST['stream']);
 
         $this->validate([
-            'platform' => $_POST['platform'], 
+            'platform' => $_POST['platform'],
             'stream' => $_POST['stream'],
             'avatar' => $_POST['avatar'],
             'preview' => $_POST['preview'],
@@ -247,7 +241,7 @@ class Broadcast
     }
 
     public function editSave() {
-        
+
 
 
         if(isset($_GET['id'])) {
@@ -255,13 +249,13 @@ class Broadcast
             $stream_id = (int) $_GET['id'];
 
             $this->validate([
-                'platform' => $_POST['platform'], 
+                'platform' => $_POST['platform'],
                 'stream' => $_POST['stream'],
                 'avatar' => $_POST['avatar'],
                 'preview' => $_POST['preview'],
             ]);
 
-    
+
             $STH = $this->db->prepare('update `mw_broadcast` set `stream`=:stream, `platform`=:platform, `name`=:name, `title`=:title, `avatar`=:avatar,  `preview`=:preview, `autoplay`=:autoplay, `mute`=:mute, `position`=:position, `publish`=:publish where `id`=:id;');
             $STH->bindValue(':id', $stream_id);
             $STH->bindValue(':stream', $_POST['stream']);
@@ -274,14 +268,14 @@ class Broadcast
             $STH->bindValue(':mute', (int) $_POST['mute']);
             $STH->bindValue(':position', (int) $_POST['position']);
             $STH->bindValue(':publish', (int) $_POST['publish']);
-    
+
             $STH->execute();
-    
+
             echo $this->ajaxmsg->notify(get_lang('admin.lang')['Broadcast_ajax_save_stream'])->location(ADMIN_URL.'/broadcast')->success();
             exit;
         }
 
-        
+
     }
 
     public function deleteStream(){

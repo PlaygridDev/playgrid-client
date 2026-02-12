@@ -128,7 +128,8 @@ class SiteComponents
      */
     static function Forum($count = false, $tpl = 'forum.tpl'){
         if (file_exists(ROOT_DIR.TEMPLATE_DIR.'/forum.tpl')) {
-            $cfg = include_once ROOT_DIR . '/Library/forum_config.php';
+
+            $cfg = getConfig('forum_config');
 
             if ($count === false AND $cfg["count"] > 0){
                 $count = (int) $cfg["count"];
@@ -330,7 +331,7 @@ class SiteComponents
     static function Server($count = 10, $chart_interval = 10, $chart_percent = false, $tpl = 'server_status.tpl'){
         if (file_exists(ROOT_DIR.TEMPLATE_DIR.'/'.$tpl)) {
             $platform = get_platform();
-            $server_site_cfg = include_once ROOT_DIR . '/Library/server_config.php';
+            $server_site_cfg = getConfig('server_config');
             $servers = array();
             if (isset(get_instance()->config['project']['server_info'][$platform])) {
                 $servers_temp = get_instance()->config['project']['server_info'][$platform];
@@ -603,94 +604,5 @@ class SiteComponents
         }
     }
 
-    static function PatchNotes($patchnote = 0, $tpl = 'patchnotes.tpl'){
-
-        $patchnote = intval($patchnote);
-
-        if (file_exists(ROOT_DIR.TEMPLATE_DIR.'/'.$tpl)) {
-
-            $patchnotes_list = get_cache('patchnotes_list', true);
-            if ($patchnotes_list == false) {
-                $db = self::db();
-                $patchnotes_list = $db->query('SELECT * FROM mw_patchnotes WHERE publish=1 ORDER BY `date` DESC;')->fetchAll(\PDO::FETCH_ASSOC);
-
-                $patchnotes_list = array_map(
-                    function($item){
-                        $item['name'] = json_decode($item['name'], true);
-                        return $item;
-                    },
-                    $patchnotes_list
-                );
-
-                set_cache('patchnotes_list', $patchnotes_list, CACHE_NEWS);
-            }
-
-            if (empty($patchnote)){
-
-                if(isset($patchnotes_list[0]))
-                    $patchnote = $patchnotes_list[0]['id'];
-                else
-                    return 'Patchnotes list empty';
-
-            }
-
-            $section_list = get_cache('section_list_'.$patchnote, true);
-            if ($section_list == false) {
-                $db = self::db();
-                $section_list = $db->query('SELECT * FROM mw_patchnotes_section WHERE publish=1 AND patchnotes_id = '.$patchnote.'  ORDER BY `sort` ASC;')->fetchAll(\PDO::FETCH_ASSOC);
-
-                $section_list = array_map(
-                    function($item){
-                        $item['name'] = json_decode($item['name'], true);
-                        return $item;
-                    },
-                    $section_list
-                );
-
-                set_cache('section_list_'.$patchnote, $section_list, CACHE_NEWS);
-            }
-
-            if(is_array($section_list) AND count($section_list)){
-
-                $content_list = get_cache('content_list_'.$patchnote, true);
-                if ($content_list == false) {
-                    $db = self::db();
-
-                    foreach ($section_list as $section) {
-                        $content_list[$section['id']] = $db->query('SELECT * FROM mw_patchnotes_content WHERE publish=1 AND section_id = ' . $section['id'] . '  ORDER BY `sort` ASC;')->fetchAll(\PDO::FETCH_ASSOC);
-
-                        if (is_array($content_list[$section['id']])){
-                            $content_list[$section['id']] = array_map(
-                                function ($item) {
-                                    $item['name'] = json_decode($item['name'], true);
-                                    $item['content'] = json_decode($item['content'], true);
-                                    return $item;
-                                },
-                                $content_list[$section['id']]
-                            );
-                        }else
-                            $content_list[$section['id']] = [];
-                    }
-
-                    set_cache('content_list_'.$patchnote, $content_list, CACHE_NEWS);
-                }
-
-            }
-
-            return get_instance()->fenom->fetch('site:'.$tpl,
-                array_merge(
-                    array(
-                        'patchnotes_list' => $patchnotes_list,
-                        'patchnote_select' => $patchnote,
-                        'section_list' => $section_list,
-                        'content_list' => $content_list,
-                    ),
-                    loud_lang_site()
-                )
-            );
-        }else
-            return 'Tpl '.$tpl.' not found';
-
-    }
 
 }

@@ -127,4 +127,9 @@ https://bootsnipp.com/snippets/gvlK7
 .form-group input[type="radio"] + .btn-group > label div.content-label{
     margin-left: 22px;
 }
-/* Кастомные выбор конец*/
+
+.altcha {
+    width: auto;
+    min-width: 228px;
+    max-width: unset !important;
+}

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 04.10.2019
- * Time: 17:46
- */
+
 
 return array(
     'ru' => array(
@@ -29,7 +24,7 @@ return array(
 
     ),
     'en' => array(
-	
+
 	    'title_lang' => 'Warehouse on Server: ',
         'title_select_wh' => 'Choose an Item',
         'title_wh_empty' => 'Your warehouse is empty',
@@ -46,11 +41,11 @@ return array(
 
         'ajax_empty_wh_id' => 'You have not selected an item!',
         'ajax_empty_wh_char_name' => 'You have not selected a character to transfer the item to!',
-	
-	
+
+
     ),
     'gr' => array(
-	
+
 	    'title_lang' => 'Warehouse στον Server: ',
         'title_select_wh' => 'Επιλέξτε Item',
         'title_wh_empty' => 'Το warehouse σας είναι άδειο',
@@ -67,11 +62,11 @@ return array(
 
         'ajax_empty_wh_id' => 'Δεν έχετε επιλέξει item!',
         'ajax_empty_wh_char_name' => 'Δεν έχετε επιλέξει χαρακτήρα στον οποίο θέλετε να μεταφέρετε το item!',
-	
-	
+
+
 	),
 	'es' => array(
-	
+
 	    'title_lang' => 'Baúl en el Servidor: ',
         'title_select_wh' => 'Elegir un artículo',
         'title_wh_empty' => 'Tu baúl está vacío',
@@ -88,11 +83,11 @@ return array(
 
         'ajax_empty_wh_id' => 'No has seleccionado un artículo!',
         'ajax_empty_wh_char_name' => 'No has seleccionado un personaje al cual transferirle el artículo!',
-	
-	
+
+
     ),
     'pt' => array(
-    
+
         'title_lang' => 'Baú no Server: ',
         'title_select_wh' => 'Selecione um item',
         'title_wh_empty' => 'Seu baú está vazio',
@@ -108,10 +103,10 @@ return array(
 
         'ajax_empty_wh_id' => 'Você não selecionou um item!',
         'ajax_empty_wh_char_name' => 'Você não selecionou um personagem para o qual transferir o item!',
-      
+
     ),
 	'cn' => array(
-	
+
 	    'title_lang' => '服务器上的仓库: ',
         'title_select_wh' => '选择项目',
         'title_wh_empty' => '你的仓库是空的',
@@ -128,11 +123,11 @@ return array(
 
         'ajax_empty_wh_id' => '您尚未选择项目!',
         'ajax_empty_wh_char_name' => '您尚未选择要将项目传输到的字符!',
-	
-	
+
+
     ),
 	'ko' => array(
-	
+
 	    'title_lang' => '서버의 창고: ',
         'title_select_wh' => '항목 선택',
         'title_wh_empty' => '창고가 비어 있습니다',
@@ -149,7 +144,7 @@ return array(
 
         'ajax_empty_wh_id' => '항목을 선택하지 않았습니다!',
         'ajax_empty_wh_char_name' => '항목을 전송할 문자를 선택하지 않았습니다!',
-	
-	
+
+
     ),
 );

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Globals\User;
 
@@ -36,7 +30,7 @@ class User extends MainModulesClass
                 'ru' => 'Модуль пользователя',
                 'en' => 'User module',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "09.12.2019",
             "lastUpdated" => "09.12.2019",
             "class" => __CLASS__,

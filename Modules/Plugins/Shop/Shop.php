@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
+
 
 namespace Modules\Plugins\Shop;
 use Modules\MainModulesClass;
@@ -32,7 +27,7 @@ class Shop extends MainModulesClass
                 'ru' => 'Магазн',
                 'en' => 'Shop module',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "13.01.2020",
             "lastUpdated" => "22.04.2020",
             "class" => __CLASS__,

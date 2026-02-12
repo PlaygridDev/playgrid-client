@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 14.03.2020
- * Time: 23:31
- */
 
 namespace AdminPlugins;
-use PDO;
 
 class ForumConnect
 {
@@ -65,20 +58,21 @@ class ForumConnect
     }
     public function onRender($s1, $s2){
 
-        if ($s1 == 'forum'){
+        if ($s1 == 'forum') {
 
-            if ($s2 == 'save')
+            if ($s2 == 'save') {
                 return $this->save_config();
-
+            }
 
             return $this->index();
         }
 
     }
 
-    public function index(){
+    public function index()
+    {
 
-        $cfg = include_once ROOT_DIR . '/Library/forum_config.php';
+        $cfg = getConfig('forum_config');
 
         return $this->fenom->fetch("panel:admin/ForumConnect/index.tpl",
             array_merge(
@@ -92,7 +86,9 @@ class ForumConnect
         );
     }
 
-    public function save_config(){
+    public function save_config()
+    {
+
         $data = array(
             'enable' => _boolean($_POST['enable']),
             'version' => $_POST['version'],
@@ -103,24 +99,14 @@ class ForumConnect
             'deny' => $_POST['deny'],
         );
 
-        $fd = ROOT_DIR . '/Library/forum_config.php';
-        $fopen = fopen($fd, "w");
-        if (file_exists($fd)) {
-            if ($fopen) {
-                fwrite($fopen, "<?php\n");
-                fwrite($fopen, "/********************************\n");
-                fwrite($fopen, "* Forum settings\n");
-                fwrite($fopen, "* The config can be changed manually or in the admin panel\n");
-                fwrite($fopen, "* Конфиг можно изменить вручную или в админ-панели\n");
-                fwrite($fopen, "* /admin/forum\n");
-                fwrite($fopen, " ********************************/\n");
-                fwrite($fopen, "defined('ROOT_DIR') OR exit('No direct script access allowed');\n");
-                cfgWrite($fopen, $data, "return");
-                fclose($fopen);
-            }
+        if(SaveConfig($data, 'forum_config')) {
+            echo $this->ajaxmsg->notify(get_lang('admin.lang')['ForumConnect_ajax_update'])->success();
+            exit();
+        } else {
+            echo $this->ajaxmsg->notify(get_lang('admin.lang')['error_on_save_configs'])->danger();
+            exit();
         }
-        echo $this->ajaxmsg->notify(get_lang('admin.lang')['ForumConnect_ajax_update'])->success();
-        exit;
+
     }
 
 }

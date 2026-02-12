@@ -1,7 +1,5 @@
 <?php
-/********************************
-* https://mmoweb.ru
- ********************************/
+
 defined('ROOT_DIR') OR exit('No direct script access allowed');
 return array (
 	'ru'=>array(
@@ -21,7 +19,7 @@ return array (
         'label_btn_phone_del_lang' => 'Удалить',
 	),
 	'en'=>array(
-	
+
 		'lang_title' => 'Change Master Account Password',
 		'label_title_input_phone_lang' => 'Confirm mobile',
 		'label_desc_input_phone_lang' => 'An SMS with a verification code will be sent to your mobile number!',
@@ -38,7 +36,7 @@ return array (
         'label_btn_phone_del_lang' => 'Delete',
 	),
 	'gr'=>array(
-	
+
 		'lang_title' => 'Αλλαγή Password Master Account',
 		'label_title_input_phone_lang' => 'Επιβεβαίωση αριθμού κινητού',
 		'label_desc_input_phone_lang' => 'Ένας κωδικός επαλήθευσης θα σταλεί στον αριθμό του κινητού σας μέσω SMS!',
@@ -55,7 +53,7 @@ return array (
         'label_btn_phone_del_lang' => 'Διαγράφω',
 	),
 	'es'=>array(
-	
+
 		'lang_title' => 'Cambiar Contraseña de la Cuenta Maestra',
 		'label_title_input_phone_lang' => 'Confirmar móvil',
 		'label_desc_input_phone_lang' => 'Un SMS con un código de verificación será enviado a tu número de móvil!',
@@ -72,7 +70,7 @@ return array (
         'label_btn_phone_del_lang' => 'Eliminar',
 	),
 	'pt'=>array(
-	
+
 		'lang_title' => 'Alterar senha da Conta Mestre',
 		'label_title_input_phone_lang' => 'Confirmar Celular',
 		'label_desc_input_phone_lang' => 'Um SMS com um código de verificação será enviado para o seu número de celular! ',
@@ -89,7 +87,7 @@ return array (
         'label_btn_phone_del_lang' => 'Excluir',
 	),
 	'cn'=>array(
-	
+
 		'lang_title' => '更改主帐户密码',
 		'label_title_input_phone_lang' => '确认移动',
 		'label_desc_input_phone_lang' => '带有验证码的短信将发送到您的手机号码!',
@@ -106,7 +104,7 @@ return array (
         'label_btn_phone_del_lang' => '删除',
 	),
 	'ko'=>array(
-	
+
 		'lang_title' => '마스터 계정 비밀번호 변',
 		'label_title_input_phone_lang' => '모바일 확인',
 		'label_desc_input_phone_lang' => '검증 코드가있는 SMS가 휴대폰 번호로 전송됩니다!',

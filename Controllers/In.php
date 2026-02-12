@@ -1,8 +1,9 @@
 <?php
-/********************************
- * Dev and Code by MmoWeb
- * Date: 06.10.2015
- ********************************/
+
+use Altcha\Algorithm;
+use Altcha\Altcha;
+use Altcha\ChallengeOptions;
+
 if (!defined('ROOT_DIR')) {
     exit ("Error, wrong way to file.<a href=\"/\">Go to main</a>.");
 }
@@ -53,11 +54,29 @@ class In extends Controller
 
     }
 
-    public function captchaImg(){
+    public function altchaChallenge()
+    {
 
-        $libCap = new \Captcha();
-        $libCap->prime();
-        $libCap->draw(110, 32);
+        header('Content-Type: application/json; charset=utf-8');
+
+        if(empty($this->config['cabinet']['altcha_secret_key'])) {
+            exit(json_encode(['error' => 'empty altcha key']));
+        }
+
+        $altcha  = new Altcha();
+        $expires = (new DateTimeImmutable())->add(new DateInterval('PT30S'));
+
+        $options = new ChallengeOptions([
+            'algorithm'  => Algorithm::SHA256,
+            'maxNumber'  => 50000,
+            'expires'    => $expires,
+            'saltLength' => 12,
+            'hmacKey' => $this->config['cabinet']['altcha_secret_key']
+        ]);
+
+        $challenge = $altcha->createChallenge($options);
+
+        exit(json_encode($challenge, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 
     }
 

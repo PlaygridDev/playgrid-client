@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 24.09.2019
- * Time: 17:18
- */
-
 
 namespace Cases;
 
@@ -163,7 +156,7 @@ class func
 
 
     public function set_label_new(){
-        $t = filemtime(ROOT_DIR.'/Library/cases.php');
+        $t = @filemtime(ROOT_DIR.'/Library/configs/cases.json');
         set_cookie('cases_new', $t, strtotime("+1 year"));
     }
 }

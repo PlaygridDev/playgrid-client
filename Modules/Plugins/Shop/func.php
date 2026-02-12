@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 24.09.2019
- * Time: 17:18
- */
-
 
 namespace Shop;
 
@@ -20,22 +13,36 @@ class func
     //Language/support.lang.php
     public $payment_list = array(
         'freekassa',
-        'g2a',
         'unitpay',
         'payu',
         'paypal',
         'payop',
-        'paymentwall',
-        'pagseguro',
-        'nextpay',
         'paygol',
-        'alikassa',
         'enot',
         'ipay',
-        'paysafecard',
-        'ips_payment',
-        'digiseller',
-        'qiwi',
+        'paymentwall',
+        'interkassa',
+        'primepayments',
+        'liqpay',
+        'unitpay_two',
+        'hotskins',
+        'interkassa_two',
+        'paypalych',
+        'paypalych_two',
+        'payze',
+        'moneytigo',
+        'stripe',
+        'pagseguro',
+        'tome',
+        'binance',
+        'portmone',
+        'capitalist',
+        'pgs',
+        'monobank',
+        'b2pay',
+        'antilopay',
+        'cryptocloud',
+        'paddle'
     );
     public $advertising = false;
 
@@ -45,8 +52,9 @@ class func
         $this->this_main = $this_main;
         $this->shop = &get_instance()->shop;
 
-        if ($this->advertising === false)
-            $this->advertising = include ROOT_DIR . '/Library/advertising.php';
+        if ($this->advertising === false) {
+            $this->advertising = getConfig('advertising');
+        }
 
         if (isset(get_instance()->config['payment_system']['sorting_pay']))
             $this->payment_list = get_instance()->config['payment_system']['sorting_pay'];
@@ -518,7 +526,7 @@ class func
     }
 
     public function set_label_new(){
-        $t = filemtime(ROOT_DIR.'/Library/shop.php');
+        $t = @filemtime(ROOT_DIR.'/Library/configs/shop.json');
         set_cookie('shop_new', $t, strtotime("+1 year"));
     }
 }

@@ -1,7 +1,5 @@
 <?php
-/********************************
-* https://mmoweb.ru
- ********************************/
+
 defined('ROOT_DIR') OR exit('No direct script access allowed');
 return array (
 	'en' => array (

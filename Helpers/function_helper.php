@@ -1,8 +1,6 @@
 <?php
-/********************************
- * Dev and Code by MmoWeb
- * Date: 23.12.2015
- ********************************/
+
+use Altcha\Altcha;
 
 if ( ! function_exists('is_cli'))
 {
@@ -101,10 +99,11 @@ if ( ! function_exists('select_lang')) {
         $lang = get_cookie('mw_lang');
 
 
-        if (!isset(get_instance()->config))
-            $system = include ROOT_DIR . '/Library/config.php';
-        else
+        if (!isset(get_instance()->config)) {
+            $system = getConfig('config');
+        } else {
             $system = get_instance()->config;
+        }
 
         if($lang !== false) {
             if (array_key_exists($lang, $system["site"]["language_list"]))
@@ -252,19 +251,19 @@ if( ! function_exists('get_lang')){
 
         }
 
-        if (isset(get_instance()->language[$file][$lang]) AND !empty(get_instance()->language[$file][$lang])){
-
+        if (isset(get_instance()->language[$file][$lang]) AND !empty(get_instance()->language[$file][$lang])) {
             return get_instance()->language[$file][$lang];
-
-        }else{
-
-            $lang = array_keys(get_instance()->language[$file]);
-            if (count($lang)){
-                $lang = $lang[0];
-                return get_instance()->language[$file][$lang];
-            }else
-                return array();
-
+        } else {
+            if(is_array(get_instance()->language[$file])) {
+                $lang = array_keys(get_instance()->language[$file]);
+                if (!empty($lang) && count($lang)) {
+                    $lang = $lang[0];
+                    return get_instance()->language[$file][$lang];
+                } else {
+                    return array();
+                }
+            }
+            return array();
         }
 
     }
@@ -303,65 +302,113 @@ if( ! function_exists('loud_lang_site')){
 
 if ( ! function_exists('SaveConfig')) {
 
-    function SaveConfig($savedata, $file_name, $arr_name = false)
+    function SaveConfig(array $config, string $configName)
     {
-        if ($arr_name === false)
-            $arr_name = $file_name;
 
+        try {
 
-        $cfg_file = ROOT_DIR . "/Library/".$file_name.".php";
-
-
-        $fopen = fopen($cfg_file, "w");
-
-        if (file_exists($cfg_file)) {
-
-
-            if ($fopen) {
-                fwrite($fopen, "<?php\n");
-                fwrite($fopen, "/********************************\n");
-                fwrite($fopen, "* Dev and Code by https://mmoweb.ru\n");
-                fwrite($fopen, "* Config - Global\n");
-                fwrite($fopen, " ********************************/\n");
-                fwrite($fopen, "defined('ROOT_DIR') OR exit('No direct script access allowed');\n");
-                fwrite($fopen, "\${$arr_name} = array();\n");
-
-                cfgWrite($fopen, $savedata, "\${$arr_name} =");
-                fwrite($fopen, "return \${$arr_name};");
-                fclose($fopen);
-
-                return true;
-
+            if (!preg_match('/^[A-Za-z0-9_-]+$/', $configName)) {
+                throw new Exception('bad configName');
             }
 
-        } else
-            return false;
+            array_walk_recursive($config, function (&$value, $key) {
+                if (is_string($value)) {
+                    $s = strtolower($value);
+                    if ($s === 'true' || $s === 'false') {
+                        $value = _boolean($s);
+                    }
+                }
+            });
 
+            $configPath = ROOT_DIR . '/Library/configs/' . $configName . '.json';
+
+            $json = json_encode(
+                $config,
+                JSON_PRETTY_PRINT
+                | JSON_UNESCAPED_UNICODE
+                | JSON_UNESCAPED_SLASHES
+                | JSON_PRESERVE_ZERO_FRACTION
+                | JSON_INVALID_UTF8_SUBSTITUTE
+                | JSON_THROW_ON_ERROR
+            );
+
+            atomic_write($configPath, $json . PHP_EOL);
+
+            $oldConfigPath = ROOT_DIR . '/Library/' . $configName . '.php';
+            if(file_exists($oldConfigPath)) {
+                @unlink($oldConfigPath);
+            }
+
+            return true;
+
+        } catch (\Throwable $e) {
+            log_write('api_errors', "SaveConfig error ({$configPath}): " . $e->getMessage());
+            return false;
+        }
     }
 }
 
 
-// ------------------------------------------------------------------------
+if ( ! function_exists('getConfig')) {
+    /**
+     * @param string $configName
+     * @return array
+     */
+    function getConfig(string $configName) {
+        $configPath = ROOT_DIR . '/Library/configs/' . $configName . '.json';
+        $config = @file_get_contents($configPath);
+        return $config ? json_decode($config, true) : [];
+    }
+}
 
-if ( ! function_exists('cfgWrite')) {
 
-    function  cfgWrite($fopen, &$savedata, $amp = "")
+if ( ! function_exists('atomic_write')) {
+    function atomic_write(string $path, string $data, int $mode = 0640)
     {
+        $dir = dirname($path);
 
-        $php_code = var_export($savedata, TRUE);
-        $php_code = str_replace(['payment_system'],['payment_reserv_name'], $php_code);
-        $php_code = str_replace(['readfile','unlink','->','::','cfgWrite','stream_socket_client','pfsockopen','fsockopen','mail(','gzinflate','str_rot13','eval','base64_decode','$_POST','$_GET','$_REQUEST','$','exec', 'system', 'passthru', 'shell_exec', 'pcntl_exec', 'proc_open', 'popen','call_user_func', 'call_user_func_array'],'', $php_code);
-        $php_code = str_replace(['payment_reserv_name'],['payment_system'], $php_code);
-        $php_code = preg_replace("/'\s*=>\s*array\s*\(/m","'=>array(",$php_code);
-        $php_code = preg_replace("/'(\d*)'/m","$1",$php_code);
-        //$php_code = preg_replace("/'((?:\d+)?(?:.\d+)?)'/m","$1",$php_code);
-        $php_code = preg_replace("/'true'/m","true",$php_code);
-        $php_code = preg_replace("/'false'/m","false",$php_code);
-        $php_code = str_replace("' => ,", "' => null,", $php_code);
-        $php_code = str_replace("  ", "\t", $php_code);
-        $php_code= $amp ." $php_code;\n";
-        fwrite($fopen, $php_code);
+        if (!is_dir($dir) && !@mkdir($dir, 0770, true) && !is_dir($dir)) {
+            throw new Exception("Cannot create directory: $dir");
+        }
 
+        $tmp = $dir . '/.' . basename($path) . '.' . bin2hex(random_bytes(6)) . '.tmp';
+
+        $fh = @fopen($tmp, 'wb');
+        if ($fh === false) {
+            throw new Exception("Cannot open temp file for writing: $tmp");
+        }
+
+        $len = strlen($data);
+        $off = 0;
+        while ($off < $len) {
+            $n = fwrite($fh, substr($data, $off));
+            if ($n === false) {
+                @fclose($fh);
+                @unlink($tmp);
+                throw new Exception("Write failed: $tmp");
+            }
+            $off += $n;
+        }
+
+        if (!fflush($fh)) {
+            @fclose($fh);
+            @unlink($tmp);
+            throw new Exception("Flush failed: $tmp");
+        }
+
+        @fclose($fh);
+        @chmod($tmp, $mode);
+
+        if (!@rename($tmp, $path)) {
+            if (strncasecmp(PHP_OS, 'WIN', 3) === 0 && is_file($path)) {
+                @unlink($path);
+                if (@rename($tmp, $path)) {
+                    return;
+                }
+            }
+            @unlink($tmp);
+            throw new Exception("Rename failed: $tmp -> $path");
+        }
     }
 }
 
@@ -530,21 +577,8 @@ if ( ! function_exists('captcha_check')) {
         $cfg = get_instance()->config['cabinet'];
 
 
-        switch ($cfg['captcha']){
-            case 'captcha':
+        switch ($cfg['captcha']) {
 
-                if (!isset($_SESSION['captcha'])) {
-                    return false;
-                }
-
-                if ($_REQUEST["captcha"] == $_SESSION['captcha']) {
-                    unset($_SESSION['captcha']);
-                    return true;
-                } else {
-                    return false;
-                }
-
-                break;
             case 'recaptchav2':
 
                 if(!isset($_POST['g-recaptcha-response']))
@@ -560,6 +594,7 @@ if ( ! function_exists('captcha_check')) {
                 return $resp->isSuccess();
 
                 break;
+
             case 'recaptchav3':
 
                 if(!isset($_POST['captcha']))
@@ -577,11 +612,60 @@ if ( ! function_exists('captcha_check')) {
                 return $resp->isSuccess();
 
                 break;
+
+                case 'altcha':
+                    if(empty($_POST['altcha'])) {
+                        return false;
+                    }
+                    return Altcha::verifySolution($_POST['altcha'], $cfg['altcha_secret_key']);
+                    break;
+
+                case 'turnstile':
+
+                    if(empty($_POST['cf-turnstile-response'])) {
+                        return false;
+                    }
+
+                    $url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+
+                    $data = [
+                        'secret' =>  $cfg['turnstile_secret_key'],
+                        'response' => $_POST['cf-turnstile-response'],
+                        'remoteip' => get_ip(),
+                    ];
+
+                    $options = [
+                        'http' => [
+                            'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                            'method' => 'POST',
+                            'content' => http_build_query($data)
+                        ]
+                    ];
+
+                    $context = stream_context_create($options);
+                    $response = file_get_contents($url, false, $context);
+
+                    if ($response === FALSE) {
+                        return false;
+                    }
+
+                    $validation = json_decode($response, true);
+
+                    if(json_last_error() !== JSON_ERROR_NONE) {
+                        return false;
+                    }
+
+                    return !empty($validation['success']) && $validation['success'] === true;
+
+                    break;
+
             case false:
                 return true;
                 break;
+
             default:
                 return true;
+                break;
 
         }
 
@@ -598,29 +682,30 @@ if ( ! function_exists('captcha_reload')) {
 
 
         switch ($cfg['captcha']){
-            case 'captcha':
 
-                return "$('#captcha-img').attr('src','/captcha/img?'+Math.random());";
-
+            case 'altcha':
+                return "document.getElementById('altcha').reset();";
                 break;
+
             case 'recaptchav2':
-
                 return "grecaptcha.reset();";
-
                 break;
+
             case 'recaptchav3':
-
-
                 return "grecaptcha.ready(function() { grecaptcha.execute('".$cfg['recaptcha_public_key']."', { action: '".$actions."'}) .then(function(token) { $('#captcha').val(token); }); });";
-
-
                 break;
+
+            case 'turnstile':
+                return "turnstile.reset('.cf-turnstile');";
+                break;
+
             case false:
                 return true;
                 break;
+
             default:
                 return 'console.log("Error captcha_reload");';
-
+                break;
         }
 
     }
@@ -852,17 +937,23 @@ if ( ! function_exists('detect_lang')) {
         $config['language_abbr'] = select_lang();
         $config['sess_expiration'] = 36000000;
 
-        $config_project = include ROOT_DIR . '/Library/config.php';
+        $config_project = getConfig('config');
 
-        if(isset($_SERVER['HTTP_HOST']) AND !empty($_SERVER['HTTP_HOST']))
+        if(isset($_SERVER['HTTP_HOST']) AND !empty($_SERVER['HTTP_HOST'])) {
             $pars_url = parse_url($_SERVER['HTTP_HOST']);
-        elseif(isset($_SERVER['SERVER_NAME']) AND !empty($_SERVER['SERVER_NAME']))
+        } elseif(isset($_SERVER['SERVER_NAME']) AND !empty($_SERVER['SERVER_NAME'])) {
             $pars_url = parse_url($_SERVER['SERVER_NAME']);
-        else{
+        } else {
             $pars_url = parse_url($config_project['project']['url_site']);
         }
 
-        $config['base_url'] = $config_project['project']['protocol_site'].'://'.$pars_url["path"].'/';
+        $host = !empty($pars_url['path']) ? $pars_url['path'] : $pars_url['host'];
+
+        if(!empty($pars_url['port'])) {
+            $host .= ':'.$pars_url['port'];
+        }
+
+        $config['base_url'] = $config_project['project']['protocol_site'].'://' . $host . '/';
 
         $index_page    = '';//$config['index_page'];
         /* default language abbreviation */
@@ -1391,7 +1482,7 @@ if (!function_exists('log_write')){
         if($new_file)
             $msg .= "<?php defined('ROOT_DIR') OR exit('No direct script access allowed'); ?>".PHP_EOL;
 
-        $msg .= $data.$eol;
+        $msg .= '[ ' . date_format(date_create(),'Y-m-d H:i:s') . ' ] ' .  $data . $eol;
 
         fwrite($fw, $msg);
         fclose($fw);
@@ -1435,7 +1526,7 @@ if (!function_exists('check_pin')){
 }
 
 if (!function_exists('get_class_name')) {
-    function get_class_name($class_id, $lib = 'lineage2db')
+    function get_class_name($class_id, $lib = 'ladb')
     {
         global $TEMP;
 
@@ -1451,7 +1542,7 @@ if (!function_exists('get_class_name')) {
 }
 
 if (!function_exists('get_augmentation')) {
-    function get_augmentation($aug_id, $lib = 'lineage2db_augmentation')
+    function get_augmentation($aug_id, $lib = 'ladb_augmentation')
     {
         global $TEMP;
 

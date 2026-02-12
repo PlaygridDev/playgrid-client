@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 14.03.2020
- * Time: 23:31
- */
 
 namespace AdminPlugins;
-use PDO;
 
 class ClearCache
 {

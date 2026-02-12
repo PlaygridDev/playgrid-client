@@ -1,0 +1,241 @@
+{
+    "pid": false,
+    "game": [
+        "lineage2"
+    ],
+    "project": {
+        "name": "Mmoweb4",
+        "url_site": "https://mmoweb.biz/",
+        "protocol_site": "http",
+        "secret_key": "",
+        "server": {
+            "lineage2": [
+                "1"
+            ]
+        },
+        "server_sort": {
+            "lineage2": [
+                "1"
+            ]
+        },
+        "server_info": {
+            "lineage2": {
+                "1": {
+                    "name": "Server 1",
+                    "status": true,
+                    "game": "lineage2",
+                    "teleport_char": false,
+                    "hwid_char": false,
+                    "hwid_account": false,
+                    "pin_char": false,
+                    "pin_account": false,
+                    "rate": "1"
+                }
+            }
+        },
+        "server_options": {
+            "1": {
+                "global_balance": false,
+                "global_action": false
+            }
+        },
+        "server_plugins": {
+            "1": {
+                "bonus_cod": false,
+                "warehouse": false,
+                "discount": false,
+                "balance": false
+            }
+        },
+        "server_menu": {
+            "1": {
+                "rating": true,
+                "shop": false,
+                "support": false,
+                "market": false,
+                "donations": true,
+                "settings": true,
+                "forum": true,
+                "site": true,
+                "lucky_wheel": false,
+                "cases": false,
+                "gift_code": false
+            }
+        },
+        "launcher_app": false,
+        "launcher_key": ""
+    },
+    "site": {
+        "url_website": "https://mmoweb.biz",
+        "url_forum": "",
+        "status": true,
+        "status_site_jobs": false,
+        "status_site_jobs_msg": "Sorry, we&#039;re currently unavailable. Please check back later.",
+        "ip_site_exceptions": "",
+        "time_zone": "Europe/Moscow",
+        "language_active": "ru",
+        "language_list": {
+            "ru": "Russian",
+            "en": "English"
+        }
+    },
+    "cabinet": {
+        "status_cabinet_jobs": false,
+        "status_cabinet_jobs_msg": "Уважаемые игроки! Личный кабинет находится на тех. работах. Работа будет восстановлена в течение часа.\r\n\r\n\r\nDear players! Master account is undergoing technical work. Work will soon be restored within an hour.",
+        "ip_cabinet_exceptions": "",
+        "page_active_no_auth": {
+            "rating": true,
+            "shop": true,
+            "donations": true,
+            "forum": true
+        },
+        "manager_ma": true,
+        "pin_shield": true,
+        "pins_change_password_account": true,
+        "pins_forgot_password_account": true,
+        "pins_change_pwd_ma": true,
+        "pins_bind_telegram": true,
+        "pins_bind_email_send_code": true,
+        "pins_bind_phone_send_code": true,
+        "pins_delete_bind_phone": true,
+        "pins_manager_add": true,
+        "pins_market_sell_item": true,
+        "pins_market_buy_shop": true,
+        "pins_market_sell_char": true,
+        "pins_market_withdrawal": true,
+        "tab_active_log": true,
+        "tab_active_invoice": true,
+        "tab_active_invoice_detail": true,
+        "max_game_accounts": "99",
+        "delete_bind_phone": false,
+        "change_password_ma_and_game": false,
+        "signin_type": {
+            "email": true,
+            "login": true,
+            "phone": true
+        },
+        "registration_type": {
+            "email": true,
+            "phone": true
+        },
+        "registration_confirmation": false,
+        "registration_stop_temp_email": false,
+        "registration_login": true,
+        "registration_login_optional": false,
+        "registration_login_hide": true,
+        "registration_login_prefix": true,
+        "registration_login_prefix_type": "PPP",
+        "registration_login_prefix_count": "6",
+        "registration_subscribe": false,
+        "reminder_type": {
+            "email": true,
+            "phone": true
+        },
+        "reminder_type_phone": false,
+        "reminder_type_ga": false,
+        "reminder_password_ma_and_game": false,
+        "captcha": false,
+        "recaptcha_public_key": "",
+        "recaptcha_secret_key": ""
+    },
+    "visualization": {
+        "cabinet_layout_login": "top",
+        "cabinet_layout_login_menu_fixed": "default",
+        "cabinet_layout_login_color_menu": "white",
+        "cabinet_layout_login_color": "default",
+        "cabinet_layout_no_login": "top",
+        "cabinet_layout_no_login_menu_fixed": "default",
+        "cabinet_layout_no_login_color_menu": "white",
+        "cabinet_layout_no_login_color": "default"
+    },
+    "payment_system": {
+        "long_name_valute": "COL",
+        "short_name_valute": "COL",
+        "price_valute_cp": "10",
+        "min_payment": "100",
+        "max_payment": "100000",
+        "rec_payment": "150",
+        "auto_course": false,
+        "course": {
+            "USD": "1",
+            "RUB": "92",
+            "UAH": "26.61",
+            "EUR": "0.864229",
+            "UZS": "10690",
+            "KZT": "426.21617",
+            "KGS": "84.793343"
+        },
+        "sorting_pay": [
+            "interkassa",
+            "paypal",
+            "payop",
+            "unitpay",
+            "enot",
+            "freekassa",
+            "payu",
+            "paygol",
+            "ipay",
+            "ips_payment",
+            "paymentwall",
+            "primepayments",
+            "liqpay",
+            "unitpay_two",
+            "hotskins",
+            "interkassa_two",
+            "paypalych",
+            "paypalych_two",
+            "payze",
+            "moneytigo",
+            "stripe",
+            "pagseguro",
+            "tome",
+            "binance",
+            "portmone",
+            "capitalist",
+            "pgs",
+            "monobank"
+        ],
+        "unitpay": false,
+        "unitpay_two": false,
+        "freekassa": false,
+        "hotskins": false,
+        "paypal": false,
+        "paygol": false,
+        "payop": false,
+        "payu": false,
+        "enot": false,
+        "ipay": false,
+        "ips_payment": false,
+        "paymentwall": false,
+        "interkassa": false,
+        "interkassa_two": false,
+        "primepayments": false,
+        "liqpay": false,
+        "paypalych": false,
+        "paypalych_two": false,
+        "payze": false,
+        "moneytigo": false,
+        "stripe": false,
+        "pagseguro": false,
+        "tome": false,
+        "binance": false,
+        "portmone": false,
+        "capitalist": false,
+        "monobank": false,
+        "pgs": false,
+        "betatransfer": false
+    },
+    "discount": {},
+    "event": {},
+    "in_game_currency": {},
+    "plugins": {
+        "__": "pl"
+    },
+    "promo_game": false,
+    "referral": {
+        "status": false,
+        "individual": false,
+        "sale": false,
+        "commission": false
+    }
+}

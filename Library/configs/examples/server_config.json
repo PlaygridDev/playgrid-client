@@ -1,0 +1,19 @@
+{
+    "1": {
+        "re_name": "1",
+        "name": "servername",
+        "re_rate": "1",
+        "rate": "1",
+        "icon": "",
+        "img": "",
+        "link": "",
+        "chronicle": "chronicle name",
+        "description": "Lowrate server",
+        "date": "",
+        "time": "",
+        "time_zone": "-12",
+        "max_online": "",
+        "on_server": "1",
+        "hide": "1"
+    }
+}

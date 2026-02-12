@@ -8,10 +8,10 @@
                     <div class="mb-20">
                         <i class="fa fa-th fa-4x text-primary"></i>
                     </div>
-                    <div class="font-size-h4 font-w600">MmoWeb.ru</div>
+                    <div class="font-size-h4 font-w600">MmoWeb.biz</div>
                     <div class="text-muted">Project management</div>
                     <div class="pt-20">
-                        <a class="btn btn-rounded btn-alt-primary" href="https://mmoweb.ru/auth" target="_blank">
+                        <a class="btn btn-rounded btn-alt-primary" href="https://mmoweb.biz/auth" target="_blank">
                             <i class="fa fa-share mr-5"></i> Admin panel
                         </a>
                     </div>

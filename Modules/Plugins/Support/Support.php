@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Plugins\Support;
 
@@ -35,7 +29,7 @@ class Support extends MainModulesClass
                 'ru' => 'Тех.Поддержка',
                 'en' => 'Support module',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "13.01.2020",
             "lastUpdated" => "14.01.2020",
             "class" => __CLASS__,

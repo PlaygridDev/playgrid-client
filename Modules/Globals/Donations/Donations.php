@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 16.10.2019
- * Time: 17:12
- */
+
 
 namespace Modules\Globals\Donations;
 use Modules\MainModulesClass;
@@ -47,7 +42,7 @@ class Donations extends MainModulesClass
                 'ru' => 'Виджет баланса',
                 'en' => 'Balance Widget',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "mmoweb.biz/",
             "created" => "16.10.2019",
             "lastUpdated" => "16.10.2019",
             "class" => __CLASS__,

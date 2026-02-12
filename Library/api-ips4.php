@@ -1,9 +1,5 @@
 <?php
 
-/********************************
- * Dev and Code by MmoWeb
- * Date: 18.03.2020
- ********************************/
 header("Content-type: application/json; charset=utf-8");
 //error_reporting(E_ALL & ~E_NOTICE  & ~E_USER_NOTICE);
 ini_set('display_errors', 0);
@@ -97,7 +93,7 @@ class api {
                         topics.last_poster_id,
                         topics.last_poster_name,
                         posts.post,
-						members.pp_main_photo as avatar 
+						members.pp_main_photo as avatar
                         FROM ".$this->prefix."forums_topics as topics
                         LEFT JOIN ".$this->prefix."forums_posts as posts ON topics.topic_firstpost = posts.pid
                         LEFT JOIN ".$this->prefix."core_members as members ON topics.last_poster_id = members.member_id

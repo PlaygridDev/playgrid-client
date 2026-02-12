@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 17.10.2018
- * Time: 13:13
- */
 
 if (!function_exists('render_menu')) {
 
@@ -451,15 +445,11 @@ if (!function_exists('render_menu_server')) {
         $select_sid = get_sid();
         $url_array = get_instance()->url->segment_array();
 
-        //visualization.cabinet_layout_login
-
-
         //Рендер меню выпадающей менюшкой
         //Страници где не выводим
         if (get_instance()->session->isLogin) {
 
             $server_info = get_instance()->config['project']['server_info'];
-
 
             foreach ($server_info[$game_select] as $server_id => $srv) {
                 if ($server_id == $select_sid) {
@@ -469,8 +459,7 @@ if (!function_exists('render_menu_server')) {
 
             }
 
-            $str .= '<button type="button" class="btn btn-block btn-alt-success btn-rounded dropdown-toggle push d-flex align-items-center justify-content-between min-width-175" id="toolbarDrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="' . ucfirst($game_select) . '">';
-            $str .= '<img class="img-avatar img-avatar16 img-avatar-thumb m-0" src="/template/panel/assets/media/icon_platform/' . $game_select . '.png" alt="' . $game_select . '">';
+            $str .= '<button type="button" class="btn btn-block btn-alt-success btn-rounded dropdown-toggle push d-flex align-items-center justify-content-between min-width-150" id="toolbarDrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
             $str .= $server_select;
             $str .= '</button>';
 
@@ -480,7 +469,7 @@ if (!function_exists('render_menu_server')) {
             $str .= '<div class="dropdown-menu" aria-labelledby="toolbarDrop">';
             foreach ($server_info as $game => $server_list) {
                 if ($show_opt)
-                    $str .= '<h6 class="dropdown-header min-width-175">' . '<img class="img-avatar img-avatar20 img-avatar-thumb" src="/template/panel/assets/media/icon_platform/' . $game . '.png" alt="' . ucfirst($game) . '">' . ucfirst($game) . '</h6>';
+                    $str .= '<h6 class="dropdown-header min-width-150">' . ucfirst($game) . '</h6>';
                 $str .= '<div class="ml-10 ">';
                 foreach ($server_list as $id => $server) {
                     if ($server['status']) {
@@ -537,29 +526,32 @@ if (!function_exists('render_menu_server')) {
 
             }
 
-            //проверка на первый запуск
             if ($server_select == false) {
+
                 $server_select = $server_info[$game_select][$select_sid]["name"];
 
                 get_instance()->set_sid($select_sid);
-                if (true){
-                    header('Location: '. set_url($page_select . '/' . prepareStringForUrl($server_select).'.'.$select_sid), TRUE, 301);
-                    die;
-                }else{
-                    $str .= '<script type="text/javascript">document.location.href="' . set_url($page_select . '/' . prepareStringForUrl($server_select).'.'.$select_sid) . '";</script>';
+
+                $queryParams = $_SERVER['QUERY_STRING'];
+                $url = $page_select . '/' . prepareStringForUrl($server_select).'.'.$select_sid;
+                if(!empty($queryParams)) {
+                    $url .= '?' . $queryParams;
                 }
 
+                header('Location: '. set_url($url, TRUE, 301));
+                exit();
+
             }
+
             $show_opt = (count($server_info) > 1);
-            $str .= '<button type="button" class="btn btn-block btn-alt-success btn-rounded dropdown-toggle push d-flex align-items-center justify-content-between min-width-175" id="toolbarDrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="' . ucfirst($game_select) . '">';
-            $str .= '<img class="img-avatar img-avatar16 img-avatar-thumb m-0" src="/template/panel/assets/media/icon_platform/' . $game_select . '.png" alt="' . $game_select . '">';
+            $str .= '<button type="button" class="btn btn-block btn-alt-success btn-rounded dropdown-toggle push d-flex align-items-center justify-content-between min-width-150" id="toolbarDrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
             $str .= $server_select;
             $str .= '</button>';
 
             $str .= '<div class="dropdown-menu" aria-labelledby="toolbarDrop">';
             foreach ($server_info as $game => $server_list) {
                 if ($show_opt)
-                    $str .= '<h6 class="dropdown-header min-width-175">' . '<img class="img-avatar img-avatar20 img-avatar-thumb" src="/template/panel/assets/media/icon_platform/' . $game . '.png" alt="' . ucfirst($game) . '">' . ucfirst($game) . '</h6>';
+                    $str .= '<h6 class="dropdown-header min-width-150">' . ucfirst($game) . '</h6>';
                 $str .= '<div class="ml-10 ">';
                 foreach ($server_list as $sid => $server) {
                     if ($server['status']) {
@@ -982,9 +974,9 @@ if (!function_exists('render_formbuilder')){
                 if($form['type'] == 'date')
                     $form['type'] = 'datetime-local';
 
-                $str .= '<input type="' .$form['type']. '" class="form-control" 
-                    id="val-' .$lable. '" 
-                    name="'.$form['name'].'" 
+                $str .= '<input type="' .$form['type']. '" class="form-control"
+                    id="val-' .$lable. '"
+                    name="'.$form['name'].'"
                     value="'.$value.'"'
                     .(isset($form['maxlength']) ? ' maxlength="' .$form['maxlength']. '"' : '').
                     (isset($form['placeholder']) ? ' placeholder="'.$form['placeholder'].'" ' : '').
@@ -996,10 +988,10 @@ if (!function_exists('render_formbuilder')){
 
 
             case "textarea":
-                $str .= '<textarea 
+                $str .= '<textarea
                     ' .(isset($form['rows']) ? 'rows="' .$form['rows']. '" ' : 'rows="3" '). '
-                    id="val-' .$lable. '" 
-                    name="' .$form['name']. '" 
+                    id="val-' .$lable. '"
+                    name="' .$form['name']. '"
                     class="form-control '.$form['subtype'].'" '
                     .(isset($form['maxlength']) ? ' maxlength="' .$form['maxlength']. '"' : '')
                     .(isset($form['placeholder']) ? ' placeholder="'.$form['placeholder'].'"' : '')

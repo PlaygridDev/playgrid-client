@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Plugins\DailyRewards;
 use Modules\MainModulesClass;
@@ -32,7 +26,7 @@ class DailyRewards extends MainModulesClass
                 'ru' => 'Ежедневные награды',
                 'en' => 'Daily rewards',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "27.05.2021",
             "lastUpdated" => "27.03.2021",
             "class" => __CLASS__,

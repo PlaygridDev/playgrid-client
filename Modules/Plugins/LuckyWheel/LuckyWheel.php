@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Plugins\LuckyWheel;
 use Modules\MainModulesClass;
@@ -32,7 +26,7 @@ class LuckyWheel extends MainModulesClass
                 'ru' => 'Колесо фортуны',
                 'en' => 'Lucky Wheel',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "19.03.2021",
             "lastUpdated" => "19.03.2021",
             "class" => __CLASS__,

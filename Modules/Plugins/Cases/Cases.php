@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Plugins\Cases;
 use Modules\MainModulesClass;
@@ -32,7 +26,7 @@ class Cases extends MainModulesClass
                 'ru' => 'Кейсы',
                 'en' => 'Cases',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "22.03.2021",
             "lastUpdated" => "22.03.2021",
             "class" => __CLASS__,

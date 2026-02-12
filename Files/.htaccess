@@ -1,1 +1,12 @@
-deny from all
+SetEnvIf Request_URI "^/Files/support/" allow_support
+
+<IfModule mod_authz_core.c>
+    Require all denied
+    Require env allow_support
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    Order deny,allow
+    Deny from all
+    Allow from env=allow_support
+</IfModule>

@@ -1,3 +1,4 @@
+{$.site._SEO->addTegHTML('footer', 'slimscroll', 'script', ['src'=> 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js'])}
 <!-- Page Content -->
 <div class="hero bg-pattern" >
     <div class="hero-inner">
@@ -19,12 +20,15 @@
                     <h3 class="block-title">#{$response_data.payment_id}</h3>
                     <div class="block-options">
                         <!-- Print Page functionality is initialized in Helpers.print() -->
+                        <button type="button" id="download-pdf" class="btn-block-option">
+                            <i class="si si-doc"></i> Create PDF
+                        </button>
                         <button type="button" class="btn-block-option" onclick="Codebase.helpers('print-page');">
                             <i class="si si-printer"></i> Print Invoice
                         </button>
                     </div>
                 </div>
-                <div class="block-content">
+                <div class="block-content" id="invoice">
                     <!-- Invoice Info -->
                     <div class="row my-20">
                         <!-- Company Info -->
@@ -108,3 +112,18 @@
     </div>
 </div>
 <!-- END Page Content -->
+<script>
+document.getElementById("download-pdf").addEventListener("click", function () {
+    const invoice = document.getElementById("invoice");
+
+    const opt = {
+        margin:       0.5,
+        filename:     'invoice.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(invoice).save();
+});
+</script>

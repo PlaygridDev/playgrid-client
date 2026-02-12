@@ -1,7 +1,5 @@
 <?php
-/********************************
- * Dev and Code by MmoWeb
- ********************************/
+
 if (!defined('ROOT_DIR')) {
     exit ("Error, wrong way to file.<a href=\"/\">Go to main</a>.");
 }
@@ -17,9 +15,6 @@ class Controller
      */
     private static $instance;
 
-    /**
-    Переменная хранения данных с загруженых модулей
-    */
     public $render_data = array(
         'settings' => array(),
         'search' => array(),
@@ -97,37 +92,33 @@ class Controller
     public function __construct()
     {
         global $URI, $RTR;
-        self::$instance =& $this;
 
-        $this->config = include ROOT_DIR . '/Library/config.php';
+        self::$instance = &$this;
 
-        if (file_exists(ROOT_DIR . '/Library/shop.php'))
-            $this->shop = include ROOT_DIR . '/Library/shop.php';
+        $this->config = getConfig('config');
+        $this->shop = getConfig('shop');
+        $this->market = getConfig('market');
+        $this->lucky_wheel = getConfig('lucky_wheel');
+        $this->gift_code = getConfig('gift_code');
+        $this->money_withdrawal = getConfig('money_withdrawal');
+        $this->cases = getConfig('cases');
+        $this->daily_rewards = getConfig('daily_rewards');
 
-        if (file_exists(ROOT_DIR . '/Library/market.php'))
-            $this->market = include ROOT_DIR . '/Library/market.php';
-
-        if (file_exists(ROOT_DIR . '/Library/lucky_wheel.php'))
-            $this->lucky_wheel = include ROOT_DIR . '/Library/lucky_wheel.php';
-
-        if (file_exists(ROOT_DIR . '/Library/gift_code.php'))
-            $this->gift_code = include ROOT_DIR . '/Library/gift_code.php';
-
-        if (file_exists(ROOT_DIR . '/Library/money_withdrawal.php'))
-            $this->money_withdrawal = include ROOT_DIR . '/Library/money_withdrawal.php';
-
-        if (file_exists(ROOT_DIR . '/Library/cases.php'))
-            $this->cases = include ROOT_DIR . '/Library/cases.php';
-
-        if (file_exists(ROOT_DIR . '/Library/daily_rewards.php'))
-            $this->daily_rewards = include ROOT_DIR . '/Library/daily_rewards.php';
-
-
-        if (!is_array($this->config))
+        if (!is_array($this->config)) {
             $this->config = array();
+        }
         //Сортируем список серверов
         $this->sortable_server_list();
 
+        $updateCache = Cache::get('update');
+        if(is_array($updateCache) && isset($updateCache['status'])) {
+            if($updateCache['status'] === 'IN_PROGRESS') {
+                $this->config['site']['status_site_jobs'] = true;
+                $this->config['site']['status_site_jobs_msg'] = 'Update in progress...';
+                $this->config['cabinet']['status_cabinet_jobs'] = true;
+                $this->config['cabinet']['status_cabinet_jobs_msg'] = 'Update in progress...';
+            }
+        }
 
         if($this->config['project']['protocol_site'] == 'https' AND !is_https() AND HTTP_FORWARDING){
             header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);

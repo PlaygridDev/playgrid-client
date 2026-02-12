@@ -1,14 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Goha
- * Date: 26.08.2016
- * Time: 2:06
- */
-/********************************
- * Dev and Code by MmoWeb
- * Date: 18.03.2020
- ********************************/
+
 header("Content-type: application/json; charset=utf-8");
 
 //error_reporting(E_ALL & ~E_NOTICE  & ~E_USER_NOTICE);

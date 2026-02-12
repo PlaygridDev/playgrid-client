@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 28.02.2020
- * Time: 21:21
- */
+
 if (!function_exists('exp_level')) {
     function exp_level($exp)
     {

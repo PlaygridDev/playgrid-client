@@ -1,20 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 14.03.2020
- * Time: 23:31
- */
 
 namespace AdminPlugins;
-use PDO;
+
+use AjaxMsg;
 
 class Advertising
 {
     /* @var \Fenom $fenom */
     public $fenom;
-    /* @var \AjaxMsg $ajaxmsg */
-    public $ajaxmsg;
+
+    public AjaxMsg $ajaxmsg;
     public $config;
     /* @var \PDO $db */
     public $db;
@@ -72,15 +67,15 @@ class Advertising
 
     }
 
-    public function index(){
+    public function index()
+    {
 
-        $cfg = include ROOT_DIR . '/Library/advertising.php';
+        $cfg = getConfig('advertising');
 
         return $this->fenom->fetch("panel:admin/Advertising/index.tpl",
             array_merge(
                 array(
                     'language_list' => $this->config["site"]["language_list"],
-
                     'advertising_config' => $cfg,
                 ),
                 get_lang('admin.lang')
@@ -88,7 +83,8 @@ class Advertising
         );
     }
 
-    public function save_config(){
+    public function save_config()
+    {
 
         $data = array(
             'gawpid' => trim($_POST['gawpid']),
@@ -98,23 +94,13 @@ class Advertising
             'ym_webvisor' => _boolean($_POST['ym_webvisor']),
         );
 
-        $fd = ROOT_DIR . '/Library/advertising.php';
-        $fopen = fopen($fd, "w");
-        if (file_exists($fd)) {
-            if ($fopen) {
-                fwrite($fopen, "<?php\n");
-                fwrite($fopen, "/********************************\n");
-                fwrite($fopen, "* Advertising analytics\n");
-                fwrite($fopen, "* The config can be changed manually or in the admin panel\n");
-                fwrite($fopen, "* Конфиг можно изменить вручную или в админ-панели\n");
-                fwrite($fopen, "* /admin/advertising\n");
-                fwrite($fopen, " ********************************/\n");
-                fwrite($fopen, "defined('ROOT_DIR') OR exit('No direct script access allowed');\n");
-                cfgWrite($fopen, $data, "return");
-                fclose($fopen);
-            }
+        if(SaveConfig($data, 'advertising')) {
+            echo $this->ajaxmsg->notify(get_lang('admin.lang')['ForumConnect_ajax_update'])->success();
+            exit();
+        } else {
+            echo $this->ajaxmsg->notify(get_lang('admin.lang')['error_on_save_configs'])->danger();
+            exit();
         }
-        echo $this->ajaxmsg->notify(get_lang('admin.lang')['ForumConnect_ajax_update'])->success();
-        exit;
+
     }
 }

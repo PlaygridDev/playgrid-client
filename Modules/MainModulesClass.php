@@ -1,10 +1,7 @@
 <?php
+
 namespace Modules;
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 26.10.2017
- */
+
 class MainModulesClass
 {
     public $mDir = false;
@@ -27,7 +24,7 @@ class MainModulesClass
                 'ru' => 'Главный класс модулей',
                 'en' => 'Main class of modules',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "05.03.2019",
             "lastUpdated" => "05.03.2019",
             "class" => __CLASS__,

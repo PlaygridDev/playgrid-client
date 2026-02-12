@@ -137,22 +137,7 @@
                                 </div>
                             </div>
 
-                        {if $config_cabinet.captcha == 'captcha'}
-                            <div class="col-12">
-                                <div class="form-group row justify-content-center text-center">
-                                    <div class="col-12 col-md-6">
-                                        <label for="captcha">Captcha</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text p-0"><img id="captcha-img" style="border-radius: 3px 0 0 3px;" class="btn-secondary" src="/captcha/img"></span>
-                                                <button type="button" class="btn btn-secondary" onclick="$('#captcha-img').attr('src','/captcha/img?'+Math.random());"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-                                            </div>
-                                            <input type="text" class="form-control" id="captcha" name="captcha" placeholder="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {elseif $config_cabinet.captcha == 'recaptchav2'}
+                        {if $config_cabinet.captcha == 'recaptchav2'}
                             <div class="col-12">
                                 <div class="form-group row justify-content-center text-center">
                                     <div class="col-12 col-md-6">
@@ -173,6 +158,14 @@
                                         });
                                 });
                             </script>
+                        {elseif $config_cabinet.captcha == 'turnstile'}
+                            <div class="d-flex justify-content-center w-100 my-3">
+                                <div class="cf-turnstile" data-sitekey="{$config_cabinet.turnstile_site_key}"></div>
+                            </div>
+                        {elseif $config_cabinet.captcha == 'altcha'}
+                            <div class="d-flex justify-content-center w-100 my-3">
+                                <altcha-widget id="altcha" challengeurl="/captcha/altcha" auto="onfocus"></altcha-widget>
+                            </div>
                         {/if}
                         </div>
                     </div>
@@ -352,3 +345,24 @@
         window.changeSum(document.getElementById("coin").value,true);
     });
 </script>
+{if $config_cabinet.captcha == 'altcha'}
+    {$.site._SEO->addTegHTML('footer', 'altcha', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/js/plugins/altcha/altcha.min.js', 'type' => 'module'])}
+{/if}
+{if $config_cabinet.captcha == 'turnstile'}
+    {$.site._SEO->addTegHTML('footer', 'altcha', 'script', ['src'=> 'https://challenges.cloudflare.com/turnstile/v0/api.js'])}
+{/if}
+
+{if $.get._ptxn?}
+    {if $.site.config.payment_system.paddle_client_side_token?}
+        {$.site._SEO->addTegHTML('head', 'paddle', 'script', ['src'=> 'https://cdn.paddle.com/paddle/v2/paddle.js'])}
+        <script>
+            {if $.site.config.payment_system.paddle_sandbox_mode? && $.site.config.payment_system.paddle_sandbox_mode == 1}
+            Paddle.Environment.set("sandbox");
+            {/if}
+            Paddle.Initialize({
+                token: '{$.site.config.payment_system.paddle_client_side_token}',
+            });
+        </script>
+    {/if}
+
+{/if}

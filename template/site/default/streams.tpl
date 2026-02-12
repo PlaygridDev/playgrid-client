@@ -24,7 +24,9 @@
 
             {/foreach}
         {else}
-            <div><span class="article__title">Здесь мог быть ваш стрим!</span></div>
+            <div class="streams__media-empty_content">
+                <span class="article__title">Здесь мог быть ваш стрим!</span>
+            </div>
         {/if}
     </div>
 </div>

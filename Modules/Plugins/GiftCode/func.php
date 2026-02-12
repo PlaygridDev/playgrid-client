@@ -1,14 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 24.09.2019
- * Time: 17:18
- */
-
 
 namespace GiftCode;
-
 
 use ApiLib\GlobalApi;
 
@@ -189,7 +181,7 @@ class func
 
 
     public function set_label_new(){
-        $t = filemtime(ROOT_DIR.'/Library/gift_code.php');
+        $t = @filemtime(ROOT_DIR.'/Library/configs/gift_code.json');
         set_cookie('gift_code_new', $t, strtotime("+1 year"));
     }
 }

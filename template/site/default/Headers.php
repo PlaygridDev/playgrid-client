@@ -1,18 +1,8 @@
 <?php
 
-/**
- *  %site_name%             => Имя проекта,
- *  %server_name%           => Имя текушего сервера,
- *  %platform_server_name%  => Платформа и имя сервера пример: Lineage2 > Gracia Final,
- *  %url%                   => ссылка на сайт пример: https://mw4.mmoweb.ru/,
- *
- *  Class/SeoX.php method initReplaceTeg() Добовление тегов
- */
-
 
 return array(
     'ru' => array(
-        //Общий конфиг для лк
         'init' => array(
             'head' => array(
                 ['idx' => 'title',      'typex' => 'title',                                         'content' => '%site_name% Сайт сервера %server_name%.'],
@@ -29,8 +19,6 @@ return array(
 
             ),
         ),
-
-
     ),
     'en' => array(
 

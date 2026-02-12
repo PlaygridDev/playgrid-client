@@ -54,21 +54,7 @@
                         </div>
 
 
-                        {if $config.cabinet.captcha == 'captcha'}
-                            <div class="form-group row">
-                                <div class="col-12">
-                                    <label for="captcha">{$reminder_title_input_captcha_lang}</label>
-                                    <div class="input-group">
-
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text p-0"><img id="captcha-img" style="border-radius: 5% 0 0 5%;" class="btn-secondary" src="/captcha/img"></span>
-                                            <button type="button" class="btn btn-secondary" onclick="$('#captcha-img').attr('src','/captcha/img?'+Math.random());"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-                                        </div>
-                                        <input type="text" class="form-control" id="captcha" name="captcha" placeholder="">
-                                    </div>
-                                </div>
-                            </div>
-                        {elseif $config.cabinet.captcha == 'recaptchav2'}
+                        {if $config.cabinet.captcha == 'recaptchav2'}
                             <script src='https://www.google.com/recaptcha/api.js'></script>
                             <div class="g-recaptcha" data-sitekey="{$config.cabinet.recaptcha_public_key}"></div>
                             <br>
@@ -83,6 +69,14 @@
                                         });
                                 });
                             </script>
+                        {elseif $config.cabinet.captcha == 'turnstile'}
+                            <div class="d-flex justify-content-center w-100 my-3">
+                                <div class="cf-turnstile" data-sitekey="{$config.cabinet.turnstile_site_key}"></div>
+                            </div>
+                        {elseif $config.cabinet.captcha == 'altcha'}
+                            <div class="d-flex justify-content-center w-100 my-3">
+                                <altcha-widget id="altcha" challengeurl="/captcha/altcha" auto="onfocus"></altcha-widget>
+                            </div>
                         {/if}
 
 
@@ -123,3 +117,11 @@
 
     });
 </script>
+
+{if $config.cabinet.captcha == 'altcha'}
+    {$.site._SEO->addTegHTML('footer', 'altcha', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/js/plugins/altcha/altcha.min.js', 'type' => 'module'])}
+{/if}
+
+{if $config.cabinet.captcha == 'turnstile'}
+    {$.site._SEO->addTegHTML('footer', 'altcha', 'script', ['src'=> 'https://challenges.cloudflare.com/turnstile/v0/api.js'])}
+{/if}

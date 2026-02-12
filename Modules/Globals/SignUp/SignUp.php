@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Globals\SignUp;
 
@@ -25,7 +19,7 @@ class SignUp extends MainModulesClass
                 'ru' => 'Модуль регистрации',
                 'en' => 'Registration module',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "05.03.2019",
             "lastUpdated" => "05.03.2019",
             "class" => __CLASS__,

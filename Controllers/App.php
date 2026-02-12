@@ -2,36 +2,43 @@
 
 use ApiLib\GlobalApi;
 
-/**
- * Created by PhpStorm.
- * User: x88xa
- * Date: 13.10.2018
- * Time: 17:57
- */
-
 class App extends Controller
 {
     public $version = 112;
-    public $installer_url = "http://alpachini.com/qplay_updater.exe";
-    public $decrypt_key = "L!3T6/9dA8cmt>1M";
+    public $installer_url = "";
+    public $decrypt_key = "";
     public $payment_list = array(
         'freekassa',
-        'g2a',
         'unitpay',
         'payu',
         'paypal',
         'payop',
-        'paymentwall',
-        'pagseguro',
-        'nextpay',
         'paygol',
-        'alikassa',
         'enot',
         'ipay',
-        'paysafecard',
-        'ips_payment',
-        'digiseller',
-        'qiwi',
+        'paymentwall',
+        'interkassa',
+        'primepayments',
+        'liqpay',
+        'unitpay_two',
+        'hotskins',
+        'interkassa_two',
+        'paypalych',
+        'paypalych_two',
+        'payze',
+        'moneytigo',
+        'stripe',
+        'pagseguro',
+        'tome',
+        'binance',
+        'portmone',
+        'capitalist',
+        'pgs',
+        'monobank',
+        'b2pay',
+        'antilopay',
+        'cryptocloud',
+        'paddle'
     );
 
     public $advertising = false;
@@ -41,8 +48,9 @@ class App extends Controller
 
         $this->gateway();
 
-        if ($this->advertising === false)
-            $this->advertising = include ROOT_DIR . '/Library/advertising.php';
+        if ($this->advertising === false) {
+            $this->advertising = getConfig('advertising');
+        }
 
         if (isset(get_instance()->config['payment_system']['sorting_pay']))
             $this->payment_list = get_instance()->config['payment_system']['sorting_pay'];
@@ -175,19 +183,20 @@ class App extends Controller
      */
     public function get_daily_rewards(){
 
-        $daily_rewards_cfg = require ROOT_DIR . '/Library/daily_rewards.php';
+        $daily_rewards_cfg = getConfig('daily_rewards');
 
-        if (isset($_POST['sid']) AND isset($daily_rewards_cfg[$_POST['sid']]))
+        if (isset($_POST['sid']) AND isset($daily_rewards_cfg[$_POST['sid']])) {
             exit( json_encode(array('daily_rewards' => $daily_rewards_cfg[$_POST['sid']])));
-        else
+        } else {
             exit( json_encode(array('daily_rewards' => $daily_rewards_cfg)));
+        }
     }
     /**
      * Список серверов
      */
     public function get_server_list(){
 
-        $server_site_cfg = require ROOT_DIR . '/Library/server_config.php';
+        $server_site_cfg = getConfig('server_config');
         $list = array();
         foreach (get_instance()->config['project']['server_info'] as $platform => $servers_temp)
         {

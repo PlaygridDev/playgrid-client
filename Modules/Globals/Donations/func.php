@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 23.09.2019
- * Time: 13:49
- */
 
 namespace Donations;
 
@@ -21,23 +15,36 @@ class func
 
     public $payment_list = array(
         'freekassa',
-        'g2a',
         'unitpay',
         'payu',
         'paypal',
         'payop',
-        'paymentwall',
-        'pagseguro',
-        'nextpay',
         'paygol',
-        'alikassa',
         'enot',
         'ipay',
-        'paysafecard',
-        'ips_payment',
-        'digiseller',
-        'qiwi',
-
+        'paymentwall',
+        'interkassa',
+        'primepayments',
+        'liqpay',
+        'unitpay_two',
+        'hotskins',
+        'interkassa_two',
+        'paypalych',
+        'paypalych_two',
+        'payze',
+        'moneytigo',
+        'stripe',
+        'pagseguro',
+        'tome',
+        'binance',
+        'portmone',
+        'capitalist',
+        'pgs',
+        'monobank',
+        'b2pay',
+        'antilopay',
+        'cryptocloud',
+        'paddle'
     );
 
     public function __construct($this_main)
@@ -45,8 +52,9 @@ class func
         /**@var $this_main \Modules\Globals\Donations\Donations*/
         $this->this_main = $this_main;
 
-        if ($this->advertising === false)
-            $this->advertising = include ROOT_DIR . '/Library/advertising.php';
+        if ($this->advertising === false) {
+            $this->advertising = getConfig('advertising');
+        }
 
         if (isset(get_instance()->config['payment_system']['sorting_pay']))
             $this->payment_list = get_instance()->config['payment_system']['sorting_pay'];

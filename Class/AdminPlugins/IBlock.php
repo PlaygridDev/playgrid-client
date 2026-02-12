@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 14.03.2020
- * Time: 23:31
- */
 
 namespace AdminPlugins;
 use PDO;
@@ -217,7 +211,7 @@ class IBlock
             $id = intval($_GET['iblock']);
 
             $content = $this->db->query('
-                        SELECT c.* 
+                        SELECT c.*
                         FROM `mw_iblock_content` AS c
                         LEFT JOIN  `mw_iblock` AS b ON b.ikey=c.ikey
                         WHERE b.id='.$id.';')->fetchAll(\PDO::FETCH_ASSOC);
@@ -382,17 +376,17 @@ class IBlock
                                   `publish` int(1) NOT NULL DEFAULT '1',
                                   `json` mediumtext NOT NULL
                                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-                                
+
                                 ALTER TABLE `mw_iblock`
                                   ADD PRIMARY KEY (`id`),
                                   ADD KEY `publish` (`publish`),
                                   ADD KEY `ikey` (`ikey`);
-                                
+
                                 ALTER TABLE `mw_iblock` ADD UNIQUE(`ikey`);
-                                
+
                                 ALTER TABLE `mw_iblock`
                                   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-                                  
+
                                 DROP TABLE IF EXISTS `mw_iblock_content`;
                                 CREATE TABLE `mw_iblock_content` (
                                   `id` int(11) NOT NULL,
@@ -401,12 +395,12 @@ class IBlock
                                   `date` datetime NOT NULL,
                                   `publish` int(1) NOT NULL DEFAULT '1'
                                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-                                
+
                                 ALTER TABLE `mw_iblock_content`
                                   ADD PRIMARY KEY (`id`),
                                   ADD KEY `publish` (`publish`),
                                   ADD KEY `ikey` (`ikey`);
-                                
+
                                 ALTER TABLE `mw_iblock_content`
                                   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;");
     }

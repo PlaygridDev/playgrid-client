@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Plugins\MoneyWithdrawal;
 use Modules\MainModulesClass;
@@ -32,7 +26,7 @@ class MoneyWithdrawal extends MainModulesClass
                 'ru' => 'Модуль вывод денег',
                 'en' => 'money withdrawal',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "09.09.2021",
             "lastUpdated" => "09.09.2021",
             "class" => __CLASS__,

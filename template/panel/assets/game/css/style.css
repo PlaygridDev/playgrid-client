@@ -257,7 +257,7 @@
 /* ghead */
 
 .ghead {
-	background: url(../images/ghead.png) no-repeat center center;
+	background: lightskyblue;
 	background-size: cover;
 	height: 170px;
 	display: flex;

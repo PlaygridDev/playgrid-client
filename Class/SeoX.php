@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 12.02.2020
- * Time: 17:41
- */
 
 class SeoX
 {
@@ -307,14 +301,15 @@ class SeoX
 
     public function advertising(){
 
-        if ($this->advertising === false)
-            $this->advertising = include ROOT_DIR . '/Library/advertising.php';
+        if ($this->advertising === false) {
+            $this->advertising = getConfig('advertising');
+        }
 
         //Google Analytics
         if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])){
             $this->addTeg('head', 'googleanalytics', 'script', array('src' => 'https://www.googletagmanager.com/gtag/js?id='.$this->advertising['gawpid'], 'async'=>'true'));
-            $this->addTeg('head', 'googleanalytics_js', 'script', array('js' => "window.dataLayer = window.dataLayer || []; 
-            function gtag(){dataLayer.push(arguments);} 
+            $this->addTeg('head', 'googleanalytics_js', 'script', array('js' => "window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());"
             ." gtag('config', '".$this->advertising['gawpid']."'" .( $this->advertising['ga_anonymize'] ? ",{ 'anonymize_ip': true }" : '' ).");"));
 

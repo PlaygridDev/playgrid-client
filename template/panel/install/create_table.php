@@ -1,5 +1,5 @@
 <?php if (! defined ( 'ROOT_DIR' )){ exit ( "Error, wrong way to file.<a href=\"/\">Go to main</a>.");} ?>
-<h3>Creating database tables</h3>
+<h3 class="text-white">Creating database tables</h3>
 <ul class="list-group push">
 <?php
 foreach ($db_table_install as $name => $sql){

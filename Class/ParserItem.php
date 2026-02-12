@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 03.12.2019
- * Time: 21:53
- */
 
 class ParserItem
 {
@@ -256,7 +250,6 @@ class ParserItem
 
 
 
-    ///L2FileEdit START
     public function L2FileEdit($file,$index='id'){
 
 
@@ -309,14 +302,7 @@ class ParserItem
         return $res;
 
     }
-    ///L2FileEdit END
-    ///
-    ///L2ClientDat START
-    /**
-        Описание:  класс для загрузки клиентских файлов Lineage 2, раскодированных при помощи L2ClientDat
-        Автор: Gaikotsu
-        Изменил: mmoweb
-    */
+
     public function L2ClientDat($fName, $type, $idx1 = -1, $idx2 = -1, $idx3 = -1, $field = false){
 
         $arr = array();
@@ -421,7 +407,7 @@ class ParserItem
     {
         return strpos($str, "=") != 0 ? trim(substr($str, strpos($str, "=") + 1, strlen($str))) : "";
     }
-    ///L2ClientDat END
+
 
     /// Pars PTS files
     public function getServerFile($itemdata_dir){

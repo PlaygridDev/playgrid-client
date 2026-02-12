@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Plugins\BonusCod;
 use Modules\MainModulesClass;
@@ -32,7 +26,7 @@ class BonusCod extends MainModulesClass
                 'ru' => 'Бонус код',
                 'en' => 'Bonus Cod module',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "30.04.2020",
             "lastUpdated" => "30.04.2020",
             "class" => __CLASS__,

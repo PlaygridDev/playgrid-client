@@ -34,13 +34,13 @@
                                     <td class="text-center">
                                         <div class="btn-group">
                                             {if $server_info.teleport_char? AND $server_info.teleport_char AND $char.ban != 1}
-                                            <button type="button" class="btn btn-sm btn-outline-secondary submit-btn" {$.php.btn_ajax("Modules\Lineage2\Character\Character", "ingame_teleport_char", ['login' => $login, 'char' => $char.name])}>{$lang_w_btn_teleport_char}</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary submit-btn" {$.php.btn_ajax("Modules\LA\Character\Character", "ingame_teleport_char", ['login' => $login, 'char' => $char.name])}>{$lang_w_btn_teleport_char}</button>
                                             {/if}
                                             {if $server_info.hwid_char? AND $server_info.hwid_char AND $char.bind_hwid == 'true'}
-                                            <button type="button" class="btn btn-sm btn-outline-secondary submit-btn" {$.php.btn_ajax("Modules\Lineage2\Character\Character", "ingame_reset_hwid_char", ['login' => $login, 'char' => $char.name])}>{$lang_w_btn_reset_hwid_char}</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary submit-btn" {$.php.btn_ajax("Modules\LA\Character\Character", "ingame_reset_hwid_char", ['login' => $login, 'char' => $char.name])}>{$lang_w_btn_reset_hwid_char}</button>
                                             {/if}
                                             {if $server_info.pin_char? AND $server_info.pin_char}
-                                            <button type="button" class="btn btn-sm btn-outline-secondary submit-btn" {$.php.btn_ajax("Modules\Lineage2\Character\Character", "ingame_reset_pin_char", ['login' => $login, 'char' => $char.name])}>{$lang_w_btn_reset_pin_char}</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary submit-btn" {$.php.btn_ajax("Modules\LA\Character\Character", "ingame_reset_pin_char", ['login' => $login, 'char' => $char.name])}>{$lang_w_btn_reset_pin_char}</button>
                                             {/if}
 
 
@@ -68,8 +68,8 @@
                         <button type="button" class="btn btn-sm btn-noborder btn-outline-primary min-width-125 mr-5 submit-btn" {$.php.btn_ajax("Modules\Globals\Settings\Settings", "change_password_account_open", ['account'=>$login])}><i class="fa fa-retweet mr-5"></i>{$lang_w_btn_change_password}</button>
                         <button type="button" class="btn btn-sm btn-noborder btn-outline-primary min-width-125 submit-btn" {$.php.btn_ajax("Modules\Globals\Settings\Settings", "forgot_password_account_open", ['account'=>$login])}><i class="fa fa-key mr-5"></i>{$lang_w_btn_forgot_password}</button>
                         <button type="button" class="btn btn-sm btn-noborder btn-outline-primary min-width-125 submit-btn" {$.php.btn_ajax("Modules\Globals\User\User", "hide_game_account", ['account'=>$login])}><i class="fa fa-eye-slash mr-5"></i>{$lang_w_btn_hide_account}</button>
-                        {if $server_info.pin_account? AND $server_info.pin_account}<button type="button" class="btn btn-sm btn-noborder btn-outline-primary min-width-125 mr-5 submit-btn" {$.php.btn_ajax("Modules\Lineage2\Character\Character", "ingame_reset_pin_account", ['login'=>$login])}><i class="fa fa-expeditedssl mr-5" title="PIN-CODE"></i>{$lang_w_btn_reset_pin_account}</button>{/if}
-                        {if $server_info.hwid_account? AND $server_info.hwid_account}<button type="button" class="btn btn-sm btn-noborder btn-outline-primary min-width-125 mr-5 submit-btn" {$.php.btn_ajax("Modules\Lineage2\Character\Character", "ingame_reset_hwid_account", ['login'=>$login])}><i class="fa fa-expeditedssl mr-5" title="HWID"></i>{$lang_w_btn_reset_hwid_account}</button>{/if}
+                        {if $server_info.pin_account? AND $server_info.pin_account}<button type="button" class="btn btn-sm btn-noborder btn-outline-primary min-width-125 mr-5 submit-btn" {$.php.btn_ajax("Modules\LA\Character\Character", "ingame_reset_pin_account", ['login'=>$login])}><i class="fa fa-expeditedssl mr-5" title="PIN-CODE"></i>{$lang_w_btn_reset_pin_account}</button>{/if}
+                        {if $server_info.hwid_account? AND $server_info.hwid_account}<button type="button" class="btn btn-sm btn-noborder btn-outline-primary min-width-125 mr-5 submit-btn" {$.php.btn_ajax("Modules\LA\Character\Character", "ingame_reset_hwid_account", ['login'=>$login])}><i class="fa fa-expeditedssl mr-5" title="HWID"></i>{$lang_w_btn_reset_hwid_account}</button>{/if}
                     </div>
                 </div>
             </div>

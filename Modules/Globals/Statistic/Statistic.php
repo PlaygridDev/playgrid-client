@@ -1,14 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Globals\Statistic;
 
-use ApiLib\GlobalApi;
 use Modules\MainModulesClass;
 
 
@@ -35,7 +28,7 @@ class Statistic extends MainModulesClass
                 'ru' => 'Модуль статистики',
                 'en' => 'Statistic module',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "28.02.2020",
             "lastUpdated" => "28.02.2020",
             "class" => __CLASS__,

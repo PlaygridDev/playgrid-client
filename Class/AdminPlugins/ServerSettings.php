@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 14.03.2020
- * Time: 23:31
- */
 
 namespace AdminPlugins;
-use PDO;
 
 class ServerSettings
 {
@@ -103,8 +96,7 @@ class ServerSettings
 
     public function index(){
 
-        $cfg = include_once ROOT_DIR . '/Library/server_config.php';
-
+        $cfg = getConfig('server_config');
 
         return $this->fenom->fetch("panel:admin/ServerSettings/index.tpl",
             array_merge(
@@ -123,24 +115,15 @@ class ServerSettings
     public function save_config(){
 
         $data = $_POST["info"];
-        $fd = ROOT_DIR . '/Library/server_config.php';
-        $fopen = fopen($fd, "w");
-        if (file_exists($fd)) {
-            if ($fopen) {
-                fwrite($fopen, "<?php\n");
-                fwrite($fopen, "/********************************\n");
-                fwrite($fopen, "* Server settings\n");
-                fwrite($fopen, "* Additional server settings for the site\n");
-                fwrite($fopen, "* Дополнительные настройки сервера  для сайта\n");
-                fwrite($fopen, "* /admin/servers\n");
-                fwrite($fopen, " ********************************/\n");
-                fwrite($fopen, "defined('ROOT_DIR') OR exit('No direct script access allowed');\n");
-                cfgWrite($fopen, $data, "return");
-                fclose($fopen);
-            }
+
+        if(SaveConfig($data, 'server_config')) {
+            echo $this->ajaxmsg->notify(get_lang('admin.lang')['ServerSettings_ajax_edit_success'])->success();
+            exit();
+        } else {
+            echo $this->ajaxmsg->notify(get_lang('admin.lang')['error_on_save_configs'])->danger();
+            exit();
         }
-        echo $this->ajaxmsg->notify(get_lang('admin.lang')['ServerSettings_ajax_edit_success'])->success();
-        exit;
+
     }
 
 }

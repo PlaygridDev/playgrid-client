@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 15.10.2019
- * Time: 16:23
- */
+
 
 namespace Modules\Globals\Reminder;
 
@@ -24,7 +19,7 @@ class Reminder extends MainModulesClass
                 'ru' => 'Модуль восстановления пароля',
                 'en' => 'Password recovery module',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "15.10.2019",
             "lastUpdated" => "15.10.2019",
             "class" => __CLASS__,

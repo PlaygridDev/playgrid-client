@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 04.10.2019
- * Time: 17:46
- */
 
 return array(
     'ru' => array(
@@ -21,14 +15,8 @@ return array(
         'btn_title_ForumConnect'=> 'Форум',
         'btn_desc_ForumConnect'=> 'новости с форума',
 
-        'btn_title_UpdateCentre'=> 'Обновления',
-        'btn_desc_UpdateCentre'=> 'личного кабинета',
-
         'btn_title_IBlock'=> 'Инфо блоки',
         'btn_desc_IBlock'=> 'слайдеры инфо блоки на сайте',
-
-        'btn_title_PatchNotes'=> 'Патчноуты',
-        'btn_desc_PatchNotes'=> 'Патчноуты на сайте',
 
         'btn_title_LangEditor'=> 'Языки',
         'btn_desc_LangEditor'=> 'языковые настройки сайта',
@@ -178,8 +166,8 @@ return array(
         'Broadcast_edit_stream' => 'Редактировать',
         'Broadcast_delete_stream' => 'Удалить',
         'Broadcast_in_platform' => 'Площадка',
-        'Broadcast_stream' => 'Стрим', 
-        'Broadcast_stream_desc' => 'Укажите ссылку на стрим, или iframe код если используете сторонний ресурс.', 
+        'Broadcast_stream' => 'Стрим',
+        'Broadcast_stream_desc' => 'Укажите ссылку на стрим, или iframe код если используете сторонний ресурс.',
         'Broadcast_streamer_name' => 'Имя стримера',
         'Broadcast_title' => 'Название трансляции',
         'Broadcast_avatar' => 'Аватар',
@@ -230,17 +218,7 @@ return array(
         'ParsFileGame_files_format' => 'Формат файлов',
         'ParsFileGame_btn_pars' => 'Парсить файлы',
 
-        //UpdateCentre
-        'UpdateCentre_title' => 'Текущая версия MmoWeb',
-        'UpdateCentre_title_install_1' => 'Обновление версии',
-        'UpdateCentre_title_install_2' => 'до',
-        'UpdateCentre_new_version' => 'Доступна новая версия',
-        'UpdateCentre_btn_check' => 'Проверить обновления',
-        'UpdateCentre_btn_update_from' => 'Обновить до',
-        'UpdateCentre_btn_dwn_update' => 'Скачать обновление и установить в ручную',
-        'UpdateCentre_current_version' => 'Вы используете актуальную версию',
-        'UpdateCentre_error' => 'Произошла ошибка при получении обновлений проверьте журнал',
-        'UpdateCentre_install' => 'Установлено',
+        'error_on_save_configs' => 'Произошла ошибка при сохранении конфигурации.',
 
     ),
     'en' => array(
@@ -259,9 +237,6 @@ return array(
 
         'btn_title_IBlock'=> 'Infoblocks',
         'btn_desc_IBlock'=> 'sliders with info blocks on the site',
-
-        'btn_title_PatchNotes'=> 'Patch notes',
-        'btn_desc_PatchNotes'=> 'Patch notes on the site',
 
         'btn_title_LangEditor'=> 'Languages',
         'btn_desc_LangEditor'=> 'site language settings',
@@ -408,8 +383,8 @@ return array(
         'Broadcast_edit_stream' => 'Edit stream',
         'Broadcast_delete_stream' => 'Delete stream',
         'Broadcast_in_platform' => 'Platform',
-        'Broadcast_stream' => 'Stream', 
-        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.', 
+        'Broadcast_stream' => 'Stream',
+        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.',
         'Broadcast_streamer_name' => 'Streamer name',
         'Broadcast_title' => 'Broadcast title',
         'Broadcast_avatar' => 'Avatar',
@@ -458,18 +433,6 @@ return array(
         'ParsFileGame_img_dir' => 'Picture Directory',
         'ParsFileGame_files_format' => 'File format',
         'ParsFileGame_btn_pars' => 'Parse files',
-
-        //UpdateCentre
-        'UpdateCentre_title' => 'Current version MmoWeb',
-        'UpdateCentre_title_install_1' => 'Upgrading version',
-        'UpdateCentre_title_install_2' => 'to',
-        'UpdateCentre_new_version' => 'New version available',
-        'UpdateCentre_btn_check' => 'Check for updates',
-        'UpdateCentre_btn_update_from' => 'Upgrade to',
-        'UpdateCentre_btn_dwn_update' => 'Download update and install manually',
-        'UpdateCentre_current_version' => 'You are using the current version',
-        'UpdateCentre_error' => 'An error occured while getting updates check the log',
-        'UpdateCentre_install' => 'Installed',
 
     ),
     'gr' => array(
@@ -634,8 +597,8 @@ return array(
         'Broadcast_edit_stream' => 'Edit stream',
         'Broadcast_delete_stream' => 'Delete stream',
         'Broadcast_in_platform' => 'Platform',
-        'Broadcast_stream' => 'Stream', 
-        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.', 
+        'Broadcast_stream' => 'Stream',
+        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.',
         'Broadcast_streamer_name' => 'Streamer name',
         'Broadcast_title' => 'Broadcast title',
         'Broadcast_avatar' => 'Avatar',
@@ -684,17 +647,6 @@ return array(
         'ParsFileGame_files_format' => 'File format',
         'ParsFileGame_btn_pars' => 'Parse files',
 
-        //UpdateCentre
-        'UpdateCentre_title' => 'Current version MmoWeb',
-        'UpdateCentre_title_install_1' => 'Upgrading version',
-        'UpdateCentre_title_install_2' => 'to',
-        'UpdateCentre_new_version' => 'New version available',
-        'UpdateCentre_btn_check' => 'Check for updates',
-        'UpdateCentre_btn_update_from' => 'Upgrade to',
-        'UpdateCentre_btn_dwn_update' => 'Download update and install manually',
-        'UpdateCentre_current_version' => 'You are using the current version',
-        'UpdateCentre_error' => 'An error occured while getting updates check the log',
-        'UpdateCentre_install' => 'Installed',
     ),
     'es' => array(
 
@@ -858,8 +810,8 @@ return array(
         'Broadcast_edit_stream' => 'Edit stream',
         'Broadcast_delete_stream' => 'Delete stream',
         'Broadcast_in_platform' => 'Platform',
-        'Broadcast_stream' => 'Stream', 
-        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.', 
+        'Broadcast_stream' => 'Stream',
+        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.',
         'Broadcast_streamer_name' => 'Streamer name',
         'Broadcast_title' => 'Broadcast title',
         'Broadcast_avatar' => 'Avatar',
@@ -909,17 +861,6 @@ return array(
         'ParsFileGame_files_format' => 'File format',
         'ParsFileGame_btn_pars' => 'Parse files',
 
-        //UpdateCentre
-        'UpdateCentre_title' => 'Current version MmoWeb',
-        'UpdateCentre_title_install_1' => 'Upgrading version',
-        'UpdateCentre_title_install_2' => 'to',
-        'UpdateCentre_new_version' => 'New version available',
-        'UpdateCentre_btn_check' => 'Check for updates',
-        'UpdateCentre_btn_update_from' => 'Upgrade to',
-        'UpdateCentre_btn_dwn_update' => 'Download update and install manually',
-        'UpdateCentre_current_version' => 'You are using the current version',
-        'UpdateCentre_error' => 'An error occured while getting updates check the log',
-        'UpdateCentre_install' => 'Installed',
     ),
     'pt' => array(
 
@@ -1083,8 +1024,8 @@ return array(
         'Broadcast_edit_stream' => 'Edit stream',
         'Broadcast_delete_stream' => 'Delete stream',
         'Broadcast_in_platform' => 'Platform',
-        'Broadcast_stream' => 'Stream', 
-        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.', 
+        'Broadcast_stream' => 'Stream',
+        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.',
         'Broadcast_streamer_name' => 'Streamer name',
         'Broadcast_title' => 'Broadcast title',
         'Broadcast_avatar' => 'Avatar',
@@ -1133,17 +1074,6 @@ return array(
         'ParsFileGame_files_format' => 'File format',
         'ParsFileGame_btn_pars' => 'Parse files',
 
-        //UpdateCentre
-        'UpdateCentre_title' => 'Current version MmoWeb',
-        'UpdateCentre_title_install_1' => 'Upgrading version',
-        'UpdateCentre_title_install_2' => 'to',
-        'UpdateCentre_new_version' => 'New version available',
-        'UpdateCentre_btn_check' => 'Check for updates',
-        'UpdateCentre_btn_update_from' => 'Upgrade to',
-        'UpdateCentre_btn_dwn_update' => 'Download update and install manually',
-        'UpdateCentre_current_version' => 'You are using the current version',
-        'UpdateCentre_error' => 'An error occured while getting updates check the log',
-        'UpdateCentre_install' => 'Installed',
     ),
 	    'cn' => array(
 
@@ -1307,8 +1237,8 @@ return array(
         'Broadcast_edit_stream' => 'Edit stream',
         'Broadcast_delete_stream' => 'Delete stream',
         'Broadcast_in_platform' => 'Platform',
-        'Broadcast_stream' => 'Stream', 
-        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.', 
+        'Broadcast_stream' => 'Stream',
+        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.',
         'Broadcast_streamer_name' => 'Streamer name',
         'Broadcast_title' => 'Broadcast title',
         'Broadcast_avatar' => 'Avatar',
@@ -1358,17 +1288,6 @@ return array(
         'ParsFileGame_files_format' => 'File format',
         'ParsFileGame_btn_pars' => 'Parse files',
 
-        //UpdateCentre
-        'UpdateCentre_title' => 'Current version MmoWeb',
-        'UpdateCentre_title_install_1' => 'Upgrading version',
-        'UpdateCentre_title_install_2' => 'to',
-        'UpdateCentre_new_version' => 'New version available',
-        'UpdateCentre_btn_check' => 'Check for updates',
-        'UpdateCentre_btn_update_from' => 'Upgrade to',
-        'UpdateCentre_btn_dwn_update' => 'Download update and install manually',
-        'UpdateCentre_current_version' => 'You are using the current version',
-        'UpdateCentre_error' => 'An error occured while getting updates check the log',
-        'UpdateCentre_install' => 'Installed',
     ),
 	    'ko' => array(
 
@@ -1532,8 +1451,8 @@ return array(
         'Broadcast_edit_stream' => 'Edit stream',
         'Broadcast_delete_stream' => 'Delete stream',
         'Broadcast_in_platform' => 'Platform',
-        'Broadcast_stream' => 'Stream', 
-        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.', 
+        'Broadcast_stream' => 'Stream',
+        'Broadcast_stream_desc' => 'Specify a link to the stream, or iframe code if you are using a third-party resource.',
         'Broadcast_streamer_name' => 'Streamer name',
         'Broadcast_title' => 'Broadcast title',
         'Broadcast_avatar' => 'Avatar',
@@ -1583,16 +1502,5 @@ return array(
         'ParsFileGame_files_format' => 'File format',
         'ParsFileGame_btn_pars' => 'Parse files',
 
-        //UpdateCentre
-        'UpdateCentre_title' => 'Current version MmoWeb',
-        'UpdateCentre_title_install_1' => 'Upgrading version',
-        'UpdateCentre_title_install_2' => 'to',
-        'UpdateCentre_new_version' => 'New version available',
-        'UpdateCentre_btn_check' => 'Check for updates',
-        'UpdateCentre_btn_update_from' => 'Upgrade to',
-        'UpdateCentre_btn_dwn_update' => 'Download update and install manually',
-        'UpdateCentre_current_version' => 'You are using the current version',
-        'UpdateCentre_error' => 'An error occured while getting updates check the log',
-        'UpdateCentre_install' => 'Installed',
     ),
 );

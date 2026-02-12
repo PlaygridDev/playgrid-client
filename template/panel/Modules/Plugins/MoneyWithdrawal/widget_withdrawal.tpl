@@ -27,38 +27,31 @@
                 </div>
             </div>
 
-                <div class="form-group row show_qiwi" style="display: none;">
-                    <div class="col-12 text-center">
-                        <div class="font-size-sm text-muted">
-                            <i class="fa fa-info-circle"></i> <em>{$widget_withdrawal_desc_qiwi}</em>
-                        </div>
+            <div class="form-group row show_card" style="display: none;">
+                <div class="col-12 text-center">
+                    <div class="font-size-sm text-muted">
+                        <i class="fa fa-info-circle"></i> <em>{$widget_withdrawal_desc_card}</em>
                     </div>
                 </div>
-                <div class="form-group row show_card" style="display: none;">
-                    <div class="col-12 text-center">
-                        <div class="font-size-sm text-muted">
-                            <i class="fa fa-info-circle"></i> <em>{$widget_withdrawal_desc_card}</em>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
-                <div class="form-group row show_card"  style="display: none;">
-                    <label class="col-12" for="withdrawal_wallet">{$widget_withdrawal_reg_name}</label>
-                    <div class="col-12">
-                        <div class="input-group input-group-lg">
-                            <input type="text" class="form-control" id="reg_name" name="reg_name">
-                        </div>
+            <div class="form-group row show_card"  style="display: none;">
+                <label class="col-12" for="withdrawal_wallet">{$widget_withdrawal_reg_name}</label>
+                <div class="col-12">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control" id="reg_name" name="reg_name">
                     </div>
                 </div>
+            </div>
 
-                <div class="form-group row show_card"  style="display: none;">
-                    <label class="col-12" for="withdrawal_wallet">{$widget_withdrawal_reg_name_f}</label>
-                    <div class="col-12">
-                        <div class="input-group input-group-lg">
-                            <input type="text" class="form-control" id="reg_name_f" name="reg_name_f">
-                        </div>
+            <div class="form-group row show_card"  style="display: none;">
+                <label class="col-12" for="withdrawal_wallet">{$widget_withdrawal_reg_name_f}</label>
+                <div class="col-12">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control" id="reg_name_f" name="reg_name_f">
                     </div>
                 </div>
+            </div>
 
             <div class="form-group row">
                 <label class="col-12" for="withdrawal_sum">{$widget_withdrawal_sum}</label>
@@ -115,14 +108,9 @@
     document.addEventListener("DOMContentLoaded", function (event) {
 
         $('body').on('change', "#delivery_method", function (e) {
-            if ($(this).val() == 'qiwi'){
-                $('.show_qiwi').show();
-                $('.show_card').hide();
-            }else if($(this).val() == 'card'){
+            if($(this).val() == 'card'){
                 $('.show_card').show();
-                $('.show_qiwi').hide();
             }else{
-                $('.show_qiwi').hide();
                 $('.show_card').hide();
             }
         });

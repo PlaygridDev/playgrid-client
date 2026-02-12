@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 24.09.2019
- * Time: 10:46
- */
+
 
 return array(
     'ru' => array(
@@ -57,9 +52,9 @@ return array(
         'lang_title_bind_email' => 'Associate Email',
         'lang_desc_bind_email' => 'Associating an email address allows you to take advantage of all of the functions of your Master Account.',
         'lang_pin_label_placeholder' => 'PIN-Code',
-        'lang_btn_send_email_bind_email' => 'Send code',	
-	
-	
+        'lang_btn_send_email_bind_email' => 'Send code',
+
+
     ),
     'gr' => array(
 
@@ -83,9 +78,9 @@ return array(
         'lang_title_bind_email' => 'Σύνδεση Διεθυνσης Email',
         'lang_desc_bind_email' => 'Η σύνδεση μίας διεύθυνσης email σας επιτρέπει να χρησιμοποιήσετε όλες τις λειτουργείες του Master Account σας.',
         'lang_pin_label_placeholder' => 'PIN-Code',
-        'lang_btn_send_email_bind_email' => 'Αποστολή κωδικού',	
-	
-	
+        'lang_btn_send_email_bind_email' => 'Αποστολή κωδικού',
+
+
     ),
 	 'es' => array(
 
@@ -109,9 +104,9 @@ return array(
         'lang_title_bind_email' => 'Asociar correo electrónico',
         'lang_desc_bind_email' => 'Asociar un correo electrónico te permite tomar ventaja de todas las funciones de tu Cuenta Maestra.',
         'lang_pin_label_placeholder' => 'Código-PIN',
-        'lang_btn_send_email_bind_email' => 'Enviar código',	
-	
-	
+        'lang_btn_send_email_bind_email' => 'Enviar código',
+
+
     ),
     'pt' => array(
 
@@ -133,8 +128,8 @@ return array(
         'lang_title_bind_email' => 'Email associado',
         'lang_desc_bind_email' => 'Associar um endereço de e-mail permite que você aproveite todas as funções de sua conta principal.',
         'lang_pin_label_placeholder' => 'Código PIN',
-        'lang_btn_send_email_bind_email' => 'Enviar código',    
-    
+        'lang_btn_send_email_bind_email' => 'Enviar código',
+
     ),
 	'cn' => array(
 
@@ -158,9 +153,9 @@ return array(
         'lang_title_bind_email' => '关联电子邮件',
         'lang_desc_bind_email' => '通过关联电子邮件地址,您可以利用主帐户的所有功能.',
         'lang_pin_label_placeholder' => 'PIN-代码',
-        'lang_btn_send_email_bind_email' => '发送代码',	
-	
-	
+        'lang_btn_send_email_bind_email' => '发送代码',
+
+
     ),
 	'ko' => array(
 
@@ -184,8 +179,8 @@ return array(
         'lang_title_bind_email' => '준회원 이메일',
         'lang_desc_bind_email' => '이메일 주소를 연결하면 마스터 계정의 모든 기능을 활용할 수 있습니다.',
         'lang_pin_label_placeholder' => 'PIN-코드',
-        'lang_btn_send_email_bind_email' => '코드 보내기',	
-	
-	
+        'lang_btn_send_email_bind_email' => '코드 보내기',
+
+
     ),
 );

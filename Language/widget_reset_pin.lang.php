@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 24.09.2019
- * Time: 10:46
- */
+
 
 return array(
     'ru' => array(
@@ -44,8 +39,8 @@ return array(
 
         'lang_label_placeholder_pin' => 'Enter your \'PIN-Code\'',
         'lang_btn_disable_pin' => 'Disable PIN-Code',
-	
-	
+
+
     ),
     'gr' => array(
 
@@ -62,8 +57,8 @@ return array(
 
         'lang_label_placeholder_pin' => 'Εισάγετε το «PIN-Code» σας»',
         'lang_btn_disable_pin' => 'Απενεργοποίηση PIN-Code',
-	
-	
+
+
     ),
 	'es' => array(
 
@@ -80,14 +75,14 @@ return array(
 
         'lang_label_placeholder_pin' => 'Ingresa tu \'Código-PIN\'',
         'lang_btn_disable_pin' => 'Deshabilitar Código-PIN',
-	
-	
+
+
     ),
     'pt' => array(
 
         'lang_title_pin' => 'Configurações de código PIN',
         'lang_title' => 'Redefinir o código PIN',
-        'lang_description_pin_settings' => 'O código PIN pode ajudar a proteger sua conta mestre de alterações indesejadas relacionadas a configurações e saldo, caso esteja comprometido. 
+        'lang_description_pin_settings' => 'O código PIN pode ajudar a proteger sua conta mestre de alterações indesejadas relacionadas a configurações e saldo, caso esteja comprometido.
                                             <br> <code> Nota: </code> <span class = "small text-muted"> Mesmo se você desabilitar o código PIN, você ainda precisará usá-lo para alterar as configurações da sua conta mestre! </span>',
         'lang_description' => 'Para receber um novo código PIN, selecione como gostaria de recebê-lo:',
         'lang_btn_email' => 'E-mail',
@@ -98,7 +93,7 @@ return array(
 
         'lang_label_placeholder_pin' => 'Digite seu \'Código PIN\' ',
         'lang_btn_disable_pin' => 'Desativar código PIN',
-    
+
     ),
 	'cn' => array(
 
@@ -115,8 +110,8 @@ return array(
 
         'lang_label_placeholder_pin' => '输入您的\'密码\'',
         'lang_btn_disable_pin' => '禁用PIN码',
-	
-	
+
+
     ),
 	'ko' => array(
 
@@ -133,7 +128,7 @@ return array(
 
         'lang_label_placeholder_pin' => '\'PIN 코드 \를 입력하세요.\'',
         'lang_btn_disable_pin' => 'PIN 코드 비활성화',
-	
-	
+
+
     ),
 );

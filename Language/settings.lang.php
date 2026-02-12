@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 04.10.2019
- * Time: 17:46
- */
 
 return array(
     'ru' => array(
@@ -45,7 +39,7 @@ return array(
         'ajax_empty_account' => 'Не переданан аккаунт, обновите страницу!',
     ),
     'en' => array(
-	
+
 		'title_change_password_account' => 'Change Master Account Password:',
 
 		"lang_input_password_old" => "Current password",
@@ -80,12 +74,12 @@ return array(
 
 		// AJAX
 		'ajax_empty_account' => 'The account cannot be found! Please refresh the page!',
-	
-	
-	
+
+
+
     ),
     'gr' => array(
-	
+
 		'title_change_password_account' => 'Αλλαγή Password Master Account:',
 
 		"lang_input_password_old" => "Τρέχων password",
@@ -120,12 +114,12 @@ return array(
 
 		// AJAX
 		'ajax_empty_account' => 'Τo account δεν βρέθηκε! Ανανεώστε τη σελίδα!',
-	
-	
-	
+
+
+
 	),
 	'es' => array(
-	
+
 		'title_change_password_account' => 'Cambiar Contraseña de la Cuenta Maestra:',
 
 		"lang_input_password_old" => "Contraseña actual",
@@ -160,12 +154,12 @@ return array(
 
 		// AJAX
 		'ajax_empty_account' => 'La cuenta no puede ser encontrada! Por favor actualiza la página!',
-	
-	
-	
+
+
+
     ),
     'pt' => array(
-	
+
 		'title_change_password_account' => 'Alterar senha da conta mestre:',
 
 		"lang_input_password_old" => "Senha atual",
@@ -195,12 +189,12 @@ return array(
 
 		// AJAX
 		'ajax_empty_account' => 'A conta não pode ser encontrada! Por favor, atualize a página!',
-	
-	
-	
+
+
+
     ),
 	'cn' => array(
-	
+
 		'title_change_password_account' => '更改主帐户密码:',
 
 		"lang_input_password_old" => "当前密码",
@@ -235,12 +229,12 @@ return array(
 
 		// AJAX
 		'ajax_empty_account' => '无法找到帐户!请刷新页面!',
-	
-	
-	
+
+
+
     ),
 	    'ko' => array(
-	
+
 		'title_change_password_account' => '마스터 계정 비밀번호 변:',
 
 		"lang_input_password_old" => "현재 비밀번호",
@@ -275,8 +269,8 @@ return array(
 
 		// AJAX
 		'ajax_empty_account' => '계정을 찾을 수 없습니다! 페이지를 새로 고침하십!',
-	
-	
-	
+
+
+
     ),
 );

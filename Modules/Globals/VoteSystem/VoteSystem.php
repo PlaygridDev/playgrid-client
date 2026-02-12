@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Globals\VoteSystem;
 use Modules\MainModulesClass;
@@ -29,7 +23,7 @@ class VoteSystem extends MainModulesClass
                 'ru' => 'Голосование',
                 'en' => 'Vote',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "15.06.2020",
             "lastUpdated" => "15.06.2020",
             "class" => __CLASS__,

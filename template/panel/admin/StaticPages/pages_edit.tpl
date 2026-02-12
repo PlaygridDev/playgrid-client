@@ -103,14 +103,13 @@
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="val-meta_description">meta:description</label>
                                     <div class="col-lg-8">
-                                        <input type="text" class="form-control" id="val-meta_description" name="page[{$lg}][meta_description]" value="{if $page_param.page[$lg]['meta_description']?}{$page_param.page[$lg]['meta_description']}{/if}" placeholder="Крупнейший классический Lineage 2...">
+                                        <input type="text" class="form-control" id="val-meta_description" name="page[{$lg}][meta_description]" value="{if $page_param.page[$lg]['meta_description']?}{$page_param.page[$lg]['meta_description']}{/if}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="val-meta_keywords">meta:keywords</label>
                                     <div class="col-lg-8">
                                         <input type="text" class="form-control" id="val-meta_keywords" name="page[{$lg}][meta_keywords]" value="{if $page_param.page[$lg]['meta_keywords']?}{$page_param.page[$lg]['meta_keywords']}{/if}" placeholder="mmoweb, mmoweb4">
-                                        <div class="form-text text-muted">{$StaticPages_example_input}: interlude, la2, interlude, c6, mmorpg, gameplay, lineage, PvP, craft, x25.</div>
                                     </div>
                                 </div>
                             </div>

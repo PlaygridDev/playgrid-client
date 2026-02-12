@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 04.10.2019
- * Time: 17:46
- */
+
 
 return array(
     'ru' => array(
@@ -46,7 +41,7 @@ return array(
 
     ),
     'en' => array(
-	
+
         'lang_w_title_tooltip' => 'Game Accounts',
         'lang_w_title_chars_list' => 'List of game accounts on the server:',
         'lang_w_btn_change_password' => 'Change password',
@@ -78,7 +73,7 @@ return array(
         'lang_popup_info_last_ip' => 'Last IP',
     ),
     'gr' => array(
-	
+
         'lang_w_title_tooltip' => 'Game Accounts',
         'lang_w_title_chars_list' => 'Λίστα game accounts στον server:',
         'lang_w_btn_change_password' => 'Αλλαγή password',
@@ -110,7 +105,7 @@ return array(
         'lang_popup_info_last_ip' => 'Τελευταία IP',
 	),
 	'es' => array(
-	
+
         'lang_w_title_tooltip' => 'Cuentas de Juego',
         'lang_w_title_chars_list' => 'Lista de cuentas de juego en el servidor:',
         'lang_w_btn_change_password' => 'Cambiar contraseña',
@@ -142,7 +137,7 @@ return array(
         'lang_popup_info_last_ip' => 'Última IP',
     ),
     'pt' => array(
-    
+
         'lang_w_title_tooltip' => 'Contas do jogo',
         'lang_w_title_chars_list' => 'Lista de contas do jogo no servidor:',
         'lang_w_btn_change_password' => 'Alterar a senha',
@@ -173,7 +168,7 @@ return array(
         'lang_popup_info_last_ip' => 'Último IP',
     ),
 	'cn' => array(
-	
+
         'lang_w_title_tooltip' => '遊戲帳號',
         'lang_w_title_chars_list' => '服务器上的游戏帐户列表:',
         'lang_w_btn_change_password' => '更改密码',
@@ -205,7 +200,7 @@ return array(
         'lang_popup_info_last_ip' => '最后一次 IP',
     ),
 	'ko' => array(
-	
+
         'lang_w_title_tooltip' => '게임 계정',
         'lang_w_title_chars_list' => '서버의 게임 계정 목록:',
         'lang_w_btn_change_password' => '암호 변경',

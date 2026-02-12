@@ -1,8 +1,4 @@
 <?php
-/********************************
- * Dev and Code by MmoWeb
-  * Date: 06.10.2015
- ********************************/
 
 use ApiLib\GlobalApi;
 
@@ -137,8 +133,12 @@ class Panel extends Controller {
     public function donations(){
 
         if ($this->session->isLogin()) {
-            header('Location: '.set_url('/panel/donations', false), TRUE, 301);
-            die;
+            $queryParams = '';
+            if(!empty($_GET)) {
+                $queryParams = '?'.http_build_query($_GET);
+            }
+            header('Location: '.set_url('/panel/donations' . $queryParams, false), TRUE, 301);
+            exit();
         }
 
 

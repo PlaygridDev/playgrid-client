@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 03.12.2019
- * Time: 14:56
- */
 
 class Admin
 {

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 14.09.2020
- * Time: 21:56
- */
+
 
 return array(
     'ru' => array(
@@ -41,7 +36,6 @@ return array(
         'ajax_empty_wallet' => 'Введите номер кошелька или карты',
         'ajax_empty_sum' => 'Введите желаемую сумму',
         'widget_withdrawal_select' => 'Выберите платежный шлюз',
-        'widget_withdrawal_desc_qiwi' => 'Мобильный номер в международном формате без знака +. Пример: 79651238341',
         'widget_withdrawal_desc_card' => 'Номер карты (без пробелов). Пример: 4256907645451231',
 
         'widget_withdrawal_reg_name' => 'Имя получателя',
@@ -86,7 +80,6 @@ return array(
         'ajax_empty_wallet' => 'Enter your wallet or card number',
         'ajax_empty_sum' => 'Enter the amount you want',
         'widget_withdrawal_select' => 'Choose a payment gateway',
-        'widget_withdrawal_desc_qiwi' => 'Mobile number in international format without a + sign. Example: 79651238341',
         'widget_withdrawal_desc_card' => 'Card number (no spaces). Example: 4256907645451231',
 
         'widget_withdrawal_reg_name' => 'Receiver name',
@@ -130,7 +123,6 @@ return array(
         'ajax_empty_wallet' => 'Enter your wallet or card number',
         'ajax_empty_sum' => 'Enter the amount you want',
         'widget_withdrawal_select' => 'Choose a payment gateway',
-        'widget_withdrawal_desc_qiwi' => 'Mobile number in international format without a + sign. Example: 79651238341',
         'widget_withdrawal_desc_card' => 'Card number (no spaces). Example: 4256907645451231',
 
         'widget_withdrawal_reg_name' => 'Receiver name',
@@ -174,7 +166,6 @@ return array(
         'ajax_empty_wallet' => 'Enter your wallet or card number',
         'ajax_empty_sum' => 'Enter the amount you want',
         'widget_withdrawal_select' => 'Choose a payment gateway',
-        'widget_withdrawal_desc_qiwi' => 'Mobile number in international format without a + sign. Example: 79651238341',
         'widget_withdrawal_desc_card' => 'Card number (no spaces). Example: 4256907645451231',
 
         'widget_withdrawal_reg_name' => 'Receiver name',
@@ -218,7 +209,6 @@ return array(
         'ajax_empty_wallet' => 'Enter your wallet or card number',
         'ajax_empty_sum' => 'Enter the amount you want',
         'widget_withdrawal_select' => 'Choose a payment gateway',
-        'widget_withdrawal_desc_qiwi' => 'Mobile number in international format without a + sign. Example: 79651238341',
         'widget_withdrawal_desc_card' => 'Card number (no spaces). Example: 4256907645451231',
 
         'widget_withdrawal_reg_name' => 'Receiver name',
@@ -262,7 +252,6 @@ return array(
         'ajax_empty_wallet' => 'Enter your wallet or card number',
         'ajax_empty_sum' => 'Enter the amount you want',
         'widget_withdrawal_select' => 'Choose a payment gateway',
-        'widget_withdrawal_desc_qiwi' => 'Mobile number in international format without a + sign. Example: 79651238341',
         'widget_withdrawal_desc_card' => 'Card number (no spaces). Example: 4256907645451231',
 
         'widget_withdrawal_reg_name' => 'Receiver name',
@@ -306,7 +295,6 @@ return array(
         'ajax_empty_wallet' => 'Enter your wallet or card number',
         'ajax_empty_sum' => 'Enter the amount you want',
         'widget_withdrawal_select' => 'Choose a payment gateway',
-        'widget_withdrawal_desc_qiwi' => 'Mobile number in international format without a + sign. Example: 79651238341',
         'widget_withdrawal_desc_card' => 'Card number (no spaces). Example: 4256907645451231',
 
         'widget_withdrawal_reg_name' => 'Receiver name',

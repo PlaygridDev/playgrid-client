@@ -108,7 +108,7 @@ return array(
 			'ko' => '상점',
         ),
         'function' => function(&$buttons){
-            $t = filemtime(ROOT_DIR.'/Library/shop.php');
+            $t = @filemtime(ROOT_DIR.'/Library/configs/shop.json');
             if (isset($_COOKIE['shop_new'])){
                 if ($_COOKIE['shop_new'] != $t)
                     return ' <span class="badge badge-success animated swing infinite">New</span>';
@@ -134,7 +134,7 @@ return array(
             'pt' => 'Suporte',
 			'cn' => '支持',
 			'ko' => '지원',
-			
+
         ),
         'title' => array(
             'ru' => 'Поддержка',
@@ -334,7 +334,7 @@ return array(
         ),
         'function' => function(&$buttons){
             if(get_instance()->config['visualization']['cabinet_layout_login'] != 'top') {
-                
+
                 if (!isset(get_instance()->session->session['user_data']['market']['balance']))
                     return '';
 
@@ -384,7 +384,7 @@ return array(
 			'ko' => '운이 좋은 바퀴',
         ),
         'function' => function(&$buttons){
-            $t = filemtime(ROOT_DIR.'/Library/lucky_wheel.php');
+            $t = @filemtime(ROOT_DIR.'/Library/configs/lucky_wheel.json');
             if (isset($_COOKIE['lucky_wheel_new'])){
                 if ($_COOKIE['lucky_wheel_new'] != $t)
                     return ' <span class="badge badge-success animated swing infinite">New</span>';
@@ -421,7 +421,7 @@ return array(
 			'ko' => '사례',
         ),
         'function' => function(&$buttons){
-            $t = filemtime(ROOT_DIR.'/Library/cases.php');
+            $t = @filemtime(ROOT_DIR.'/Library/configs/cases.json');
             if (isset($_COOKIE['cases_new'])){
                 if ($_COOKIE['cases_new'] != $t)
                     return ' <span class="badge badge-success animated swing infinite">New</span>';
@@ -458,7 +458,7 @@ return array(
             'ko' => '선물 코드',
         ),
         'function' => function(&$buttons){
-            $t = filemtime(ROOT_DIR.'/Library/gift_code.php');
+            $t = @filemtime(ROOT_DIR.'/Library/configs/gift_code.json');
             if (isset($_COOKIE['gift_code_new'])){
                 if ($_COOKIE['gift_code_new'] != $t)
                     return ' <span class="badge badge-success animated swing infinite">New</span>';

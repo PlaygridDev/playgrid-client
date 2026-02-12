@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 04.12.2019
- * Time: 18:38
- */
 
 namespace Modules\Globals\Warehouse;
 
@@ -34,7 +28,7 @@ class Warehouse extends MainModulesClass
                 'ru' => 'Модуль склад',
                 'en' => 'Warehouse module',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "04.12.2019",
             "lastUpdated" => "04.12.2019",
             "class" => __CLASS__,

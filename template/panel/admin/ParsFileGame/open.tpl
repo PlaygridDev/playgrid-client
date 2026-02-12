@@ -107,11 +107,11 @@
                     <div class="col-12">
                         <div class="custom-control custom-radio custom-control-inline mb-5">
                             <input class="custom-control-input" type="radio" name="type" id="type1" value="L2FileEdit" checked="">
-                            <label class="custom-control-label" for="type1">L2FileEdit</label>
+                            <label class="custom-control-label" for="type1">FileEdit</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline mb-5">
                             <input class="custom-control-input" type="radio" name="type" id="type2" value="L2ClientDat">
-                            <label class="custom-control-label" for="type2">L2ClientDat</label>
+                            <label class="custom-control-label" for="type2">ClientDat</label>
                         </div>
                     </div>
                 </div>

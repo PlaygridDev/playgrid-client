@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 01.04.2019
- * Time: 19:33
- */
 
 namespace ApiLib;
 
+use Api;
 
-class GlobalApi extends \Api
+class GlobalApi extends Api
 {
 
     public function __construct($url = false, $key = false)
@@ -444,4 +439,23 @@ class GlobalApi extends \Api
 
         return $response;
     }
+
+    public function sendUpdaterProcessError(string $processKey, string $error)
+    {
+        $response = $this->init()->addParam('error', ['message' => $error, 'process_key' => $processKey])->post('v2/project/updater/process-error', false)->response();
+        return $response;
+    }
+
+    public function sendUpdaterProcessStatus(string $processKey, string $code)
+    {
+        $response = $this->init()->addParam('status', ['code' => $code, 'process_key' => $processKey])->post('v2/project/updater/process-status', false)->response();
+        return $response;
+    }
+
+    public function sendUpdaterProcessProgress(string $processKey, float $percentage)
+    {
+        $response = $this->init()->addParam('progress', ['percentage' => $percentage, 'process_key' => $processKey])->post('v2/project/updater/process-progress', false)->response();
+        return $response;
+    }
+
 }

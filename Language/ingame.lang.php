@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 04.10.2019
- * Time: 17:46
- */
 
 return array(
     'ru' => array(
@@ -33,7 +27,7 @@ return array(
 
     ),
     'en' => array(
-	
+
 		'title_popup_lang' => 'Transfer <span class="in-game-title">Coin of Luck</span> to the server:',
 		'title_popup_lang_price' => 'Quantity:',
 		'title_popup_lang_btn' => 'Transfer balance to the game',
@@ -54,11 +48,11 @@ return array(
 		'ajax_empty_type_id' => 'Purchased item ID not configured.',
 		'ajax_empty_count' => 'The \'Enter amount\' field cannot be empty!',
 		'ajax_empty_account_name' => 'You need to select a game account!',
-	
-	
+
+
     ),
     'gr' => array(
-	
+
 		'title_popup_lang' => 'Μεταφορά <span class="in-game-title">Coin of Luck</span> στον server:',
 		'title_popup_lang_price' => 'Ποσότητα:',
 		'title_popup_lang_btn' => 'Μεταφορά υπολοίπου στο παιχνίδι',
@@ -79,11 +73,11 @@ return array(
 		'ajax_empty_type_id' => 'Το item ID δεν είναι ρυθμισμένο.',
 		'ajax_empty_count' => 'Το πεδίο «Εισάγετε ποσότητα δεν μπορεί να είναι κενό!',
 		'ajax_empty_account_name' => 'Πρέπει να επιλέξετε game account!',
-	
-	
+
+
 	),
 	'es' => array(
-	
+
 		'title_popup_lang' => 'Transferir <span class="in-game-title">Coin of Luck</span> al servidor:',
 		'title_popup_lang_price' => 'Cantidad:',
 		'title_popup_lang_btn' => 'Transferir saldo al juego',
@@ -104,11 +98,11 @@ return array(
 		'ajax_empty_type_id' => 'ID de artículo comprado no configurado.',
 		'ajax_empty_count' => 'El campo \'Ingresar cantidad\' no puede estar vacío!',
 		'ajax_empty_account_name' => 'Necesitas seleccionar una cuenta de juego!',
-	
-	
+
+
     ),
     'pt' => array(
-	
+
 		'title_popup_lang' => 'Transferir <span class="in-game-title">Coin of Luck</span> para o servidor:',
 		'title_popup_lang_price' => 'Quantidade:',
 		'title_popup_lang_btn' => 'Transferir saldo para o jogo',
@@ -129,11 +123,11 @@ return array(
 		'ajax_empty_type_id' => 'ID do item comprado não configurado.',
 		'ajax_empty_count' => 'O campo \'Inserir quantidade\' não pode estar vazio!',
 		'ajax_empty_account_name' => 'Você precisa selecionar uma conta do jogo!',
-	
-	
+
+
     ),
 	'cn' => array(
-	
+
 		'title_popup_lang' => '转会 <span class="in-game-title">幸運硬幣</span> 到服务器:',
 		'title_popup_lang_price' => '数量:',
 		'title_popup_lang_btn' => '向博弈转移平衡',
@@ -154,11 +148,11 @@ return array(
 		'ajax_empty_type_id' => '未配置已购买的项目ID.',
 		'ajax_empty_count' => '\'输入金额\'字段不能为空!',
 		'ajax_empty_account_name' => '你需要选择一个游戏帐户!',
-	
-	
+
+
     ),
 	'ko' => array(
-	
+
 		'title_popup_lang' => '전송 <span class="in-game-title">행운의 동전</span> 서버로:',
 		'title_popup_lang_price' => '수량:',
 		'title_popup_lang_btn' => '게임으로 밸런스 전송',
@@ -179,7 +173,7 @@ return array(
 		'ajax_empty_type_id' => '구매한 항목 ID가 설정되지 않았.',
 		'ajax_empty_count' => '\'금액 입력 \'필드는 비워 둘 수 없습니다.!',
 		'ajax_empty_account_name' => '게임 계정을 선택해야 합니다!',
-	
-	
+
+
     ),
 );

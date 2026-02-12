@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Plugins\GiftCode;
 use Modules\MainModulesClass;
@@ -32,7 +26,7 @@ class GiftCode extends MainModulesClass
                 'ru' => 'Модуль подарочных кодов',
                 'en' => 'Gift code',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "05.09.2021",
             "lastUpdated" => "05.09.2021",
             "class" => __CLASS__,

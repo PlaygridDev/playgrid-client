@@ -14,7 +14,7 @@
         </div>
 
         <div class="float-left">
-            <a class="font-w600" href="https://mmoweb.ru/" target="_blank">MmoWeb</a> &copy; <span class="js-year-copy"></span>
+            <a class="font-w600" href="https://mmoweb.biz/" target="_blank">MmoWeb</a> &copy; <span class="js-year-copy"></span>
         </div>
     </div>
 </footer>

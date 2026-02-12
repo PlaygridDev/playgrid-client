@@ -1,0 +1,6 @@
+{
+    "api_base_uri": "https://api.github.com",
+    "repository_path": "playgridDev/playgrid-client",
+    "timeout": 15,
+    "token": ""
+}

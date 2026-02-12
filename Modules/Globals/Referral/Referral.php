@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mmoweb
- * Date: 05.03.2019
- * Time: 19:38
- */
 
 namespace Modules\Globals\Referral;
 use Modules\MainModulesClass;
@@ -29,7 +23,7 @@ class Referral extends MainModulesClass
                 'ru' => 'Реферальная система',
                 'en' => 'Referral system',
             ),
-            "url" => "https://forum.mmoweb.ru/",
+            "url" => "https://mmoweb.biz/",
             "created" => "24.04.2021",
             "lastUpdated" => "24.04.2021",
             "class" => __CLASS__,
