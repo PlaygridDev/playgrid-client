@@ -37,6 +37,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label" for="val-gt_maesurement_id">Measurement ID</label>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" id="val-gt_maesurement_id" name="gt_maesurement_id" value="{$advertising_config.gt_maesurement_id}" placeholder="Exemple: G-XXXXXXX">
+                            </div>
+                        </div>
+
                         <hr>
                         <h3 class="text-center">Yandex Metrika</h3>
 

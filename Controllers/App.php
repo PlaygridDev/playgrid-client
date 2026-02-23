@@ -15,8 +15,6 @@ class App extends Controller
         'payop',
         'paygol',
         'enot',
-        'ipay',
-        'paymentwall',
         'interkassa',
         'primepayments',
         'liqpay',
@@ -25,7 +23,6 @@ class App extends Controller
         'interkassa_two',
         'paypalych',
         'paypalych_two',
-        'payze',
         'moneytigo',
         'stripe',
         'pagseguro',
@@ -38,7 +35,8 @@ class App extends Controller
         'b2pay',
         'antilopay',
         'cryptocloud',
-        'paddle'
+        'paddle',
+        'hydracode',
     );
 
     public $advertising = false;

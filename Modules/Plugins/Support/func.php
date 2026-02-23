@@ -32,21 +32,16 @@ class func
         'payop',
         'paygol',
         'enot',
-        'ipay',
-        'paymentwall',
         'interkassa',
         'primepayments',
-        'liqpay',
         'unitpay_two',
         'hotskins',
         'interkassa_two',
         'paypalych',
         'paypalych_two',
-        'payze',
         'moneytigo',
         'stripe',
         'pagseguro',
-        'tome',
         'binance',
         'portmone',
         'capitalist',
@@ -55,7 +50,8 @@ class func
         'b2pay',
         'antilopay',
         'cryptocloud',
-        'paddle'
+        'paddle',
+        'hydracode',
     );
     //Список тикетов
     public $tickets = array(

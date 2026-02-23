@@ -806,6 +806,29 @@ if ( ! function_exists('get_utm')) {
             $utm['_ga'] = $_COOKIE["_ga"];
         }
 
+        $advertisingConfig = getConfig('advertising');
+        $measurementId = $advertisingConfig['gt_maesurement_id'] ?? null;
+
+        if (!empty($measurementId)) {
+
+            $streamId = substr($measurementId, 2);
+            $cookieName = '_ga_' . $streamId;
+
+            if (!empty($_COOKIE[$cookieName])) {
+
+                $cookieValue = $_COOKIE[$cookieName];
+
+                if (preg_match('/s(\d+)/', $cookieValue, $matches)) {
+                    $utm['ga_session_id'] = $matches[1];
+                } else {
+                    log_write('utm', "Session ID not found in cookie value: " . $cookieValue);
+                }
+
+            } else {
+                log_write('utm', "Cookie not found: " . $cookieName);
+            }
+        }
+
         //Кастомная для реферальныйх ссылок
         if (isset($_GET["referral"])){
             $utm['referral_mw'] = $_GET["referral"];
