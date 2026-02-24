@@ -820,13 +820,10 @@ if ( ! function_exists('get_utm')) {
 
                 if (preg_match('/s(\d+)/', $cookieValue, $matches)) {
                     $utm['ga_session_id'] = $matches[1];
-                } else {
-                    log_write('utm', "Session ID not found in cookie value: " . $cookieValue);
                 }
 
-            } else {
-                log_write('utm', "Cookie not found: " . $cookieName);
             }
+
         }
 
         //Кастомная для реферальныйх ссылок

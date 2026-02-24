@@ -244,12 +244,24 @@ class func
             else
                 $vars["payment_method"] = $_REQUEST['payment_method'];
 
-            if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])){
-                if (isset($_COOKIE['_ga']) AND !empty($_COOKIE['_ga']))
-                    $vars["_ga"] = $_COOKIE['_ga'];
+            if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])) {
 
                 $vars["gaid"] = $this->advertising['gawpid'];
+
+                if (isset($_COOKIE['_ga']) AND !empty($_COOKIE['_ga'])) {
+                    $vars["_ga"] = $_COOKIE['_ga'];
+                }
+
+                if(get_utm('ga_session_id')) {
+                    $vars['ga_session_id'] = get_utm('ga_session_id');
+                }
+
+                if(!empty($this->advertising['measurement_id'])) {
+                    $vars['measurement_id'] = $this->advertising['measurement_id'];
+                }
+
             }
+
             if (isset($this->advertising['ymid']) AND !empty($this->advertising['ymid'])) {
                 if (isset($_COOKIE['_ym_uid']) AND !empty($_COOKIE['_ym_uid']))
                     $vars["_ym"] = $_COOKIE['_ym_uid'];
@@ -328,11 +340,22 @@ class func
         else
             $vars["type_id"] = $_REQUEST['type_id'];
 
-        if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])){
-            if (isset($_COOKIE['_ga']) AND !empty($_COOKIE['_ga']))
-                $vars["_ga"] = $_COOKIE['_ga'];
+        if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])) {
 
             $vars["gaid"] = $this->advertising['gawpid'];
+
+            if (isset($_COOKIE['_ga']) AND !empty($_COOKIE['_ga'])) {
+                $vars["_ga"] = $_COOKIE['_ga'];
+            }
+
+            if(get_utm('ga_session_id')) {
+                $vars['ga_session_id'] = get_utm('ga_session_id');
+            }
+
+            if(!empty($this->advertising['measurement_id'])) {
+                $vars['measurement_id'] = $this->advertising['measurement_id'];
+            }
+
         }
         if (isset($this->advertising['ymid']) AND !empty($this->advertising['ymid'])) {
             if (isset($_COOKIE['_ym_uid']) AND !empty($_COOKIE['_ym_uid']))
