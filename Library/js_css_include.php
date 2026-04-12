@@ -18,6 +18,9 @@ return array(
                 ['idx' => 'fonts_gg', 'typex' => 'link', 'rel' => 'stylesheet', 'href' => 'https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700'],
                 ['idx' => 'codebase_css', 'typex' => 'link', 'id'=>'css-main', 'rel' => 'stylesheet', 'href' => VIEWPATH.'/panel/assets/css/codebase.css?v=' . filemtime(ROOT_DIR.VIEWPATH.'/panel/assets/css/codebase.css')],
                 ['idx' => 'custom_css', 'typex' => 'link', 'rel' => 'stylesheet', 'href' => VIEWPATH.'/panel/assets/css/custom.css?v=' . filemtime(ROOT_DIR.VIEWPATH.'/panel/assets/css/custom.css')],
+
+                [ 'idx' => 'app', 'typex' => 'script', 'src' => VIEWPATH.'/panel/assets/js/core/vue.min.js' ],
+
             ),
             'body' => array(),
             'footer' => array(
@@ -30,8 +33,10 @@ return array(
                 ['idx' => 'masonry', 'typex' => 'script', 'src' => VIEWPATH.'/panel/assets/js/plugins/masonry/masonry.pkgd.min.js'],
 
                 ['idx' => 'js_mmoweb', 'typex' => 'script', 'src' => VIEWPATH.'/panel/assets/js/mmoweb.js?v=' . filemtime(ROOT_DIR.VIEWPATH.'/panel/assets/js/mmoweb.js')],
-                ['idx' => 'webstat', 'typex' => 'script', 'src' => 'https://mmoweb.biz/watch.js'],
                 ['idx'=> 'historyTabs', 'typex' => 'script', 'js' => "window.masonry_div = $('.grid').masonry({itemSelector: '.grid-item',columnWidth: '.grid-sizer',percentPosition: true});$('.nav-tabs a').historyTabs();"],
+
+                // fingerprint generator, do not remove
+                ['idx' => 'webstat', 'typex' => 'script', 'src' => 'https://m.mmoweb.biz/watch.js'],
             ),
         ],
 

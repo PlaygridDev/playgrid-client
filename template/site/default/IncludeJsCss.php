@@ -17,7 +17,9 @@ return array(
             'body' => array(),
             'footer' => array(
                 ['idx' => 'jquery', 'typex' => 'script', 'src' => TEMPLATE_DIR.'/libs/fancybox/js/jquery.fancybox.min.js'],
-                ['idx' => 'webstat', 'typex' => 'script', 'src' => 'https://mmoweb.biz/watch.js'],
+
+                // fingerprint generator, do not remove
+                ['idx' => 'webstat', 'typex' => 'script', 'src' => 'https://m.mmoweb.biz/watch.js'],
             ),
         ],
     ],

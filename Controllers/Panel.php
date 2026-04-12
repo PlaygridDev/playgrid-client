@@ -57,6 +57,11 @@ class Panel extends Controller {
             }
         }
 
+        get_instance()->seo->addTeg('head', 'csrf_token', 'meta', [
+            'name'    => 'csrf-token',
+            'content' => CSRF::getToken(),
+        ]);
+
     }
 
 

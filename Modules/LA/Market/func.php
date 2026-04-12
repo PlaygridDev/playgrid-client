@@ -22,28 +22,22 @@ class func
         5 => "Dark",
     );
     public $payment_list = array(
-        'freekassa',
         'unitpay',
         'payu',
         'paypal',
         'payop',
         'paygol',
         'enot',
-        'ipay',
-        'paymentwall',
         'interkassa',
         'primepayments',
-        'liqpay',
         'unitpay_two',
         'hotskins',
         'interkassa_two',
         'paypalych',
         'paypalych_two',
-        'payze',
         'moneytigo',
         'stripe',
         'pagseguro',
-        'tome',
         'binance',
         'portmone',
         'capitalist',
@@ -52,7 +46,13 @@ class func
         'b2pay',
         'antilopay',
         'cryptocloud',
-        'paddle'
+        'paddle',
+        'paymntspro',
+        'hydracode',
+        'severpay_byn',
+        'settlepay_pix',
+        'settlepay_cbucvu',
+        'abankcomua'
     );
 
     public $datatable;

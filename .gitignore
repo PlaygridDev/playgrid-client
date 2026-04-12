@@ -13,6 +13,7 @@ Files/**
 !Files/**/
 !Files/support/index.html
 !Files/**/.gitkeep
+!Files/**/.htaccess
 !Files/.htaccess
 
 template/compiled/**
@@ -27,3 +28,4 @@ Library/configs/**
 
 logs
 Config.php
+tests

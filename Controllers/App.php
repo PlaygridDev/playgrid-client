@@ -8,15 +8,12 @@ class App extends Controller
     public $installer_url = "";
     public $decrypt_key = "";
     public $payment_list = array(
-        'freekassa',
         'unitpay',
         'payu',
         'paypal',
         'payop',
         'paygol',
         'enot',
-        'ipay',
-        'paymentwall',
         'interkassa',
         'primepayments',
         'liqpay',
@@ -25,7 +22,6 @@ class App extends Controller
         'interkassa_two',
         'paypalych',
         'paypalych_two',
-        'payze',
         'moneytigo',
         'stripe',
         'pagseguro',
@@ -38,7 +34,13 @@ class App extends Controller
         'b2pay',
         'antilopay',
         'cryptocloud',
-        'paddle'
+        'paddle',
+        'paymntspro',
+        'hydracode',
+        'severpay_byn',
+        'settlepay_pix',
+        'settlepay_cbucvu',
+        'abankcomua'
     );
 
     public $advertising = false;
@@ -936,7 +938,7 @@ class App extends Controller
                         $data = json_decode($data, true);
                         get_instance()->session->updateSessionDB($data);
 
-                        $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->variables(array('balance' => (int) $response["response"]->data->user_data->balance))->success();
+                        $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->variables(array('balance' => get_instance()->session->getBalance('main')))->success();
 
                     } else
                         $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
@@ -1277,8 +1279,9 @@ class App extends Controller
     /**
      * Покупка внутриигровой валюты
      */
-    public function buy_in_game_currency(){
-        $api = new GlobalApi();
+    public function buy_in_game_currency()
+    {
+
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
@@ -1306,17 +1309,17 @@ class App extends Controller
                 $vars["char_name"] = $_REQUEST['char_name'];
 
 
-
-            $response = $api->buy_in_game_currency($vars);
+            $gameCurrency = new \ApiLib\v2\GameCurrency();
+            $response = $gameCurrency->buy($vars);
 
             if ($response['ok']) {
 
                 if (isset($response['error'])) {
-                    if (isset($response["response"]->input))
+                    if (isset($response["response"]->input)) {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                    else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
-
+                    }
                 } else {
 
                     if (isset($response["response"]->data->user_data)) {
@@ -1325,16 +1328,18 @@ class App extends Controller
                         $data = json_decode($data, true);
                         get_instance()->session->updateSessionDB($data);
 
-                        $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->variables(array('balance' => (int) $response["response"]->data->user_data->balance))->success();
+                        $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->variables(array('balance' => get_instance()->session->getBalance('main')))->success();
 
-                    } else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+                    }
                 }
             } else {
                 $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
             }
-        }else
+        } else {
             $send = get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
 
         exit($send);
     }
@@ -1342,8 +1347,9 @@ class App extends Controller
     /**
      * Активация бонус кода
      */
-    public function get_bonus_cod(){
-        $api = new GlobalApi();
+    public function get_bonus_cod()
+    {
+
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
@@ -1375,8 +1381,8 @@ class App extends Controller
 
             }
 
-
-            $response = $api->get_bonus_cod($vars);
+            $api = new \ApiLib\v2\Plugins\BonusCode();
+            $response = $api->activate($vars);
 
             if ($response['ok']) {
 
@@ -1398,7 +1404,6 @@ class App extends Controller
                                 $data = json_encode($response["response"]->data);
                                 $data = json_decode($data, true);
                                 get_instance()->session->updateSessionDB($data);
-                                //->html($response["response"]->data->user_data->balance, '.balance_html')
                             }
                             $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->success();
                         }

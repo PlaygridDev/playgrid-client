@@ -28,6 +28,16 @@ window.auth_ulogin = function (token) {
 })(jQuery);
 
 $(document).ready(function () {
+
+    var csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (csrfToken) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+            }
+        });
+    }
+
     /*
         .submit-btn - class btn
         atribut - data-post="get_param"
@@ -148,6 +158,17 @@ $(document).ready(function () {
                 } else if (response_loc !== undefined) {
                     $('.show_' + response_loc).html(response.html);
                 }
+            }
+
+            if(response.localStorage !== undefined) {
+                if(response.localStorage.items !== undefined) {
+                    response.localStorage.items.forEach(item => {
+                        localStorage.setItem(item.key, item.value);
+                    });
+                }
+                window.dispatchEvent(new CustomEvent('localStorageChange', {
+                    detail: localStorage
+                }));
             }
 
             if (response.location && response.post) {

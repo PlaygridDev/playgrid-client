@@ -288,6 +288,9 @@ class GlobalApi extends Api
         return $response;
     }
 
+    /**
+     * @deprecated - use buy() method in \ApiLib\v2\GameCurrency class instead
+     */
     public function buy_in_game_currency($vars){
 
         $response = $this->init()->addParam('buy_in_game_currency', $vars)->post('v1/Globals/payment/buy-in-game-currency')->response();
@@ -351,18 +354,26 @@ class GlobalApi extends Api
         return $response;
     }
 
-    //SHOP
+    /**
+     * @deprecated - use buyItem() method in \ApiLib\v2\Plugins\Shop class instead
+     */
     public function buy_shop($vars){
         $response = $this->init()->addParam('buy_shop', $vars)->post('v1/Plugins/shop/buy')->response();
 
         return $response;
     }
+    /**
+     * @deprecated - use buyService() method in \ApiLib\v2\Plugins\Shop class instead
+     */
     public function buy_service($vars){
         $response = $this->init()->addParam('buy_service', $vars)->post('v1/Plugins/service/buy')->response();
 
         return $response;
     }
-    //BONUS COD
+
+    /**
+     * @deprecated - use activate() method in \ApiLib\v2\Plugins\BonusCode class instead
+     */
     public function get_bonus_cod($vars){
         $response = $this->init()->addParam('bonus_cod', $vars)->get('v1/Plugins/bonus-cod/get')->response();
 
@@ -383,31 +394,32 @@ class GlobalApi extends Api
 
     //Lucky Wheel
 
-    public function lucky_wheel_buy($vars){
+    /**
+     * @deprecated - use spin() method in \ApiLib\v2\Plugins\LuckyWheel class instead
+     */
+    public function lucky_wheel_buy($vars)
+    {
         $response = $this->init()->addParam('lucky_wheel', $vars)->post('v1/Plugins/lucky-wheel/buy')->response();
-
         return $response;
     }
 
 
-    public function lucky_wheel_history($vars){
+    /**
+     * @deprecated - use getHistory() method in \ApiLib\v2\Plugins\LuckyWheel class instead
+     */
+    public function lucky_wheel_history($vars)
+    {
         $response = $this->init()->addParam('lucky_wheel', $vars)->get('v1/Plugins/lucky-wheel/history')->response();
-
         return $response;
     }
 
-    //Cases
 
-    public function cases_buy($vars){
+    /**
+     * @deprecated - use open() method in \ApiLib\v2\Plugins\Cases class instead
+     */
+    public function cases_buy($vars)
+    {
         $response = $this->init()->addParam('cases', $vars)->post('v1/Plugins/cases/buy')->response();
-
-        return $response;
-    }
-
-
-    public function cases_history($vars){
-        $response = $this->init()->addParam('cases', $vars)->get('v1/Plugins/cases/history')->response();
-
         return $response;
     }
 

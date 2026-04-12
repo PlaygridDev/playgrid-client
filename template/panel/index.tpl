@@ -6,7 +6,7 @@
             <div id="page-container" class="{$_PAGE_CONTENT_CLASS} {$_PAGE_CONTENT_CLASS_ADD}">
             {if $_IFRAME == false}{$_MENU}{/if}
             <!-- Main Container -->
-            <main {if $_IFRAME == false}id="main-container"{/if}>
+            <main {if $_IFRAME == false}id="main-container"{/if} class="overflow-hidden">
                 {if $_CONTENT_HERO?}
                     {$_CONTENT_HERO}
                 {/if}

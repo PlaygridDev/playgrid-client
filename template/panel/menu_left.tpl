@@ -44,11 +44,10 @@
             <!-- END Normal Mode -->
         </div>
         <!-- END Side Header -->
-
-
         <!-- Side Navigation -->
         <div class="content-side content-side-full">
             {$.php.render_menu_server()}
+            {$balance}
             <ul class="nav-main">
                 {$.php.render_menu()}
             </ul>

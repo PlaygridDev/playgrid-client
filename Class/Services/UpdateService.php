@@ -16,6 +16,8 @@ class UpdateService
     private string $processDir;
     private GlobalApi $globalApi;
 
+    private int $processStartTime;
+
     const PROCESS_EXECUTE_TIMEOUT = 1800;
 
     public function __construct(Repository $gitHubRepository)
@@ -29,6 +31,8 @@ class UpdateService
         $this->gitHubRepository = $gitHubRepository;
         $this->processKey = '';
         $this->processDir = '';
+
+        $this->processStartTime = 0;
 
         $this->globalApi = new GlobalApi();
 
@@ -392,6 +396,8 @@ class UpdateService
     public function installRelease(string $tag)
     {
 
+        $this->processStartTime = time();
+
         $this->registerShutdownFunction();
 
         ignore_user_abort(true);
@@ -404,8 +410,6 @@ class UpdateService
         $this->logDebugInfo();
 
         $zip = null;
-
-        $startTime = time();
 
         try {
 
@@ -579,7 +583,7 @@ class UpdateService
             }
 
             if(DEBUG) {
-                $this->log('Update process finished in ' . (time() - $startTime) . ' seconds.');
+                $this->log('Update process finished in ' . (time() - $this->processStartTime) . ' seconds.');
             }
 
         }
@@ -604,12 +608,22 @@ class UpdateService
     private function extractFileFromZip(\ZipArchive $zip, string $archivePath, string $targetPath)
     {
 
+        if(defined('ENVIRONMENT') && ENVIRONMENT === 'development') {
+            $this->log("Simulating file extraction (development mode)");
+            return true;
+        }
+
         $stream = $zip->getStream($archivePath);
         if (!$stream) {
             throw new Exception("Cannot open $archivePath");
         }
 
-        @mkdir(dirname($targetPath), 0755, true);
+        $targetDir = dirname($targetPath);
+        if(!is_dir($targetDir)) {
+            if (!mkdir($targetDir, 0755, true)) {
+                throw new Exception('Failed to create directory for file: ' . $targetPath);
+            }
+        }
 
         $tmp = $targetPath . '.tmp';
         $out = fopen($tmp, 'wb');
@@ -634,7 +648,7 @@ class UpdateService
     {
         $processKey = $this->processKey;
         if(!empty($processKey)) {
-            log_write('update_' . date('Y-m-d_H-i', time()) . '_' . substr($processKey, 0, 8), $message, false);
+            log_write('update_' . date('Y-m-d_H-i', $this->processStartTime) . '_' . substr($processKey, 0, 8), $message, false);
         }
     }
 

@@ -14,28 +14,22 @@ class func
     public $sid = false;
 
     public $payment_list = array(
-        'freekassa',
         'unitpay',
         'payu',
         'paypal',
         'payop',
         'paygol',
         'enot',
-        'ipay',
-        'paymentwall',
         'interkassa',
         'primepayments',
-        'liqpay',
         'unitpay_two',
         'hotskins',
         'interkassa_two',
         'paypalych',
         'paypalych_two',
-        'payze',
         'moneytigo',
         'stripe',
         'pagseguro',
-        'tome',
         'binance',
         'portmone',
         'capitalist',
@@ -44,7 +38,13 @@ class func
         'b2pay',
         'antilopay',
         'cryptocloud',
-        'paddle'
+        'paddle',
+        'paymntspro',
+        'hydracode',
+        'severpay_byn',
+        'settlepay_pix',
+        'settlepay_cbucvu',
+        'abankcomua'
     );
 
     public function __construct($this_main)
@@ -248,12 +248,24 @@ class func
             else
                 $vars["payment_method"] = $_REQUEST['payment_method'];
 
-            if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])){
-                if (isset($_COOKIE['_ga']) AND !empty($_COOKIE['_ga']))
-                    $vars["_ga"] = $_COOKIE['_ga'];
+            if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])) {
 
                 $vars["gaid"] = $this->advertising['gawpid'];
+
+                if (isset($_COOKIE['_ga']) AND !empty($_COOKIE['_ga'])) {
+                    $vars["_ga"] = $_COOKIE['_ga'];
+                }
+
+                if(get_utm('ga_session_id')) {
+                    $vars['ga_session_id'] = get_utm('ga_session_id');
+                }
+
+                if(!empty($this->advertising['measurement_id'])) {
+                    $vars['measurement_id'] = $this->advertising['measurement_id'];
+                }
+
             }
+
             if (isset($this->advertising['ymid']) AND !empty($this->advertising['ymid'])) {
                 if (isset($_COOKIE['_ym_uid']) AND !empty($_COOKIE['_ym_uid']))
                     $vars["_ym"] = $_COOKIE['_ym_uid'];
@@ -332,11 +344,22 @@ class func
         else
             $vars["type_id"] = $_REQUEST['type_id'];
 
-        if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])){
-            if (isset($_COOKIE['_ga']) AND !empty($_COOKIE['_ga']))
-                $vars["_ga"] = $_COOKIE['_ga'];
+        if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])) {
 
             $vars["gaid"] = $this->advertising['gawpid'];
+
+            if (isset($_COOKIE['_ga']) AND !empty($_COOKIE['_ga'])) {
+                $vars["_ga"] = $_COOKIE['_ga'];
+            }
+
+            if(get_utm('ga_session_id')) {
+                $vars['ga_session_id'] = get_utm('ga_session_id');
+            }
+
+            if(!empty($this->advertising['measurement_id'])) {
+                $vars['measurement_id'] = $this->advertising['measurement_id'];
+            }
+
         }
         if (isset($this->advertising['ymid']) AND !empty($this->advertising['ymid'])) {
             if (isset($_COOKIE['_ym_uid']) AND !empty($_COOKIE['_ym_uid']))
@@ -406,7 +429,12 @@ class func
                         $data = json_decode($data, true);
                         get_instance()->session->updateSessionDB($data);
 
-                        $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->html((int) $response["response"]->data->user_data->balance, '.balance_html')->success();
+                        $send = get_instance()
+                                ->ajaxmsg
+                                ->notify((string)$response["response"]->success)
+                                ->setLocalStorage('main_balance', get_instance()->session->getBalance('main'))
+                                ->setLocalStorage('bonus_balance', get_instance()->session->getBalance('bonus'))
+                                ->success();
 
                     } else
                         $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();

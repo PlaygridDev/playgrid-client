@@ -474,10 +474,30 @@ class Controller
                 $page_container_class .= ' page-header-glass page-header-inverse';
         }
         if (!isset($param['_MENU'])) {
-            if ($menu == 'left')
-                $menu = $this->fenom->fetch(get_tpl_file('menu_left.tpl'), get_lang('login.menu.lang'));
-            else
-                $menu = $this->fenom->fetch(get_tpl_file('menu_top.tpl'), get_lang('login.menu.lang'));
+            if ($menu == 'left') {
+                $menu = $this->fenom->fetch(
+                    get_tpl_file('menu_left.tpl'),
+                    array_merge(
+                        get_lang('login.menu.lang'),
+                        [
+                            'balance' => $this->session->isLogin() ? $this->fenom->fetch(
+                                get_tpl_file('Modules/Globals/User/widget_user_balance_left_sidebar.tpl'),
+                                array_merge(
+                                    [
+                                        'bonusBalanceSettings' => \BonusBalance\func::getSettings(),
+                                    ],
+                                    get_lang('balance.lang'),
+                                )
+                            ) : null
+                        ]
+                    )
+                );
+            } else {
+                $menu = $this->fenom->fetch(
+                    get_tpl_file('menu_top.tpl'),
+                    get_lang('login.menu.lang')
+                );
+            }
         }
 
 

@@ -2,43 +2,52 @@
 
 if (! defined ( 'ROOT_DIR' )){ exit ( "Error, wrong way to file.<a href=\"/\">Go to main</a>.");}
 
-
-
 class AjaxMsg
 {
 
-    public $response = array();
+    private array $response;
 
-    public function eval_js($js){
-        if(!empty($js)){
-            if(!empty($this->response["eval"]))
+    public function __construct()
+    {
+    }
+
+    /**
+     * @todo eval_js необходимо убрать, весь js код должен хранится и вызываться в фронтенд сайде
+     */
+    public function eval_js($js)
+    {
+        if(!empty($js)) {
+            if(!empty($this->response["eval"])) {
                 $this->response["eval"] .= $js;
-            else
+            } else {
                 $this->response["eval"] = $js;
+            }
         }
-
-
 
         return $this;
     }
 
-    public function location($location = '/' , $time_sleep = 2000){
+    public function location(string $url = '/', int $timeout = 3000)
+    {
 
-        if(!empty($location)) {
-            $this->response["location"] = set_url($location, true);
-            $this->response["time_sleep"] = $time_sleep;
+        if(!empty($url)) {
+            $this->response["location"] = set_url($url, true);
+            $this->response["time_sleep"] = $timeout;
         }
+
         return $this;
 
     }
 
-    public function text($title ,$text){
+    public function text(string $title, string $text)
+    {
         $this->response["text"] = $text;
         $this->response["title"] = $title;
         return $this;
     }
 
-    public function input_error($input_error = null){
+    public function input_error($input_error = null)
+    {
         if(!empty($input_error) AND (is_array($input_error) OR is_object($input_error))){
             foreach ((array)$input_error as $name => $text){
 
@@ -59,38 +68,49 @@ class AjaxMsg
         return $this;
     }
 
-    public function post($data){
+    public function post($data)
+    {
         $this->response["post"] = $data;
         return $this;
     }
 
-    public function variables($data){
-
-        if (is_object($data))
-            $data = json_decode(json_encode($data),true);
-
+    public function variables($data)
+    {
+        if (is_object($data)) {
+            $data = json_decode(json_encode($data), true);
+        }
 
         $this->response = array_merge($this->response, $data);
         return $this;
     }
 
-    public function notify($text, $url = null, $icon = null , $status = null , $time_show = 2000){
-        if(!empty($text)){
-            $this->response["text"] = (string) $text;
+    public function notify(string $message, $url = null, $icon = null , $status = null , $time_show = 2000)
+    {
 
-            if($icon != null)
+        if(!empty($message)) {
+            $this->response["text"] = $message;
+
+            if($icon != null) {
                 $this->response["icon"] = $icon;
+            }
+
             if($url != null) {
                 $this->response["location"] = set_url($url);
                 $this->response["time_sleep"] = $time_show;
             }
-            if($status != null)
+
+            if($status != null) {
                 $this->response["status"] = $status;
-            if($time_show != null)
+            }
+
+            if($time_show != null) {
                 $this->response["time_show"] = $time_show;
+            }
 
         }
+
         return $this;
+
     }
 
     public function set_select($select_el, $select_set){
@@ -123,14 +143,35 @@ class AjaxMsg
         return $this;
     }
 
-    public function html($html , $html_div = null){
-        if(!empty($html)){
-            $this->response["html"] = (string)$html;
+    public function html(string $html, string $html_div = '') {
 
-            if($html_div != null)
-                $this->response["html_div"] = (string)$html_div;
+        if(!empty($html)) {
+            $this->response["html"] = $html;
+            if($html_div != null) {
+                $this->response["html_div"] = $html_div;
+            }
         }
+
         return $this;
+
+    }
+
+    public function setLocalStorage(string $key, string $value)
+    {
+
+        if(empty($this->response['localStorage'])) {
+            $this->response['localStorage'] = [
+                'items' => [],
+            ];
+        }
+
+        array_push($this->response['localStorage']['items'], [
+            'key' => $key,
+            'value' => $value
+        ]);
+
+        return $this;
+
     }
 
     public function callback($callback_name , $data = null){

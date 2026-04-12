@@ -95,25 +95,28 @@ class func
         );
     }
 
-    public function ajax_get_prize(){
+    public function ajax_get_prize()
+    {
 
-        $api = new GlobalApi();
         $vars = array('temp' => 0);
 
         if (get_instance()->session->isLogin()) {
 
             $sid = get_instance()->get_sid();
 
-            if (!isset($_POST['cases_id']) OR empty($_POST['cases_id']))
+            if (!isset($_POST['cases_id']) OR empty($_POST['cases_id'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('settings.lang')['ajax_empty_account'])->danger();
-            else
+            } else {
                 $vars['cases_id'] = (int) $_POST['cases_id'];
+            }
 
-            if (!isset($this->cases['shop'][$sid][$vars['cases_id']]))
+            if (!isset($this->cases['shop'][$sid][$vars['cases_id']])) {
                 return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_shop_not_found'])->danger();
+            }
 
 
-            $response = $api->cases_buy($vars);
+            $api = new \ApiLib\v2\Plugins\Cases();
+            $response = $api->open($vars);
 
             if ($response['ok']) {
 
@@ -133,7 +136,7 @@ class func
                         header("Content-type: application/json");
                         $send =  json_encode(array(
                             'result'    => 'success', //success/error/warning/info
-                            'balance'    => (float) $response["response"]->data->user_data->balance,
+                            'balance'    => get_instance()->session->getBalance('main'),
                             'item'    => array(
                                 'name' => (string) $response["response"]->items->name,
                                 'desc' => (string) $response["response"]->items->desc,

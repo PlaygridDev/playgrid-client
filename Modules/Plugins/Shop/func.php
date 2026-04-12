@@ -4,36 +4,31 @@ namespace Shop;
 
 
 use ApiLib\GlobalApi;
+use ApiLib\v2\Plugins\Shop;
 
 class func
 {
 
     public $this_main = false;
     public $shop = array();
-    //Language/support.lang.php
+
     public $payment_list = array(
-        'freekassa',
         'unitpay',
         'payu',
         'paypal',
         'payop',
         'paygol',
         'enot',
-        'ipay',
-        'paymentwall',
         'interkassa',
         'primepayments',
-        'liqpay',
         'unitpay_two',
         'hotskins',
         'interkassa_two',
         'paypalych',
         'paypalych_two',
-        'payze',
         'moneytigo',
         'stripe',
         'pagseguro',
-        'tome',
         'binance',
         'portmone',
         'capitalist',
@@ -42,13 +37,18 @@ class func
         'b2pay',
         'antilopay',
         'cryptocloud',
-        'paddle'
+        'paddle',
+        'paymntspro',
+        'hydracode',
+        'severpay_byn',
+        'settlepay_pix',
+        'settlepay_cbucvu',
+        'abankcomua'
     );
     public $advertising = false;
 
     public function __construct($this_main)
     {
-        /**@var $this_main \Modules\Plugins\Shop\Shop*/
         $this->this_main = $this_main;
         $this->shop = &get_instance()->shop;
 
@@ -56,8 +56,9 @@ class func
             $this->advertising = getConfig('advertising');
         }
 
-        if (isset(get_instance()->config['payment_system']['sorting_pay']))
+        if (isset(get_instance()->config['payment_system']['sorting_pay'])) {
             $this->payment_list = get_instance()->config['payment_system']['sorting_pay'];
+        }
     }
 
 
@@ -374,8 +375,8 @@ class func
         );
     }
 
-    public function ajax_buy_shop(){
-        $api = new GlobalApi();
+    public function ajax_buy_shop()
+    {
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
@@ -419,29 +420,33 @@ class func
 
             $sid = get_instance()->get_sid();
 
-            if (!isset($this->shop['shop'][$sid][$vars["shop_id"]]))
+            if (!isset($this->shop['shop'][$sid][$vars["shop_id"]])) {
                 return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_shop_not_found'])->danger();
-            else
+            } else {
                 $shop = $this->shop['shop'][$sid][$vars["shop_id"]];
+            }
 
-            if ($shop["complect"] == 0){
-                if (!isset($_POST['items']) OR empty($_POST['items']))
+            if ($shop["complect"] == 0) {
+                if (!isset($_POST['items']) OR empty($_POST['items'])) {
                     return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_empty_items'])->danger();
-                else
+                } else {
                     $vars["items"] = $_POST['items'];
+                }
 
                 $vars["complect"] = $shop["complect"];
             }
 
-            $response = $api->buy_shop($vars);
+            $shop = new Shop();
+            $response = $shop->buyItem($vars);
 
             if ($response['ok']) {
 
                 if (isset($response['error'])) {
-                    if (isset($response["response"]->input))
+                    if (isset($response["response"]->input)) {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                    else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
+                    }
 
                 } else {
 
@@ -451,41 +456,51 @@ class func
                         $data = json_decode($data, true);
                         get_instance()->session->updateSessionDB($data);
 
-                        $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->html($response["response"]->data->user_data->balance, '.balance_html')->success();
+                        $send = get_instance()
+                                ->ajaxmsg
+                                ->notify((string)$response["response"]->success)
+                                ->setLocalStorage('main_balance', get_instance()->session->getBalance('main'))
+                                ->setLocalStorage('bonus_balance', get_instance()->session->getBalance('bonus'))
+                                ->success();
 
-                    } else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+                    }
                 }
             } else {
                 $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
             }
-        }else
+        } else {
             $send = get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
 
         return $send;
     }
 
-    public function ajax_buy_service(){
-        $api = new GlobalApi();
+    public function ajax_buy_service()
+    {
+
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
 
             //ид магазина
-            if (!isset($_POST['shop_id']) OR empty($_POST['shop_id']))
+            if (!isset($_POST['shop_id']) OR empty($_POST['shop_id'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_empty_shop_id'])->danger();
-            else
+            } else {
                 $vars["shop_id"] = intval($_POST['shop_id']);
+            }
 
 
             $sid = get_instance()->get_sid();
 
-            if (!isset($this->shop['shop'][$sid][$vars["shop_id"]]))
+            if (!isset($this->shop['shop'][$sid][$vars["shop_id"]])) {
                 return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_shop_not_found'])->danger();
+            }
 
-
-            if (isset($_POST['items']) OR !empty($_POST['items']))
+            if (isset($_POST['items']) OR !empty($_POST['items'])) {
                 $vars["items"] = $_POST['items'];
+            }
 
             unset($_POST['module_form'],$_POST['module'],$_POST['shop_id'],$_POST['items']);
             //перебираем входяшие данные
@@ -493,15 +508,17 @@ class func
                 $vars[$key] = $item;
             }
 
-            $response = $api->buy_service($vars);
+            $shop = new Shop();
+            $response = $shop->buyService($vars);
 
             if ($response['ok']) {
 
                 if (isset($response['error'])) {
-                    if (isset($response["response"]->input))
+                    if (isset($response["response"]->input)) {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                    else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
+                    }
 
                 } else {
 
@@ -511,18 +528,26 @@ class func
                         $data = json_decode($data, true);
                         get_instance()->session->updateSessionDB($data);
 
-                        $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->html($response["response"]->data->user_data->balance, '.balance_html')->success();
+                        $send = get_instance()
+                                ->ajaxmsg
+                                ->notify((string)$response["response"]->success)
+                                ->setLocalStorage('main_balance', get_instance()->session->getBalance('main'))
+                                ->setLocalStorage('bonus_balance', get_instance()->session->getBalance('bonus'))
+                                ->success();
 
-                    } else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+                    }
                 }
             } else {
                 $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
             }
-        }else
+        } else {
             $send = get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
 
         return $send;
+
     }
 
     public function set_label_new(){

@@ -253,7 +253,7 @@ class ApiController extends \Controller
 
         if (isset($_POST['cfg'])) {
 
-            $cfg = unserialize($_POST['cfg']);
+            $cfg = unserialize($_POST['cfg'], ['allowed_classes' => false]);
 
             if(SaveConfig($cfg, 'money_withdrawal')) {
                 echo (new \Curl\XMLFormatter())->format(array("title" => "Update success! config","text" => "Successfully updated the project settings!", "status" => "success"));
@@ -273,7 +273,7 @@ class ApiController extends \Controller
 
         if (isset($_POST['cfg'])) {
 
-            $cfg = unserialize($_POST['cfg']);
+            $cfg = unserialize($_POST['cfg'], ['allowed_classes' => false]);
 
             if (SaveConfig($cfg, 'market')) {
                 echo (new \Curl\XMLFormatter())->format(array("title" => "Update success! config", "text" => "Successfully updated the project settings!", "status" => "success"));

@@ -2,9 +2,6 @@
 
 namespace InGameCurrency;
 
-
-use ApiLib\GlobalApi;
-
 class func
 {
 
@@ -54,45 +51,48 @@ class func
 
     }
 
-    public function ajax_buy_in_game(){
-        $api = new GlobalApi();
+    public function ajax_buy_in_game()
+    {
+
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
 
-            //ид платежки
-            if (!isset($_REQUEST['type_id']) OR empty($_REQUEST['type_id']))
+            if (!isset($_REQUEST['type_id']) OR empty($_REQUEST['type_id'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('ingame.lang')['ajax_empty_type_id'])->danger();
-            else
+            } else {
                 $vars["type_id"] = intval($_REQUEST['type_id']);
+            }
 
-            //Количество покупаемых предметов
-            if (!isset($_REQUEST['count']) OR empty($_REQUEST['count']))
+            if (!isset($_REQUEST['count']) OR empty($_REQUEST['count'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('ingame.lang')['ajax_empty_count'])->danger();
-            else
+            } else {
                 $vars["count"] = intval($_REQUEST['count']);
+            }
 
-            //аккаунт
-            if (!isset($_REQUEST['account_name']) OR empty($_REQUEST['account_name']))
+            if (!isset($_REQUEST['account_name']) OR empty($_REQUEST['account_name'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('ingame.lang')['ajax_empty_account_name'])->danger();
-            else
+            } else {
                 $vars["account_name"] = $_REQUEST['account_name'];
+            }
 
             //персонаж
-            if (isset($_REQUEST['char_name']) OR !empty($_REQUEST['char_name']))
+            if (isset($_REQUEST['char_name']) OR !empty($_REQUEST['char_name'])) {
                 $vars["char_name"] = $_REQUEST['char_name'];
+            }
 
-
-
-            $response = $api->buy_in_game_currency($vars);
+            $gameCurrency = new \ApiLib\v2\GameCurrency();
+            $response = $gameCurrency->buy($vars);
 
             if ($response['ok']) {
 
                 if (isset($response['error'])) {
-                    if (isset($response["response"]->input))
+
+                    if (isset($response["response"]->input)) {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                    else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
+                    }
 
                 } else {
 
@@ -102,20 +102,26 @@ class func
                         $data = json_decode($data, true);
                         get_instance()->session->updateSessionDB($data);
 
-                        $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->html($response["response"]->data->user_data->balance, '.balance_html')->success();
+                        $send = get_instance()
+                                ->ajaxmsg
+                                ->notify((string)$response["response"]->success)
+                                ->setLocalStorage('main_balance', get_instance()->session->getBalance('main'))
+                                ->setLocalStorage('bonus_balance', get_instance()->session->getBalance('bonus'))
+                                ->success();
 
-                    } else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+                    }
                 }
             } else {
                 $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
             }
-        }else
+        } else {
             $send = get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
 
         return $send;
+
     }
-
-
 
 }

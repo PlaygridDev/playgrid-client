@@ -27,6 +27,7 @@ class User
         'user_data' => array(
             'logs' => '',
             'balance' => '',
+            'bonus_balance' => '',
             'invoice' => '',
             'discount' => '',
             'social' => '',
@@ -244,29 +245,64 @@ class User
 
     }
 
+    public function getBalance(?string $type = null)
+    {
+
+        $balance = [
+            'main' => 0,
+            'bonus' => 0,
+        ];
+
+        $balance['main'] = $this->session['user_data']['balance'] ?? 0;
+
+        $bonusBalanceSettings = \BonusBalance\func::getSettings();
+
+        if(!empty($bonusBalanceSettings['config'])) {
+            if($bonusBalanceSettings['config']['status']) {
+                if($bonusBalanceSettings['display_mode'] === 'separate') {
+                    $balance['bonus'] = $this->session['user_data']['bonus_balance'] ?? 0;
+                } else {
+                    $balance['main'] += $this->session['user_data']['bonus_balance'] ?? 0;
+                }
+            }
+        }
+
+        array_walk($balance, function(&$item) {
+            $item = round($item, 2, PHP_ROUND_HALF_UP);
+        });
+
+        return !empty($type) && isset($balance[$type]) ? $balance[$type] : $balance;
+
+    }
+
     /**
      * @return int
      */
-    public function checkShield(){
+    public function checkShield()
+    {
 
-        if ($this->session['master_account']['shield'] == 1)
+        if ($this->session['master_account']['shield'] == 1) {
             return 1;
-        else
+        } else {
             return 0;
+        }
 
     }
 
     /**
      * @return string
      */
-    public function getName(){
+    public function getName()
+    {
 
-        if (!empty($this->session['master_account']['email']))
+        if (!empty($this->session['master_account']['email'])) {
             return $this->session['master_account']['email'];
-        elseif (!empty($this->session['master_account']['phone']))
+        }
+        elseif (!empty($this->session['master_account']['phone'])) {
             return $this->session['master_account']['phone'];
-        else
+        } else {
             return 'Bind your email to master account!';
+        }
 
 
     }

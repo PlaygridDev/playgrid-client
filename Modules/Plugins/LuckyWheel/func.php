@@ -60,20 +60,21 @@ class func
 
     }
 
-    public function ajax_get_prize(){
+    public function ajax_get_prize()
+    {
 
-        $api = new GlobalApi();
         $vars = array('temp' => 0);
 
         if (get_instance()->session->isLogin()) {
 
             $sid = get_instance()->get_sid();
 
-            if (!isset($this->lucky_wheel[$sid]['items']))
+            if (!isset($this->lucky_wheel[$sid]['items'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_shop_not_found'])->danger();
+            }
 
-
-            $response = $api->lucky_wheel_buy($vars);
+            $api = new \ApiLib\v2\Plugins\LuckyWheel();
+            $response = $api->spin($vars);
 
             if ($response['ok']) {
 
@@ -94,10 +95,10 @@ class func
                         header("Content-type: application/json");
                         $send =  json_encode(array(
                             'result'    => 'success', //success/error/warning/info
-                            'balance'    => (float) $response["response"]->data->user_data->balance,
+                            'balance'    => get_instance()->session->getBalance('main'),
                             'info'    => $response["response"]->data->user_data->lucky_wheel,
                             'price'    => $this->lucky_wheel[$sid]['price'],
-                            'count'    => round($response["response"]->data->user_data->balance / $this->lucky_wheel[$sid]['price']),
+                            'count'    => round(get_instance()->session->getBalance('main') / $this->lucky_wheel[$sid]['price']),
                             'item'    => array(
                                 'name' => (string) $response["response"]->items->name,
                                 'desc' => (string) $response["response"]->items->desc,
@@ -118,20 +119,21 @@ class func
         return $send;
     }
 
-    public function ajax_get_history(){
+    public function ajax_get_history()
+    {
 
-        $api = new GlobalApi();
         $vars = array('temp' => 0);
 
         if (get_instance()->session->isLogin()) {
 
             $sid = get_instance()->get_sid();
 
-            if (!isset($this->lucky_wheel[$sid]['items']))
+            if (!isset($this->lucky_wheel[$sid]['items'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_shop_not_found'])->danger();
+            }
 
-
-            $response = $api->lucky_wheel_history($vars);
+            $api = new \ApiLib\v2\Plugins\LuckyWheel();
+            $response = $api->getHistory($vars);
 
             if ($response['ok']) {
 

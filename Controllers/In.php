@@ -15,11 +15,20 @@ class In extends Controller
     public function __construct()
     {
         parent::__construct();
+
         if (!isset($_SESSION)) {
             $ok = @session_start();
             if(!$ok){
                 session_regenerate_id(true); // replace the Session ID
                 session_start();
+            }
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+            if (!CSRF::validate($token)) {
+                http_response_code(423);
+                exit();
             }
         }
     }

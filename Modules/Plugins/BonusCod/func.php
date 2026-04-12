@@ -42,75 +42,80 @@ class func
         return get_instance()->ajaxmsg->popup($title, $content, $footer)->send();
     }
 
-    public function ajax_get_bonus(){
+    public function ajax_get_bonus()
+    {
 
-        $api = new GlobalApi();
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
 
             //ид магазина
-            if (!isset($_REQUEST['cod']) OR empty($_REQUEST['cod']))
+            if (!isset($_REQUEST['cod']) OR empty($_REQUEST['cod'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('bonus_cod.lang')['ajax_empty_cod'])->danger();
-            else
+            } else {
                 $vars["cod"] = trim($_REQUEST['cod']);
+            }
 
-
-            if (!isset($_REQUEST['select_recipient']))
+            if (!isset($_REQUEST['select_recipient'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('bonus_cod.lang')['ajax_empty_cod'])->danger();
-            else
+            } else {
                 $vars["select_recipient"] = intval($_REQUEST['select_recipient']);
+            }
 
             if ($_REQUEST['select_recipient'] == '1') {
                 //аккаунт
-                if (!isset($_REQUEST['account_name']) OR empty($_REQUEST['account_name']))
+                if (!isset($_REQUEST['account_name']) OR empty($_REQUEST['account_name'])) {
                     return get_instance()->ajaxmsg->notify(get_lang('bonus_cod.lang')['ajax_empty_account_name'])->danger();
-                else
+                } else {
                     $vars["account_name"] = $_REQUEST['account_name'];
+                }
 
                 //персонаж
-                if (!isset($_REQUEST['char_name']) OR empty($_REQUEST['char_name']))
+                if (!isset($_REQUEST['char_name']) OR empty($_REQUEST['char_name'])) {
                     return get_instance()->ajaxmsg->notify(get_lang('bonus_cod.lang')['ajax_empty_char_name'])->danger();
-                else
+                } else {
                     $vars["char_name"] = $_REQUEST['char_name'];
+                }
 
             }
 
-
-            $response = $api->get_bonus_cod($vars);
+            $api = new \ApiLib\v2\Plugins\BonusCode();
+            $response = $api->activate($vars);
 
             if ($response['ok']) {
 
                 if (isset($response['error'])) {
-                    if (isset($response["response"]->input))
+                    if (isset($response["response"]->input)) {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                    else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
+                    }
 
                 } else {
 
                     if (isset($response["response"]->success)) {
 
-                        if ($response["response"]->select_recipient){
+                        if ($response["response"]->select_recipient) {
                             $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->eval_js('$(\'.select_recipient\').show();$(\'[name="select_recipient"]\').val(1);')->success();
-                        }else{
+                        } else {
 
                             if (isset($response["response"]->data)) {
                                 $data = json_encode($response["response"]->data);
                                 $data = json_decode($data, true);
                                 get_instance()->session->updateSessionDB($data);
-                                //->html($response["response"]->data->user_data->balance, '.balance_html')
                             }
                             $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success)->success();
                         }
-                    } else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+                    }
                 }
             } else {
                 $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
             }
-        }else
+        } else {
             $send = get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
 
         return $send;
     }

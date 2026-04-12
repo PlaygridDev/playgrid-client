@@ -156,48 +156,36 @@ return array(
                 return '';
         }
     ),
-    'in_game' => array(
-        //'custom_btn' => true, //Раскоментируй чтоб кнопка появилась активирует вариант кастомного меню и уберет правила проверки активных кнопок
-        'enable' => true,
-        'level' => 450,
+    'warehouse' => array(
+        'custom_btn' => true, //Раскоментируй чтоб кнопка появилась активирует вариант кастомного меню и уберет правила проверки активных кнопок
+        'enable' => function(){ return get_instance()->status_plugin('warehouse');},
+        'level' => 460,
         'empty_hide' => false,
-        'href' => 'javascript:void(0);',
-        'icon' => 'fa fa-fw fa-gamepad',
+        'href' => '/panel/warehouse',
+        'icon' => 'fa fa-archive',
         'target' => '_self',
-        'class' => 'submit-btn',
-        'btn_ajax' => btn_ajax("Modules\Globals\InGameCurrency\InGameCurrency", "open_form", [1]),
         'name' => array(
-            'ru' => 'Перевести в игру',
-            'en' => 'Transfer to the game',
-            'gr' => 'Μεταφορά στο παιχνίδι',
-			'es' => 'Transferir al juego',
-            'pt' => 'Transferir para o jogo',
-			'cn' => '转会至游戏',
-			'ko' => '게임으로 이동',
+            'ru' => 'Склад',
+            'en' => 'Warehouse',
+            'gr' => 'Αποθήκη',
+			'es' => 'Almacén',
+            'pt' => 'Armazém',
+			'cn' => '仓库',
+			'ko' => '창고',
+
         ),
         'title' => array(
-            'ru' => 'Перевести в игру',
-            'en' => 'Transfer to the game',
-            'gr' => 'Μεταφορά στο παιχνίδι',
-			'es' => 'Transferir al juego',
-            'pt' => 'Transferir para o jogo',
-			'cn' => '转会至游戏',
-			'ko' => '게임으로 이동',
+            'ru' => 'Склад',
+            'en' => 'Warehouse',
+            'gr' => 'Αποθήκη',
+			'es' => 'Almacén',
+            'pt' => 'Armazém',
+			'cn' => '仓库',
+			'ko' => '창고',
         ),
-        'function' => function(&$buttons){
-            if(get_instance()->config['visualization']['cabinet_layout_login'] != 'top') {
-                $balance = get_instance()->session->session['user_data']['balance'];
-
-                if (floatval($balance) <= 0)
-                    return '';
-                else {
-                    $name_valute = get_instance()->config['payment_system']['short_name_valute'];
-                    return ' : <span class="text-success"> <span class="balance_html">' . $balance . '</span> ' . $name_valute . '</span>';
-                }
-            }else
-                return '';
-        }
+        'function' => function(&$buttons){return false;}
     ),
+
     'donations' => array(
         'enable' => true,
         'level' => 500,
@@ -266,19 +254,7 @@ return array(
 
             }
         },
-        'function' => function(&$buttons){
-            if(get_instance()->config['visualization']['cabinet_layout_login'] != 'top') {
-                $balance = get_instance()->session->session['user_data']['balance'];
-
-                if (floatval($balance) <= 0)
-                    return '';
-                else {
-                    $name_valute = get_instance()->config['payment_system']['short_name_valute'];
-                    return ' : <span class="text-success"> <span class="balance_html">' . $balance . '</span> ' . $name_valute . '</span>';
-                }
-            }else
-                return '';
-        }
+        'function' => function(&$buttons){return false;}
     ),
     'settings' => array(
         'enable' => true,
@@ -352,7 +328,7 @@ return array(
                     return '';
                 else {
                     $name_valute = get_instance()->config['payment_system']['short_name_valute'];
-                    return ' : <span class="text-success"> <span class="balance_html_market">' . $balance . '</span> ' . $name_valute . '</span>';
+                    return ' <span class="badge badge-pill badge-secondary"> <span class="balance_html_market">' . $balance . '</span> ' . $name_valute . '</span>';
                 }
             }else
                 return '';

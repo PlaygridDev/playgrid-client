@@ -90,6 +90,7 @@ class Advertising
             'gawpid' => trim($_POST['gawpid']),
             'ga_anonymize' => _boolean($_POST['ga_anonymize']),
             'gt_manager' => $_POST['gt_manager'],
+            'gt_measurement_id' => $_POST['gt_measurement_id'],
             'ymid' => intval($_POST['ymid']),
             'ym_webvisor' => _boolean($_POST['ym_webvisor']),
         );
