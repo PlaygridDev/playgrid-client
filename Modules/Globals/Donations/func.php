@@ -41,6 +41,7 @@ class func
         'paddle',
         'paymntspro',
         'hydracode',
+        'severpay',
         'severpay_byn',
         'settlepay_pix',
         'settlepay_cbucvu',

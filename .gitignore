@@ -19,7 +19,7 @@ Files/**
 template/compiled/**
 !template/compiled/**/
 !template/compiled/.gitkeep
-template/panel/assets/media/icon/**
+template/panel/assets/media/icon/*/**
 
 Library/configs/**
 !Library/configs/

@@ -120,66 +120,6 @@ class func
         return $send;
     }
 
-    public function ajax_get_history(){
-
-        $api = new GlobalApi();
-        $vars = array('temp' => 0);
-
-        if (get_instance()->session->isLogin()) {
-
-            $sid = get_instance()->get_sid();
-
-            if (!isset($this->lucky_wheel[$sid]['items']))
-                return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_shop_not_found'])->danger();
-
-
-            $response = $api->lucky_wheel_history($vars);
-
-            if ($response['ok']) {
-
-                if (isset($response['error'])) {
-                    if (isset($response["response"]->input))
-                        $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                    else
-                        $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
-
-                } else {
-
-                    if (isset($response["response"]->success)) {
-
-                        $items = json_encode($response["response"]->items);
-                        $items = json_decode($items, true);
-                        $html = get_instance()->fenom->fetch(
-                            get_tpl_file('history.tpl', get_class($this->this_main)),
-                            array_merge(
-                                array(
-                                    'items' => $items,
-                                ),
-                                get_lang('shop.lang')
-                            )
-
-                        );
-
-                        $send = get_instance()->ajaxmsg->html($html, '.history_loud')->success();
-
-                    } else
-                        $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
-                }
-            } else {
-                $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
-            }
-        }else
-            $send = get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
-
-        return $send;
-
-    }
-
-
-
-
-
-
     public function set_label_new(){
         $t = @filemtime(ROOT_DIR.'/Library/configs/gift_code.json');
         set_cookie('gift_code_new', $t, strtotime("+1 year"));

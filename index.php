@@ -135,6 +135,7 @@ $ignore_detect_lang_page = array(
     '/api/payment/paymntspro'.PAYMENT_KEY,
     '/api/payment/hydracode'.PAYMENT_KEY,
     '/api/payment/severpay_byn'.PAYMENT_KEY,
+    '/api/payment/severpay'.PAYMENT_KEY,
     '/api/payment/settlepay_pix'.PAYMENT_KEY,
     '/api/payment/settlepay_cbucvu'.PAYMENT_KEY,
     '/api/payment/abankcomua'.PAYMENT_KEY,
