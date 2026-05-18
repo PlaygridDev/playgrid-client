@@ -20,6 +20,7 @@ return array(
                 ['idx' => 'custom_css', 'typex' => 'link', 'rel' => 'stylesheet', 'href' => VIEWPATH.'/panel/assets/css/custom.css?v=' . filemtime(ROOT_DIR.VIEWPATH.'/panel/assets/css/custom.css')],
 
                 [ 'idx' => 'app', 'typex' => 'script', 'src' => VIEWPATH.'/panel/assets/js/core/vue.min.js' ],
+                [ 'idx' => 'playgrid', 'typex' => 'script', 'src' => VIEWPATH.'/panel/assets/js/playgrid.min.js' ],
 
             ),
             'body' => array(),

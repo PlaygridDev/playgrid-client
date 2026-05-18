@@ -56,7 +56,10 @@ class func
         'severpay_byn',
         'settlepay_pix',
         'settlepay_cbucvu',
-        'abankcomua'
+        'abankcomua',
+        'betatransfer',
+        'wayforpay',
+        'liqpay',
     );
     //Список тикетов
     public $tickets = array(

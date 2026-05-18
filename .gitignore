@@ -29,3 +29,4 @@ Library/configs/**
 logs
 Config.php
 tests
+js-src/

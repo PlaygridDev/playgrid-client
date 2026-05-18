@@ -124,7 +124,7 @@ class UpdateService
 
         $this->setProcessDir($processDir);
 
-        $this->log('Process directory created: ' . $processDir);
+        self::log($this->processKey, 'Process directory created: ' . $processDir, $this->processStartTime);
 
         return true;
 
@@ -135,7 +135,7 @@ class UpdateService
         $tag = $release['tag_name'] ?? null;
         $zipUrl = $release['zipball_url'] ?? null;
 
-        $this->log("Downloading release {$tag} ZIP file...");
+        self::log($this->processKey, "Downloading release {$tag} ZIP file...", $this->processStartTime);
 
         if(empty($tag)) {
             throw new Exception('Release does not contain a tag name.');
@@ -177,7 +177,7 @@ class UpdateService
         curl_close($ch);
         fclose($fp);
 
-        $this->log('Release ZIP file downloaded and saved to: ' . $zipPath);
+        self::log($this->processKey, 'Release ZIP file downloaded and saved to: ' . $zipPath, $this->processStartTime);
 
         return $zipPath;
 
@@ -205,13 +205,11 @@ class UpdateService
                 E_USER_ERROR,
             ];
 
-            if (DEBUG && !in_array($error['type'], $fatalErrors, true)) {
+            if (!in_array($error['type'], $fatalErrors, true)) {
 
-                log_write(
-                    'update_' . date('Y-m-d_H-i') . '_' . substr($processKey, 0, 8),
-                    'NON-FATAL: ' . json_encode($error),
-                    false
-                );
+                if (DEBUG) {
+                    \Services\UpdateService::log($processKey, 'NON-FATAL: ' . json_encode($error));
+                }
 
                 return;
             }
@@ -221,11 +219,7 @@ class UpdateService
                 'process_key' => $processKey
             ], 1800);
 
-            log_write(
-                'update_' . date('Y-m-d_H-i') . '_' . substr($processKey, 0, 8),
-                'FATAL ERROR: ' . json_encode($error),
-                false
-            );
+            \Services\UpdateService::log($processKey, 'FATAL ERROR: ' . json_encode($error));
 
             $this->globalApi->sendUpdaterProcessError($processKey, json_encode($error));
             $this->globalApi->sendUpdaterProcessStatus($processKey, 'FAILED');
@@ -237,7 +231,7 @@ class UpdateService
     private function createBackup()
     {
 
-        $this->log('Creating backup...');
+        self::log($this->processKey, 'Creating backup...', $this->processStartTime);
 
         $processDir = $this->getProcessDir();
 
@@ -258,13 +252,14 @@ class UpdateService
             throw new Exception('Failed to create backup ZIP: ' . $backupPath);
         }
 
-        $root = rtrim(realpath(ROOT_DIR), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        if ($root === false) {
-            throw new Exception('Failed to resolve ROOT_DIR.');
+        $projectDir = realpath(ROOT_DIR);
+        if ($projectDir === false) {
+            throw new Exception('Failed to resolve ROOT_DIR: ' . ROOT_DIR);
         }
+        $projectDir = rtrim($projectDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
         $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS),
+            new \RecursiveDirectoryIterator($projectDir, \FilesystemIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::SELF_FIRST
         );
 
@@ -288,7 +283,7 @@ class UpdateService
                 }
             }
 
-            $relativePath = substr($filePath, strlen($root));
+            $relativePath = substr($filePath, strlen($projectDir));
             $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
 
             if ($file->isDir()) {
@@ -309,7 +304,7 @@ class UpdateService
             throw new Exception('Backup ZIP was not created or is empty.');
         }
 
-        $this->log('Backup created: ' . $backupPath);
+        self::log($this->processKey, 'Backup created: ' . $backupPath, $this->processStartTime);
 
         return true;
 
@@ -319,77 +314,104 @@ class UpdateService
     {
         if (DEBUG) {
 
-            $this->log('=== System information ===');
+            self::log($this->processKey, '=== System information ===', $this->processStartTime);
 
-            $this->log('[PHP]');
-            $this->log('Version: ' . PHP_VERSION);
-            $this->log('SAPI: ' . PHP_SAPI);
+            self::log($this->processKey, '[PHP]', $this->processStartTime);
+            self::log($this->processKey, 'Version: ' . PHP_VERSION, $this->processStartTime);
+            self::log($this->processKey, 'SAPI: ' . PHP_SAPI, $this->processStartTime);
 
-            $this->log('[Environment]');
-            $this->log('OS: ' . PHP_OS);
-            $this->log('Architecture: ' . (PHP_INT_SIZE * 8) . '-bit');
+            self::log($this->processKey, '[Environment]', $this->processStartTime);
+            self::log($this->processKey, 'OS: ' . PHP_OS, $this->processStartTime);
+            self::log($this->processKey, 'Architecture: ' . (PHP_INT_SIZE * 8) . '-bit', $this->processStartTime);
 
-            $this->log('[Limits]');
-            $this->log('Memory limit: ' . ini_get('memory_limit'));
-            $this->log('Max execution time: ' . ini_get('max_execution_time'));
-            $this->log('Upload max filesize: ' . ini_get('upload_max_filesize'));
-            $this->log('Post max size: ' . ini_get('post_max_size'));
+            self::log($this->processKey, '[Limits]', $this->processStartTime);
+            self::log($this->processKey, 'Memory limit: ' . ini_get('memory_limit'), $this->processStartTime);
+            self::log($this->processKey, 'Max execution time: ' . ini_get('max_execution_time'), $this->processStartTime);
+            self::log($this->processKey, 'Upload max filesize: ' . ini_get('upload_max_filesize'), $this->processStartTime);
+            self::log($this->processKey, 'Post max size: ' . ini_get('post_max_size'), $this->processStartTime);
 
-            $this->log('[Extensions]');
+            self::log($this->processKey, '[Extensions]', $this->processStartTime);
             foreach (get_loaded_extensions() as $ext) {
                 $version = phpversion($ext) ?: 'unknown';
-                $this->log("- {$ext}: {$version}");
+                self::log($this->processKey, "- {$ext}: {$version}", $this->processStartTime);
             }
 
-            $this->log('==========================');
+            self::log($this->processKey, '==========================', $this->processStartTime);
         }
 
     }
 
-    private function getAllCommitFiles(string $commitHash)
+    private function getTreeShaByTag(string $tag): string
     {
 
-        $files = [];
-        $page  = 1;
+        $ref = $this->gitHubRepository->getGitRefByTag($tag);
+        if (empty($ref) || empty($ref['object']['sha'])) {
+            throw new Exception('Git reference for tag not found: ' . $tag);
+        }
 
-        do {
+        $commit = $this->gitHubRepository->getCommit($ref['object']['sha']);
 
-            $commit = $this->gitHubRepository->getCommit($commitHash, $page);
+        if ($commit === null) {
+            throw new Exception('GitHub API request failed for commit: ' . $this->gitHubRepository->getErrorMessage());
+        }
 
-            if (empty($commit) || empty($commit['data'])) {
-                throw new Exception('Git commit for the release tag not found.');
+        $treeSha = $commit['data']['commit']['tree']['sha'] ?? null;
+
+        if (empty($treeSha)) {
+            throw new Exception('Failed to resolve tree SHA for tag: ' . $tag);
+        }
+
+        return $treeSha;
+
+    }
+
+    private function getAllTreeDiffFiles(string $baseTag, string $headTag): array
+    {
+
+        $oldTreeSha = $this->getTreeShaByTag($baseTag);
+        $newTreeSha = $this->getTreeShaByTag($headTag);
+
+        self::log($this->processKey, "Tree SHA base ({$baseTag}): {$oldTreeSha}", $this->processStartTime);
+        self::log($this->processKey, "Tree SHA head ({$headTag}): {$newTreeSha}", $this->processStartTime);
+
+        $oldTree = $this->gitHubRepository->getGitTree($oldTreeSha);
+        $newTree = $this->gitHubRepository->getGitTree($newTreeSha);
+
+        if ($oldTree['truncated'] || $newTree['truncated']) {
+            throw new Exception('Git tree response is truncated. The repository is too large for tree-based diff.');
+        }
+
+        $oldFiles = [];
+        foreach ($oldTree['tree'] as $item) {
+            if ($item['type'] === 'blob') {
+                $oldFiles[$item['path']] = $item['sha'];
             }
+        }
 
-            if (!empty($commit['data']['files'])) {
-                foreach ($commit['data']['files'] as $file) {
-
-                    if (empty($file['filename']) || empty($file['status'])) {
-                        throw new Exception("GitHub API returned invalid file entry: missing filename or status.");
-                    }
-
-                    $files[$file['filename']] = [
-                        'filename'          => $file['filename'],
-                        'status'            => $file['status'],
-                        'previous_filename' => $file['previous_filename'] ?? null,
-                    ];
-                }
+        $newFiles = [];
+        foreach ($newTree['tree'] as $item) {
+            if ($item['type'] === 'blob') {
+                $newFiles[$item['path']] = $item['sha'];
             }
+        }
 
-            $hasNextPage = false;
+        $result = [];
 
-            if (!empty($commit['links'])) {
-                $hasNextPage = strpos($commit['links'], 'rel="next"') !== false;
+        foreach ($newFiles as $path => $sha) {
+            if (!isset($oldFiles[$path])) {
+                $result[] = ['filename' => $path, 'status' => 'added', 'previous_filename' => null];
+            } elseif ($oldFiles[$path] !== $sha) {
+                $result[] = ['filename' => $path, 'status' => 'modified', 'previous_filename' => null];
             }
+        }
 
-            $page++;
-
-            if ($page > 50) {
-                throw new Exception('Too many commit pages while fetching commit files.');
+        foreach ($oldFiles as $path => $sha) {
+            if (!isset($newFiles[$path])) {
+                $result[] = ['filename' => $path, 'status' => 'removed', 'previous_filename' => null];
             }
+        }
 
-        } while ($hasNextPage);
-
-        return array_values($files);
+        return $result;
 
     }
 
@@ -405,7 +427,7 @@ class UpdateService
         ini_set('memory_limit', '256M');
         umask(0022);
 
-        $this->log("Starting installation of release: {$tag}");
+        self::log($this->processKey, "Starting installation of release: {$tag}", $this->processStartTime);
 
         $this->logDebugInfo();
 
@@ -431,26 +453,29 @@ class UpdateService
                 throw new Exception('Release tag does not match the specified tag.');
             }
 
-            $ref = $this->gitHubRepository->getGitRefByTag($tag);
-            if(empty($ref) || empty($ref['object']['sha'])) {
-                throw new Exception('Git reference for the specified tag not found.');
+            $currentVersion = $this->getVersion();
+            self::log($this->processKey, "Comparing trees: {$currentVersion} → {$tag}", $this->processStartTime);
+
+            $updateFiles = $this->getAllTreeDiffFiles($currentVersion, $tag);
+            $total = count($updateFiles);
+
+            if($total === 0) {
+                throw new Exception('No files to update found in the release.');
             }
 
-            $commitHash = $ref['object']['sha'];
-            $this->log("Release commit SHA: {$commitHash}");
+            $ping = $this->globalApi->sendUpdaterProcessProgress($this->processKey, 0.0);
+            if (empty($ping['http_code']) || $ping['http_code'] !== 200) {
+                throw new Exception('API connection check failed (http_code: ' . ($ping['http_code'] ?? 'none') . '). Update aborted.');
+            }
 
             $this->setUpdateStatus('IN_PROGRESS');
 
-            $zipPath = null;
-            if($this->createProcessDir()) {
-                $this->createBackup();
-                $zipPath = $this->saveReleaseZip($release, $this->getProcessDir());
-            } else {
-                throw new Exception('Failed to create update process directory.');
-            }
+            $this->createProcessDir();
+            $this->createBackup();
+            $zipPath = $this->saveReleaseZip($release, $this->getProcessDir());
 
             $zip = new \ZipArchive();
-            if (!is_null($zipPath) && $zip->open($zipPath) !== true) {
+            if ($zip->open($zipPath) !== true) {
                 throw new Exception('Failed to open ZIP file: ' . $zipPath . '. The file may be corrupted.');
             }
 
@@ -468,14 +493,7 @@ class UpdateService
                 throw new Exception('Failed to determine release folder inside ZIP.');
             }
 
-            $updateFiles = $this->getAllCommitFiles($commitHash);
-            $total = count($updateFiles);
-
-            if($total === 0) {
-                throw new Exception('No files to update found in the release.');
-            }
-
-            $this->log("Found {$total} files to update, starting installation...");
+            self::log($this->processKey, "Found {$total} files to update, starting installation...", $this->processStartTime);
 
             $n = 0;
             $sendedProgressTime = 0;
@@ -500,7 +518,7 @@ class UpdateService
                     throw new Exception('ZIP Slip detected: invalid path: ' . $filename);
                 }
 
-                $this->log("Processing {$filename} ({$status})");
+                self::log($this->processKey, "Processing {$filename} ({$status})", $this->processStartTime);
 
                 switch ($status) {
 
@@ -510,19 +528,11 @@ class UpdateService
                             throw new Exception("File not found in ZIP: {$archivePath}");
                         }
                         $this->extractFileFromZip($zip, $archivePath, $targetPath);
-                        $this->log("Applied {$status}: {$filename}");
-                        break;
-
-                    case 'renamed':
-                        if ($zip->locateName($archivePath) === false) {
-                            throw new Exception("Renamed file not found in ZIP: {$archivePath}");
-                        }
-                        $this->extractFileFromZip($zip, $archivePath, $targetPath);
-                        $this->log("Renamed treated as copy: {$file['previous_filename']} → {$filename}");
+                        self::log($this->processKey, "Applied {$status}: {$filename}", $this->processStartTime);
                         break;
 
                     case 'removed':
-                        $this->log("Removed in release (not deleted locally): {$filename}");
+                        self::log($this->processKey, "Removed in release (not deleted locally): {$filename}", $this->processStartTime);
                         break;
 
                     default:
@@ -533,48 +543,38 @@ class UpdateService
                 $n++;
 
                 $progress = round((($n / $total) * 100), 2);
-                Cache::set('update_progress_' . $this->processKey, $progress, 600);
-                $this->log('Update progress: ' . $progress . '%');
+                Cache::set('update_progress_' . $this->processKey, $progress, UpdateService::PROCESS_EXECUTE_TIMEOUT);
+                self::log($this->processKey, 'Update progress: ' . $progress . '%', $this->processStartTime);
 
                 if($n < $total) {
                     if ($sendedProgressTime === 0 || (time() - $sendedProgressTime) >= 3) {
                         $this->globalApi->sendUpdaterProcessProgress($this->processKey, $progress);
                         $sendedProgressTime = time();
                     }
-                } elseif($n === $total) {
-                    $this->globalApi->sendUpdaterProcessProgress($this->processKey, 100);
                 } else {
-                    throw new Exception('Update progress calculation error.');
+                    $this->globalApi->sendUpdaterProcessProgress($this->processKey, 100);
                 }
 
             }
 
-            $this->setUpdateStatus('COMPLETED');
-
-            SaveConfig([
+            if (!SaveConfig([
                 'tag' => $tag,
                 'timestamp' => $release['published_at'],
                 'release_id' => $release['id']
-            ], 'version');
+            ], 'version')) {
+                throw new Exception('Failed to save version config after update. Files were updated but version record was not saved.');
+            }
+
+            $this->setUpdateStatus('COMPLETED');
 
             if(!DEBUG) {
                 Cache::delete('update_progress_' . $this->processKey);
                 Cache::delete('update');
             }
 
-            $this->log('Update completed successfully. Version updated to ' . $tag);
+            self::log($this->processKey, 'Update completed successfully. Version updated to ' . $tag, $this->processStartTime);
 
             return true;
-
-        } catch (Exception $e) {
-
-            $this->setUpdateStatus('FAILED');
-            $this->log('Error: ' . $e->getMessage());
-            $this->log('-- UPDATE FAILED --');
-
-            $this->globalApi->sendUpdaterProcessError($this->processKey, $e->getMessage());
-
-            throw $e;
 
         } finally {
 
@@ -583,7 +583,7 @@ class UpdateService
             }
 
             if(DEBUG) {
-                $this->log('Update process finished in ' . (time() - $this->processStartTime) . ' seconds.');
+                self::log($this->processKey, 'Update process finished in ' . (time() - $this->processStartTime) . ' seconds.', $this->processStartTime);
             }
 
         }
@@ -609,7 +609,7 @@ class UpdateService
     {
 
         if(defined('ENVIRONMENT') && ENVIRONMENT === 'development') {
-            $this->log("Simulating file extraction (development mode)");
+            self::log($this->processKey, "Simulating file extraction (development mode)", $this->processStartTime);
             return true;
         }
 
@@ -627,11 +627,19 @@ class UpdateService
 
         $tmp = $targetPath . '.tmp';
         $out = fopen($tmp, 'wb');
+        if (!$out) {
+            throw new Exception("Cannot create temp file for: {$targetPath}");
+        }
 
-        stream_copy_to_stream($stream, $out);
+        $bytesCopied = stream_copy_to_stream($stream, $out);
 
         fclose($stream);
         fclose($out);
+
+        if ($bytesCopied === false) {
+            unlink($tmp);
+            throw new Exception("Failed to write file content: {$targetPath}");
+        }
 
         chmod($tmp, 0644);
 
@@ -644,11 +652,16 @@ class UpdateService
 
     }
 
-    private function log(string $message)
+    public static function log(string $processKey, string $message, int $processStartTime = 0): void
     {
-        $processKey = $this->processKey;
-        if(!empty($processKey)) {
-            log_write('update_' . date('Y-m-d_H-i', $this->processStartTime) . '_' . substr($processKey, 0, 8), $message, false);
+        static $startTime = 0;
+
+        if (!empty($processKey)) {
+            if ($processStartTime > 0) {
+                $startTime = $processStartTime;
+            }
+            $time = $startTime > 0 ? $startTime : time();
+            log_write('update_' . date('Y-m-d_H-i', $time) . '_' . substr($processKey, 0, 8), $message, false);
         }
     }
 

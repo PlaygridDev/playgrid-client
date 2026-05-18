@@ -105,8 +105,8 @@ class func
                         $send = get_instance()
                                 ->ajaxmsg
                                 ->notify((string)$response["response"]->success)
-                                ->setLocalStorage('main_balance', get_instance()->session->getBalance('main'))
-                                ->setLocalStorage('bonus_balance', get_instance()->session->getBalance('bonus'))
+                                ->broadcast('main_balance', get_instance()->session->getBalance('main'), 'updateBalance')
+                                ->broadcast('bonus_balance', get_instance()->session->getBalance('bonus'), 'updateBalance')
                                 ->success();
 
                     } else {

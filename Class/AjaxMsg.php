@@ -9,6 +9,7 @@ class AjaxMsg
 
     public function __construct()
     {
+        $this->response = [];
     }
 
     /**
@@ -156,16 +157,36 @@ class AjaxMsg
 
     }
 
-    public function setLocalStorage(string $key, string $value)
+    public function setLocalStorage(string $key, string $value, string $event)
     {
 
         if(empty($this->response['localStorage'])) {
             $this->response['localStorage'] = [
                 'items' => [],
+                'event' => 'setLocalStorage:' . $event
             ];
         }
 
         array_push($this->response['localStorage']['items'], [
+            'key' => $key,
+            'value' => $value
+        ]);
+
+        return $this;
+
+    }
+
+    public function broadcast(string $key, string $value, string $event)
+    {
+
+        if(empty($this->response['broadcast'])) {
+            $this->response['broadcast'] = [
+                'items' => [],
+                'event' => $event
+            ];
+        }
+
+        array_push($this->response['broadcast']['items'], [
             'key' => $key,
             'value' => $value
         ]);

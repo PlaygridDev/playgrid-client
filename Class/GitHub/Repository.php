@@ -137,6 +137,10 @@ class Repository
 
         $response = $this->sendRequest($url);
 
+        if ($response === false) {
+            return null;
+        }
+
         return [
             'links' => $response['headers']['Link'] ?? null,
             'data'  => $response['data'] ?? null,
@@ -147,6 +151,15 @@ class Repository
     {
         $response = $this->sendRequest('releases/tags/' . $tag);
         return $response['data'] ?? null;
+    }
+
+    public function getGitTree(string $treeSha)
+    {
+        $response = $this->sendRequest('git/trees/' . $treeSha, ['recursive' => 1]);
+        return [
+            'tree'      => $response['data']['tree'] ?? [],
+            'truncated' => $response['data']['truncated'] ?? false,
+        ];
     }
 
 }

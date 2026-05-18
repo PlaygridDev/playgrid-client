@@ -64,15 +64,14 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group mt-20">
-                        <label for="payment_method">{$donate_title_pay}</label>
+                        <label for="payment_system">{$donate_title_pay}</label>
                     </div>
                     <div class="row gutters-tiny mt-20">
-                        {set $pay_first = true}
                         {foreach $payment_list as $pay}
                             {if $payment_system[$pay]? AND $payment_system[$pay] === true}
                                 <div class="col-sm-3 col-4">
                                     <div class="cc-selector-2">
-                                        <input id="{$pay}" type="radio" name="payment_method" value="{$pay}" {if $pay_first}checked="checked"{set $pay_first = false}{/if}/>
+                                        <input id="{$pay}" type="radio" name="payment_system" value="{$pay}" />
                                         <label class="drinkcard-cc" for="{$pay}">
                                             <img class="img-fluid" src="/template/panel/assets/media/payment/{$pay}.png" alt="{$pay}">
                                         </label>
@@ -82,7 +81,6 @@
                         {/foreach}
                     </div>
                 </div>
-
                 {if $config_cabinet.captcha == 'recaptchav2'}
                     <div class="col-12">
                         <div class="form-group row justify-content-center text-center">
@@ -113,9 +111,41 @@
                         <altcha-widget id="altcha" challengeurl="/captcha/altcha" auto="onfocus"></altcha-widget>
                     </div>
                 {/if}
-
             </div>
         </div>
+
+        <div id="methodsList" v-cloak>
+            <div class="block-content pl-50 pr-50" v-if="Object.keys(methods).length > 0">
+                <label>{$lang_select_payment_method}</label>
+                <div class="d-flex flex-wrap" style="gap: 1rem;">
+                    {ignore}
+                    <label
+                        class="donations-method-item"
+                        :class="{ 'method-active': method === gt.method }"
+                        v-for="gt in methods"
+                        :for="paymentSystem + '_' + gt.method"
+                    >
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            :value="gt.method"
+                            v-model="method"
+                            @change="setMethod(gt.method)"
+                            :id="paymentSystem + '_' + gt.method"
+                        >
+
+                        <span class="method-selector">
+                            {{ gt.title }}
+                        </span>
+                    </label>
+                    {/ignore}
+                </div>
+            </div>
+
+            <input type="hidden" name="method_currency" id="method_currency" v-model="methodCurrency">
+
+        </div>
+
         <div class="block-content block-content-sm block-content-full bg-body-light text-center mt-20">
             <button type="submit" class="btn btn-alt-primary submit-form">
                 <i class="fa fa-money mr-5"></i> {$donate_title_pay_btn}
@@ -123,6 +153,38 @@
         </div>
     </form>
 </div>
+
+<style>
+
+    [v-cloak] { display: none; }
+
+    .donations-method-item {
+    border: 1px solid #b5b5b5;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    }
+    .donations-method-item label {
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    }
+
+    .donations-method-item:hover {
+    border-color: #3f9ce8;
+    background-color: #e3f4fc;
+    }
+
+    .donations-method-item input[type="radio"] {
+    display: none;
+    }
+    .donations-method-item.method-active {
+    border-color: #3f9ce8;
+    background-color: #e3f4fc;
+    }
+
+</style>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
@@ -140,13 +202,13 @@
                 var bonus_item_key = [];
                 var bonus_item_html = '<div class="row border-bottom text-center pt-5" style="border-bottom-style: dashed !important;"><div class="col-12">{$donate_title_pay_bonus_item}</div></div>';
                 var bonus_item_show = false;
-                var payment_method = $("input[name='payment_method']:checked"). val();
+                var payment_system = $("input[name='payment_system']:checked"). val();
 
 
                 {* Перебираем все бонусы и отрисовываем *}
                 {foreach $event_cfg as $bonus_cfg}
                     var temp_agrigator_{$bonus_cfg.id} = {$.php.json_encode($bonus_cfg.agrigator)};
-                    if(temp_agrigator_{$bonus_cfg.id}.includes(payment_method) || temp_agrigator_{$bonus_cfg.id}.includes('all')){
+                    if(temp_agrigator_{$bonus_cfg.id}.includes(payment_system) || temp_agrigator_{$bonus_cfg.id}.includes('all')){
                     {foreach $bonus_cfg.data as $lv => $rage first=$first}
                             {if !$first}else {/if}if (num >= {$rage.start} && num <= {$rage.end}) {
                                 bonus += (num * {$rage.percent} / 100);
@@ -235,7 +297,6 @@
             return parseInt(pos);
         }
         window.changeSum(document.getElementById("coin").value,true);
-
 
     });
 </script>

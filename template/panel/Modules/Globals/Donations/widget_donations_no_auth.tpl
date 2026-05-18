@@ -9,134 +9,132 @@
                 {$.php.form_hide_input("Modules\Globals\Donations\Donations", "checkout_no_auth")}
                 <div class="block-content pl-50 pr-50">
                     <div class="row">
-                            <div class="col-md-12">
-                                {if $.site.config.in_game_currency[get_sid()]['settings']?}
-                                    {if $.php.count($.site.config.in_game_currency[get_sid()]['settings']) > 1}
-                                    <div class="row">
-                                        <div class="col-md-6">
+                        <div class="col-md-12">
+                            {if $.site.config.in_game_currency[get_sid()]['settings']?}
+                                {if $.php.count($.site.config.in_game_currency[get_sid()]['settings']) > 1}
+                                <div class="row">
+                                    <div class="col-md-6">
 
-                                            <div class="form-group" style="margin-bottom: 11px;">
-                                                <label for="recipient" id="recipient-label">{$d_recipient_char}</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text type_icon">
-                                                            <i class="fa fa-street-view"></i>
-                                                        </span>
-                                                    </div>
-                                                    <input type="text" id="recipient" class="form-control" name="recipient" placeholder="MegaMag">
+                                        <div class="form-group" style="margin-bottom: 11px;">
+                                            <label for="recipient" id="recipient-label">{$d_recipient_char}</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text type_icon">
+                                                        <i class="fa fa-street-view"></i>
+                                                    </span>
                                                 </div>
-                                            </div>
-
-                                            <div class="form-group mb-20">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend"><span class="input-group-text short_name_icon">Coin</div>
-                                                    <input type="number" class="form-control" min="10" max="10000" id="coin" name="sum" placeholder="{$d_recipient_count}" value="{$payment_system.rec_payment}" onchange="changeSum($(this).val(),false);" onkeyup="changeSum($(this).val(),false);">
-                                                    <div class="input-group-append"><span class="input-group-text" id="bonus_sum">+0 {$donate_span_title_bonus}</span></div>
-                                                </div>
+                                                <input type="text" id="recipient" class="form-control" name="recipient" placeholder="MegaMag">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group"><label for="label-recipient">{$d_title_valuta}</label>
-                                                {foreach $.site.config.in_game_currency[$.php.get_sid()]['settings'] as $key => $ingame first=$first_pos}
-                                                    <input type="radio" name="type_id" id="label-id-{$key}" value="{$ingame.id}" autocomplete="off" data-type="{$ingame.type}" data-message="{$ingame.message_no_auth}" data-long-name="{$ingame.long_name}" data-price="{$ingame.price}" data-short-name="{$ingame.short_name}" {if $first_pos}checked{/if} />
-                                                    <div class="btn-group w-100">
-                                                        <label for="label-id-{$key}" class="btn btn-default">
-                                                            <span class="fa fa-check-square-o fa-lg"></span>
-                                                            <span class="fa fa-square-o fa-lg"></span>
-                                                            <div class="content-label w-100 text-left">
-                                                                <img src="{$ingame.icon}" class="img-avatar img-avatar16 img-avatar-thumb m-0">
-                                                                {$ingame.long_name}
-                                                            </div>
-                                                        </label>
-                                                    </div>
-                                                {/foreach}
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="in-game-message">
 
+                                        <div class="form-group mb-20">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text short_name_icon">Coin</div>
+                                                <input type="number" class="form-control" min="10" max="10000" id="coin" name="sum" placeholder="{$d_recipient_count}" value="{$payment_system.rec_payment}" onchange="changeSum($(this).val(),false);" onkeyup="changeSum($(this).val(),false);">
+                                                <div class="input-group-append"><span class="input-group-text" id="bonus_sum">+0 {$donate_span_title_bonus}</span></div>
                                             </div>
                                         </div>
                                     </div>
-                                    {else}
-                                        {foreach $.site.config.in_game_currency[$.php.get_sid()]['settings'] as $key => $ingame}
-                                            <input type="radio" name="type_id" value="{$ingame.id}" data-type="{$ingame.type}" data-message="{$ingame.message_no_auth}" data-long-name="{$ingame.long_name}" data-price="{$ingame.price}" data-short-name="{$ingame.short_name}" style="display: none;" checked />
-
-                                            <div class="form-group">
-                                                <label for="recipient" id="recipient-label">{if $ingame.type == 'account'}{$d_recipient_account}{else}{$d_recipient_char}{/if}</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text type_icon">
-                                                            <i class="fa {if $ingame.type == 'account'}fa-user{else}fa-street-view{/if}"></i>
-                                                        </span>
-                                                    </div>
-                                                    <input type="text" id="recipient" class="form-control" name="recipient" placeholder="{if $ingame.type == 'account'}XX_Login{else}MegaMag{/if}">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group mb-20">
-                                                <label for="coin">{$d_recipient_count}</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend"><span class="input-group-text short_name_icon">{$ingame.short_name}</div>
-                                                    <input type="number" class="form-control" min="10" max="10000" id="coin" name="sum" placeholder="{$d_recipient_count} {$ingame.long_name}" value="{$payment_system.rec_payment}" onchange="changeSum($(this).val(),false);" onkeyup="changeSum($(this).val(),false);">
-                                                    <div class="input-group-append"><span class="input-group-text" id="bonus_sum">+0 {$donate_span_title_bonus}</span></div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="in-game-message">
-                                                {$ingame.message_no_auth}
-                                            </div>
-                                        {/foreach}
-                                    {/if}
-                                {else}
-                                    <p class="alert alert-warning font-w600 text-center" style="border-radius: 3px;">
-                                        {$lang_notfound_type_buy}
-                                    </p>
-                                {/if}
-
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group  mb-20">
-                                    <input type="text" id="sum_slider" data-grid="true">
-                                </div>
-                            </div>
-                            <div class="col-md-12" id="calculation_board">
-                                {foreach $payment_system.course as $currency => $course}
-                                    <div class="row border-bottom pt-5">
-                                        <div class="col-3">
-                                            {if $course_cfg[$currency]?}{$course_cfg[$currency]['name']}{else}{$currency}{/if}
-                                        </div>
-                                        <div class="col-9">
-                                            <span class="pull-right"><span id="sum_{$currency}">0</span> {if $course_cfg[$currency]?}{$course_cfg[$currency]['icon']}{/if}</span>
-                                        </div>
-                                    </div>
-                                {/foreach}
-                            </div>
-                            <div class="col-md-6 border-left" id="item_board" style="display: none;">
-
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group mt-20">
-                                    <label for="payment_method">{$donate_title_pay}</label>
-                                </div>
-                                <div class="row gutters-tiny mt-20">
-                                    {set $pay_first = true}
-                                    {foreach $payment_list as $pay}
-                                        {if $payment_system[$pay]? AND $payment_system[$pay] === true}
-                                            <div class="col-sm-3 col-4">
-                                                <div class="cc-selector-2">
-                                                    <input id="{$pay}" type="radio" name="payment_method" value="{$pay}" {if $pay_first}checked="checked"{set $pay_first = false}{/if}/>
-                                                    <label class="drinkcard-cc" for="{$pay}">
-                                                        <img class="img-fluid" src="/template/panel/assets/media/payment/{$pay}.png" alt="{$pay}">
+                                    <div class="col-md-6">
+                                        <div class="form-group"><label for="label-recipient">{$d_title_valuta}</label>
+                                            {foreach $.site.config.in_game_currency[$.php.get_sid()]['settings'] as $key => $ingame first=$first_pos}
+                                                <input type="radio" name="type_id" id="label-id-{$key}" value="{$ingame.id}" autocomplete="off" data-type="{$ingame.type}" data-message="{$ingame.message_no_auth}" data-long-name="{$ingame.long_name}" data-price="{$ingame.price}" data-short-name="{$ingame.short_name}" {if $first_pos}checked{/if} />
+                                                <div class="btn-group w-100">
+                                                    <label for="label-id-{$key}" class="btn btn-default">
+                                                        <span class="fa fa-check-square-o fa-lg"></span>
+                                                        <span class="fa fa-square-o fa-lg"></span>
+                                                        <div class="content-label w-100 text-left">
+                                                            <img src="{$ingame.icon}" class="img-avatar img-avatar16 img-avatar-thumb m-0">
+                                                            {$ingame.long_name}
+                                                        </div>
                                                     </label>
                                                 </div>
-                                            </div>
-                                        {/if}
-                                    {/foreach}
-                                </div>
-                            </div>
+                                            {/foreach}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="in-game-message">
 
+                                        </div>
+                                    </div>
+                                </div>
+                                {else}
+                                    {foreach $.site.config.in_game_currency[$.php.get_sid()]['settings'] as $key => $ingame}
+                                        <input type="radio" name="type_id" value="{$ingame.id}" data-type="{$ingame.type}" data-message="{$ingame.message_no_auth}" data-long-name="{$ingame.long_name}" data-price="{$ingame.price}" data-short-name="{$ingame.short_name}" style="display: none;" checked />
+
+                                        <div class="form-group">
+                                            <label for="recipient" id="recipient-label">{if $ingame.type == 'account'}{$d_recipient_account}{else}{$d_recipient_char}{/if}</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text type_icon">
+                                                        <i class="fa {if $ingame.type == 'account'}fa-user{else}fa-street-view{/if}"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" id="recipient" class="form-control" name="recipient" placeholder="{if $ingame.type == 'account'}XX_Login{else}MegaMag{/if}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group mb-20">
+                                            <label for="coin">{$d_recipient_count}</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend"><span class="input-group-text short_name_icon">{$ingame.short_name}</div>
+                                                <input type="number" class="form-control" min="10" max="10000" id="coin" name="sum" placeholder="{$d_recipient_count} {$ingame.long_name}" value="{$payment_system.rec_payment}" onchange="changeSum($(this).val(),false);" onkeyup="changeSum($(this).val(),false);">
+                                                <div class="input-group-append"><span class="input-group-text" id="bonus_sum">+0 {$donate_span_title_bonus}</span></div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="in-game-message">
+                                            {$ingame.message_no_auth}
+                                        </div>
+                                    {/foreach}
+                                {/if}
+                            {else}
+                                <p class="alert alert-warning font-w600 text-center" style="border-radius: 3px;">
+                                    {$lang_notfound_type_buy}
+                                </p>
+                            {/if}
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group  mb-20">
+                                <input type="text" id="sum_slider" data-grid="true">
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="calculation_board">
+                            {foreach $payment_system.course as $currency => $course}
+                                <div class="row border-bottom pt-5">
+                                    <div class="col-3">
+                                        {if $course_cfg[$currency]?}{$course_cfg[$currency]['name']}{else}{$currency}{/if}
+                                    </div>
+                                    <div class="col-9">
+                                        <span class="pull-right"><span id="sum_{$currency}">0</span> {if $course_cfg[$currency]?}{$course_cfg[$currency]['icon']}{/if}</span>
+                                    </div>
+                                </div>
+                            {/foreach}
+                        </div>
+                        <div class="col-md-6 border-left" id="item_board" style="display: none;">
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group mt-20">
+                                <label for="payment_system">{$donate_title_pay}</label>
+                            </div>
+                            <div class="row gutters-tiny mt-20">
+                                {foreach $payment_list as $pay}
+                                    {if $payment_system[$pay]? AND $payment_system[$pay] === true}
+                                        <div class="col-sm-3 col-4">
+                                            <div class="cc-selector-2">
+                                                <input id="{$pay}" type="radio" name="payment_system" value="{$pay}" />
+                                                <label class="drinkcard-cc" for="{$pay}">
+                                                    <img class="img-fluid" src="/template/panel/assets/media/payment/{$pay}.png" alt="{$pay}">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    {/if}
+                                {/foreach}
+                            </div>
+                        </div>
                         {if $config_cabinet.captcha == 'recaptchav2'}
                             <div class="col-12">
                                 <div class="form-group row justify-content-center text-center">
@@ -167,8 +165,37 @@
                                 <altcha-widget id="altcha" challengeurl="/captcha/altcha" auto="onfocus"></altcha-widget>
                             </div>
                         {/if}
+                    </div>
+                </div>
+                <div id="methodsList" v-cloak>
+                    <div class="block-content pl-50 pr-50" v-if="Object.keys(methods).length > 0">
+                        <label>{$lang_select_payment_method}</label>
+                        <div class="d-flex flex-wrap" style="gap: 1rem;">
+                            {ignore}
+                            <label
+                                class="donations-method-item"
+                                :class="{ 'method-active': method === gt.method }"
+                                v-for="gt in methods"
+                                :for="paymentSystem + '_' + gt.method"
+                            >
+                                <input
+                                    type="radio"
+                                    name="payment_method"
+                                    :value="gt.method"
+                                    v-model="method"
+                                    @change="setMethod(gt.method)"
+                                    :id="paymentSystem + '_' + gt.method"
+                                >
+                                <span class="method-selector">
+                                    {{ gt.title }}
+                                </span>
+                            </label>
+                            {/ignore}
                         </div>
                     </div>
+                    <input type="hidden" name="method_currency" id="method_currency" :value="methodCurrency">
+                </div>
+
                 <div class="block-content block-content-sm block-content-full bg-body-light text-center mt-20">
                     <button type="submit" class="btn btn-alt-primary submit-form">
                         <i class="fa fa-money mr-5"></i> {$donate_title_pay_btn}
@@ -178,6 +205,39 @@
         </div>
     </div>
 </div>
+
+<style>
+
+    [v-cloak] { display: none; }
+
+    .donations-method-item {
+    border: 1px solid #b5b5b5;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    }
+    .donations-method-item label {
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    }
+
+    .donations-method-item:hover {
+    border-color: #3f9ce8;
+    background-color: #e3f4fc;
+    }
+
+    .donations-method-item input[type="radio"] {
+    display: none;
+    }
+    .donations-method-item.method-active {
+    border-color: #3f9ce8;
+    background-color: #e3f4fc;
+    }
+
+</style>
+
+
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
         $("#sum_slider").ionRangeSlider({
@@ -193,13 +253,13 @@
                 let bonus_item_key = [];
                 let bonus_item_html = '<div class="row border-bottom text-center pt-5" style="border-bottom-style: dashed !important;"><div class="col-12">{$donate_title_pay_bonus_item}</div></div>';
                 let bonus_item_show = false;
-                let payment_method = $("input[name='payment_method']:checked"). val();
+                let payment_system = $("input[name='payment_system']:checked"). val();
                 let price = parseFloat($("input[name='type_id']:checked").data('price'));
 
                 {*/*Перебираем все бонусы и отрисовываем*/*}
                 {foreach $event_cfg as $bonus_cfg}
                     let temp_agrigator_{$bonus_cfg.id} = {$.php.json_encode($bonus_cfg.agrigator)};
-                    if(temp_agrigator_{$bonus_cfg.id}.includes(payment_method) || temp_agrigator_{$bonus_cfg.id}.includes('all')){
+                    if(temp_agrigator_{$bonus_cfg.id}.includes(payment_system) || temp_agrigator_{$bonus_cfg.id}.includes('all')){
                     {foreach $bonus_cfg.data as $lv => $rage first=$first}
                 {if !$first}else {/if}if (Math.floor(num * price) >= {$rage.start} && Math.floor(num * price) <= {$rage.end}) {
                                 bonus += (Math.floor(num * price) * {$rage.percent} / 100);

@@ -4,6 +4,7 @@ namespace Donations;
 
 
 use ApiLib\GlobalApi;
+use ApiLib\v2\Payment;
 
 class func
 {
@@ -45,7 +46,10 @@ class func
         'severpay_byn',
         'settlepay_pix',
         'settlepay_cbucvu',
-        'abankcomua'
+        'abankcomua',
+        'betatransfer',
+        'wayforpay',
+        'liqpay'
     );
 
     public function __construct($this_main)
@@ -131,7 +135,8 @@ class func
                     get_lang('course.lang')
 
                 ),
-                get_lang('widget_donate.lang')
+                get_lang('widget_donate.lang'),
+                get_lang('payment.lang')
             )
 
         );
@@ -220,7 +225,8 @@ class func
                     get_lang('course.lang')
 
                 ),
-                get_lang('widget_donate.lang')
+                get_lang('widget_donate.lang'),
+                get_lang('payment.lang')
             )
 
         );
@@ -228,26 +234,80 @@ class func
 
     }
 
-    //AJAX
-    public function ajax_checkout(){
+    public function getPaymentMethods()
+    {
 
-        $api = new GlobalApi();
-        $vars = array();
+        $post = $_POST;
+
+        if(empty($post['payment_system'])) {
+            return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_payment_method'])->danger();
+        }
+
+        $payment = new Payment();
+        $response = $payment->getMethods([
+            'payment_system' => $post['payment_system']
+        ]);
+
+        if ($response['ok']) {
+            if (isset($response['error'])) {
+                $error = get_lang('payment.lang')[$response['error']] ?? $response['error'];
+                $send = get_instance()->ajaxmsg->notify($error)->danger();
+            } else {
+                if(isset($response["response"]->methods) && !empty($response["response"]->methods)) {
+                    $send = get_instance()
+                            ->ajaxmsg
+                            ->broadcast(
+                                $post['payment_system'] . '_payment_methods',
+                                json_encode($response["response"]->methods),
+                                'updatePaymentMethods'
+                            )
+                            ->send();
+                } else {
+                    $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+                }
+            }
+        } else {
+            $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
+        }
+
+        return $send;
+
+    }
+
+    public function ajax_checkout()
+    {
+
+        if (!captcha_check()) {
+            return get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_error_captcha'])->eval_js(captcha_reload('checkout'))->danger();
+        }
 
         if (get_instance()->session->isLogin()) {
 
-            //Проверка сервера
-            if (!isset($_REQUEST['sum']) OR empty($_REQUEST['sum']))
+            $vars = [];
+
+            if (!isset($_REQUEST['sum']) OR empty($_REQUEST['sum'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_sum'])->danger();
-            else
+            } else {
                 $vars["sum"] = $_REQUEST['sum'];
+            }
 
-
-            //Проверка сервера
-            if (!isset($_REQUEST['payment_method']) OR empty($_REQUEST['payment_method']))
+            if (!isset($_REQUEST['payment_system']) OR empty($_REQUEST['payment_system'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_payment_method'])->danger();
-            else
+            } else {
+                $vars["payment_system"] = $_REQUEST['payment_system'];
+            }
+
+            if(!empty($_REQUEST['payment_method'])) {
                 $vars["payment_method"] = $_REQUEST['payment_method'];
+            }
+
+            if(!empty($_REQUEST['method_currency'])) {
+                $vars["method_currency"] = $_REQUEST['method_currency'];
+            }
+
+            if(isset($_REQUEST['custom_fields']) && !empty($_REQUEST['custom_fields']) && is_array($_REQUEST['custom_fields'])) {
+                $vars['custom_fields'] = $_REQUEST['custom_fields'];
+            }
 
             if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])) {
 
@@ -273,41 +333,38 @@ class func
 
                 $vars["ymid"] = $this->advertising['ymid'];
             }
-            if (!captcha_check())
-                return get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_error_captcha'])->eval_js(captcha_reload('checkout'))->danger();
 
-
-            //Ставим флаг создания простого платежа
             $vars["type"] = 1;
 
-            $response = $api->checkout($vars);
+            $payment = new Payment();
+            $response = $payment->createOrder($vars);
 
             if ($response['ok']) {
 
                 if (isset($response['error'])) {
-                    if (isset($response["response"]->input))
+                    if (isset($response["response"]->input)) {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                    else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
+                    }
                 } else {
                     if (isset($response["response"]->redirect)) {
-
-                        if (isset($response["response"]->post) AND !empty($response["response"]->post) > 0)
+                        if (isset($response["response"]->post) AND !empty($response["response"]->post) > 0) {
                             $send = get_instance()->ajaxmsg->post($response["response"]->post)->notify((string)$response["response"]->success, (string)$response["response"]->redirect)->success();
-                        else
+                        } else {
                             $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success, (string)$response["response"]->redirect)->success();
-
-                    } else
+                        }
+                    } else {
                         $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+                    }
                 }
-
             } else {
                 $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
             }
 
-        }else
+        } else {
             $send = get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
-
+        }
 
         return $send;
 
@@ -316,34 +373,47 @@ class func
     public function ajax_checkout_no_auth()
     {
 
-        $api = new GlobalApi();
-        $vars = array();
+        if (!captcha_check()) {
+            return get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_error_captcha'])->eval_js(captcha_reload('checkout'))->danger();
+        }
 
+        $vars = [];
 
-        //Проверка сервера
-        if (!isset($_REQUEST['sum']) OR empty($_REQUEST['sum']))
+        if (!isset($_REQUEST['sum']) OR empty($_REQUEST['sum'])) {
             return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_sum'])->danger();
-        else
+        } else {
             $vars["sum"] = $_REQUEST['sum'];
+        }
 
-
-        //Проверка сервера
-        if (!isset($_REQUEST['payment_method']) OR empty($_REQUEST['payment_method']))
+        if (!isset($_REQUEST['payment_system']) OR empty($_REQUEST['payment_system'])) {
             return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_payment_method'])->danger();
-        else
+        } else {
+            $vars["payment_system"] = $_REQUEST['payment_system'];
+        }
+
+        if(!empty($_REQUEST['payment_method'])) {
             $vars["payment_method"] = $_REQUEST['payment_method'];
+        }
 
-        //Проверка сервера
-        if (!isset($_REQUEST['recipient']) OR empty($_REQUEST['recipient']))
+        if(!empty($_REQUEST['method_currency'])) {
+            $vars["method_currency"] = $_REQUEST['method_currency'];
+        }
+
+        if(isset($_REQUEST['custom_fields']) && !empty($_REQUEST['custom_fields']) && is_array($_REQUEST['custom_fields'])) {
+            $vars['custom_fields'] = $_REQUEST['custom_fields'];
+        }
+
+        if (!isset($_REQUEST['recipient']) OR empty($_REQUEST['recipient'])) {
             return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_recipient'])->danger();
-        else
+        } else {
             $vars["recipient"] = $_REQUEST['recipient'];
+        }
 
-        //Проверка сервера
-        if (!isset($_REQUEST['type_id']) OR empty($_REQUEST['type_id']))
+        if (!isset($_REQUEST['type_id']) OR empty($_REQUEST['type_id'])) {
             return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_type_id'])->danger();
-        else
+        } else {
             $vars["type_id"] = $_REQUEST['type_id'];
+        }
 
         if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])) {
 
@@ -362,6 +432,7 @@ class func
             }
 
         }
+
         if (isset($this->advertising['ymid']) AND !empty($this->advertising['ymid'])) {
             if (isset($_COOKIE['_ym_uid']) AND !empty($_COOKIE['_ym_uid']))
                 $vars["_ym"] = $_COOKIE['_ym_uid'];
@@ -369,44 +440,42 @@ class func
             $vars["ymid"] = $this->advertising['ymid'];
         }
 
-        if (!captcha_check())
-            return get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_error_captcha'])->eval_js(captcha_reload('checkout'))->danger();
-
-
-        //Ставим флаг создания простого платежа
         $vars["type"] = 2;
 
-        $response = $api->checkout($vars);
+        $payment = new Payment();
+        $response = $payment->createOrder($vars);
 
         if ($response['ok']) {
 
             if (isset($response['error'])) {
-                if (isset($response["response"]->input))
+                if (isset($response["response"]->input)) {
                     $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                else
+                } else {
                     $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
+                }
             } else {
                 if (isset($response["response"]->redirect)) {
-
-                    if (isset($response["response"]->post) AND !empty($response["response"]->post) > 0)
+                    if (isset($response["response"]->post) AND !empty($response["response"]->post) > 0) {
                         $send = get_instance()->ajaxmsg->post($response["response"]->post)->notify((string)$response["response"]->success, (string)$response["response"]->redirect)->success();
-                    else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify((string)$response["response"]->success, (string)$response["response"]->redirect)->success();
+                    }
 
-                } else
+                } else {
                     $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+                }
             }
-
         } else {
             $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
         }
-
 
         return $send;
 
     }
 
-    public function ajax_refresh_balance(){
+    public function ajax_refresh_balance()
+    {
+
         $api = new GlobalApi();
         $vars = array('temp');
 
@@ -433,8 +502,8 @@ class func
                         $send = get_instance()
                                 ->ajaxmsg
                                 ->notify((string)$response["response"]->success)
-                                ->setLocalStorage('main_balance', get_instance()->session->getBalance('main'))
-                                ->setLocalStorage('bonus_balance', get_instance()->session->getBalance('bonus'))
+                                ->broadcast('main_balance', get_instance()->session->getBalance('main'), 'updateBalance')
+                                ->broadcast('bonus_balance', get_instance()->session->getBalance('bonus'), 'updateBalance')
                                 ->success();
 
                     } else

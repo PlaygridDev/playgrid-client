@@ -166,10 +166,12 @@ $(document).ready(function () {
                         localStorage.setItem(item.key, item.value);
                     });
                 }
-                window.dispatchEvent(new CustomEvent('localStorageChange', {
+                window.dispatchEvent(new CustomEvent(response.localStorage.event, {
                     detail: localStorage
                 }));
             }
+
+            window.dispatchBusEvent?.(response);
 
             if (response.location && response.post) {
                 const form = document.createElement('form');
@@ -346,6 +348,19 @@ window.send_ajax = function (data, async) {
         if (response.callback) {
             eval(response.callback)(response.data);
         }
+
+        if(response.localStorage !== undefined) {
+            if(response.localStorage.items !== undefined) {
+                response.localStorage.items.forEach(item => {
+                    localStorage.setItem(item.key, item.value);
+                });
+            }
+            window.dispatchEvent(new CustomEvent(response.localStorage.event, {
+                detail: localStorage
+            }));
+        }
+
+        dispatchBusEvent(response);
 
         jQuery('#page-header-loader').removeClass('show');
     });

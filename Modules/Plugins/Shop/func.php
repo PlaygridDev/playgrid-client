@@ -4,6 +4,7 @@ namespace Shop;
 
 
 use ApiLib\GlobalApi;
+use ApiLib\v2\Payment;
 use ApiLib\v2\Plugins\Shop;
 
 class func
@@ -44,7 +45,10 @@ class func
         'severpay_byn',
         'settlepay_pix',
         'settlepay_cbucvu',
-        'abankcomua'
+        'abankcomua',
+        'betatransfer',
+        'wayforpay',
+        'liqpay',
     );
     public $advertising = false;
 
@@ -127,7 +131,8 @@ class func
                         'config_cabinet' => get_instance()->config['cabinet'],
                     ),
                     get_lang('shop.lang'),
-                    get_lang('course.lang')
+                    get_lang('course.lang'),
+                    get_lang('payment.lang')
                 )
 
             );
@@ -143,7 +148,7 @@ class func
                         'item' => $item,
                         'tpl_enrollment' => $item['type']
                     ),
-                    get_lang('shop.lang')
+                    get_lang('shop.lang'),
                 )
 
             );
@@ -151,20 +156,38 @@ class func
             return error_404_html();
     }
 
-    public function ajax_checkout_shop_no_auth(){
-        $api = new GlobalApi();
+    public function ajax_checkout_shop_no_auth()
+    {
+
+        if (!captcha_check()) {
+            return get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_error_captcha'])->eval_js(captcha_reload('checkout'))->danger();
+        }
+
         $vars = array();
 
-        //ид магазина
-        if (!isset($_POST['shop_id']) OR empty($_POST['shop_id']))
+        if (!isset($_POST['shop_id']) OR empty($_POST['shop_id'])) {
             return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_empty_shop_id'])->danger();
-        else
+        } else {
             $vars["shop_id"] = intval($_POST['shop_id']);
-        //ид магазина
-        if (!isset($_POST['payment_method']) OR empty($_POST['payment_method']))
+        }
+
+        if (!isset($_POST['payment_system']) OR empty($_POST['payment_system'])) {
             return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_empty_payment_method'])->danger();
-        else
-            $vars["payment_method"] = $_POST['payment_method'];
+        } else {
+            $vars["payment_system"] = $_POST['payment_system'];
+        }
+
+        if(!empty($_REQUEST['payment_method'])) {
+            $vars["payment_method"] = $_REQUEST['payment_method'];
+        }
+
+        if(!empty($_REQUEST['method_currency'])) {
+            $vars["method_currency"] = $_REQUEST['method_currency'];
+        }
+
+        if(isset($_REQUEST['custom_fields']) && !empty($_REQUEST['custom_fields']) && is_array($_REQUEST['custom_fields'])) {
+            $vars['custom_fields'] = $_REQUEST['custom_fields'];
+        }
 
         //тип доставки
         if (!isset($_POST['type_buy']) OR empty($_POST['type_buy']))
@@ -188,9 +211,6 @@ class func
                     $vars["email"] = $_POST['email'];
             }
         }
-
-        if (!captcha_check())
-            return get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_error_captcha'])->eval_js(captcha_reload('checkout'))->danger();
 
         $sid = get_instance()->get_sid();
 
@@ -224,7 +244,8 @@ class func
             $vars["ymid"] = $this->advertising['ymid'];
         }
 
-        $response = $api->checkout($vars);
+        $payment = new Payment();
+        $response = $payment->createOrder($vars);
 
         if ($response['ok']) {
 
@@ -460,8 +481,8 @@ class func
                         $send = get_instance()
                                 ->ajaxmsg
                                 ->notify((string)$response["response"]->success)
-                                ->setLocalStorage('main_balance', get_instance()->session->getBalance('main'))
-                                ->setLocalStorage('bonus_balance', get_instance()->session->getBalance('bonus'))
+                                ->broadcast('main_balance', get_instance()->session->getBalance('main'), 'updateBalance')
+                                ->broadcast('bonus_balance', get_instance()->session->getBalance('bonus'), 'updateBalance')
                                 ->success();
 
                     } else {
@@ -532,8 +553,8 @@ class func
                         $send = get_instance()
                                 ->ajaxmsg
                                 ->notify((string)$response["response"]->success)
-                                ->setLocalStorage('main_balance', get_instance()->session->getBalance('main'))
-                                ->setLocalStorage('bonus_balance', get_instance()->session->getBalance('bonus'))
+                                ->broadcast('main_balance', get_instance()->session->getBalance('main'), 'updateBalance')
+                                ->broadcast('bonus_balance', get_instance()->session->getBalance('bonus'), 'updateBalance')
                                 ->success();
 
                     } else {

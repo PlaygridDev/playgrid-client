@@ -4,6 +4,7 @@ namespace Modules\LA\Market;
 
 use ApiLib\GlobalApi;
 use ApiLib\LaApi;
+use ApiLib\v2\Payment;
 
 class func
 {
@@ -53,7 +54,10 @@ class func
         'severpay_byn',
         'settlepay_pix',
         'settlepay_cbucvu',
-        'abankcomua'
+        'abankcomua',
+        'betatransfer',
+        'wayforpay',
+        'liqpay',
     );
 
     public $datatable;
@@ -1069,7 +1073,8 @@ class func
                     get_lang('course.lang')
 
                 ),
-                get_lang('widget_donate.lang')
+                get_lang('widget_donate.lang'),
+                get_lang('payment.lang')
             )
 
         );
@@ -1101,15 +1106,52 @@ class func
     }
 
 
-    //AJAX
+    public function getPaymentMethods()
+    {
 
+        $post = $_POST;
+
+        if(empty($post['payment_system'])) {
+            return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_payment_method'])->danger();
+        }
+
+        $payment = new Payment();
+        $response = $payment->getMethods([
+            'payment_system' => $post['payment_system']
+        ]);
+
+        if ($response['ok']) {
+
+            if (isset($response['error'])) {
+                $error = get_lang('payment.lang')[$response['error']] ?? $response['error'];
+                $send = get_instance()->ajaxmsg->notify($error)->danger();
+            } else {
+                if(isset($response["response"]->methods) && !empty($response["response"]->methods)) {
+                    $send = get_instance()
+                            ->ajaxmsg
+                            ->broadcast(
+                                $post['payment_system'] . '_payment_methods',
+                                json_encode($response["response"]->methods),
+                                'updatePaymentMethods'
+                            )
+                            ->send();
+                } else {
+                    $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+                }
+            }
+        } else {
+            $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
+        }
+
+        return $send;
+
+    }
 
     public function ajax_checkout(){
 
         if($this->market['balance'] !== false)
             return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_payment_method'])->danger();
 
-        $api = new GlobalApi();
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
@@ -1122,10 +1164,19 @@ class func
 
 
             //Проверка сервера
-            if (!isset($_REQUEST['payment_method']) OR empty($_REQUEST['payment_method']))
+            if (!isset($_REQUEST['payment_system']) OR empty($_REQUEST['payment_system']))
                 return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_payment_method'])->danger();
             else
+                $vars["payment_system"] = $_REQUEST['payment_system'];
+
+
+            if(!empty($_REQUEST['payment_method'])) {
                 $vars["payment_method"] = $_REQUEST['payment_method'];
+            }
+
+            if(!empty($_REQUEST['method_currency'])) {
+                $vars["method_currency"] = $_REQUEST['method_currency'];
+            }
 
             if (isset($this->advertising['gawpid']) AND !empty($this->advertising['gawpid'])){
                 if (isset($_COOKIE['_ga']) AND !empty($_COOKIE['_ga']))
@@ -1144,7 +1195,8 @@ class func
             //Ставим флаг создания простого платежа
             $vars["type"] = 4;
 
-            $response = $api->checkout($vars);
+            $payment = new Payment();
+            $response = $payment->createOrder($vars);
 
             if ($response['ok']) {
 

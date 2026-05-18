@@ -61,8 +61,7 @@ class Donations extends MainModulesClass
             'checkout' => function () { return $this->func->ajax_checkout(); },
             'checkout_no_auth' => function () { return $this->func->ajax_checkout_no_auth(); },
             'ajax_refresh_balance' => function () { return $this->func->ajax_refresh_balance(); },
-
-
+            'ajax_get_payment_methods' => function () { return $this->func->getPaymentMethods(); },
         );
 
     }

@@ -62,11 +62,7 @@
             },
         },
 
-        mounted: function() {
-            window.addEventListener("localStorageChange", (event) => {
-                sidebarBalance.setBalance(event.detail?.main_balance, event.detail?.bonus_balance);
-            });
-        },
+        mounted: function() {},
 
     });
 

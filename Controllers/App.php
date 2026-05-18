@@ -1,6 +1,7 @@
 <?php
 
 use ApiLib\GlobalApi;
+use ApiLib\v2\Payment;
 
 class App extends Controller
 {
@@ -41,7 +42,10 @@ class App extends Controller
         'severpay_byn',
         'settlepay_pix',
         'settlepay_cbucvu',
-        'abankcomua'
+        'abankcomua',
+        'betatransfer',
+        'wayforpay',
+        'liqpay'
     );
 
     public $advertising = false;
@@ -1136,8 +1140,9 @@ class App extends Controller
     /**
      * Создание платежа
      */
-    public function checkout(){
-        $api = new GlobalApi();
+    public function checkout()
+    {
+
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
@@ -1174,7 +1179,8 @@ class App extends Controller
             //Ставим флаг создания простого платежа
             $vars["type"] = 1;
 
-            $response = $api->checkout($vars);
+            $payment = new Payment();
+            $response = $payment->createOrder($vars);
 
             if ($response['ok']) {
 
@@ -1245,7 +1251,8 @@ class App extends Controller
             //Ставим флаг создания простого платежа
             $vars["type"] = 2;
 
-            $response = $api->checkout($vars);
+            $payment = new Payment();
+            $response = $payment->createOrder($vars);
 
             if ($response['ok']) {
 

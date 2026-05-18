@@ -408,7 +408,7 @@ class ApiController extends \Controller
         $curl->setTimeout(100);
         $curl->setHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        $url = API_URL.'v1/Payment/ipn/'.$payment;
+        $url = API_URL . 'v2/payment/webhook/' . $payment;
 
         if (is_array($_POST) AND count($_POST) > 0) {
             if (is_array($_GET) AND count($_GET) > 0) {
@@ -479,42 +479,8 @@ class ApiController extends \Controller
 
         $this->authorizeRequest();
 
-        $gitHubConfig = getConfig('github');
-        $gitHubRepository = new Repository($gitHubConfig);
-
-        $updateService = new \Services\UpdateService($gitHubRepository);
-
-        if($updateService->updateIsActive()) {
-            return $this->response(
-                'UPDATE_IN_PROGRESS',
-                [],
-                423 // Locked
-            );
-        }
-
-        if(!$updateService->checkPHPVersion()) {
-            return $this->response(
-                'PHP_VERSION_ERROR',
-                [
-                    'current_version' => PHP_VERSION,
-                    'minimum_version' => '7.4.33',
-                ],
-                412 // Precondition Failed
-            );
-        }
-
-        if(!$updateService->checkGitHubConnection()) {
-            return $this->response(
-                'GITHUB_CONNECTION_ERROR',
-                [
-                    'error_message' => $gitHubRepository->getErrorMessage(),
-                ],
-                424 // Failed Dependency
-            );
-        }
-
         $tag = $_POST['tag'] ?? '';
-        if(empty($tag)) {
+        if (empty($tag)) {
             return $this->response(
                 'EMPTY_TAG_ERROR',
                 [],
@@ -524,7 +490,42 @@ class ApiController extends \Controller
 
         $processKey = $_POST['process_key'] ?? '';
 
-        if(empty($processKey)) {
+        if (empty($processKey)) {
+
+            // ─── Phase 1: pre-flight checks + create process key ───
+
+            $gitHubConfig = getConfig('github');
+            $gitHubRepository = new Repository($gitHubConfig);
+            $updateService = new \Services\UpdateService($gitHubRepository);
+
+            if ($updateService->updateIsActive()) {
+                return $this->response(
+                    'UPDATE_IN_PROGRESS',
+                    [],
+                    423 // Locked
+                );
+            }
+
+            if (!$updateService->checkPHPVersion()) {
+                return $this->response(
+                    'PHP_VERSION_ERROR',
+                    [
+                        'current_version' => PHP_VERSION,
+                        'minimum_version' => '7.4.33',
+                    ],
+                    412 // Precondition Failed
+                );
+            }
+
+            if (!$updateService->checkGitHubConnection()) {
+                return $this->response(
+                    'GITHUB_CONNECTION_ERROR',
+                    [
+                        'error_message' => $gitHubRepository->getErrorMessage(),
+                    ],
+                    424 // Failed Dependency
+                );
+            }
 
             $processKey = $updateService->generateProcessKey();
             $updateService->setProcessKey($processKey);
@@ -540,24 +541,47 @@ class ApiController extends \Controller
 
         } else {
 
-            if(!$updateService->checkProcessKey($processKey)) {
-                return $this->response(
-                    'INVALID_PROCESS_KEY',
-                    [],
-                    401 // Unauthorized
-                );
-            }
-
-            $updateService->setProcessKey($processKey);
+            // ─── Phase 2: validate process key + install ───
+            // All code is wrapped in try/catch so any exception — including those
+            // thrown before installRelease() is reached — is caught and reported.
 
             try {
+
+                $gitHubConfig = getConfig('github');
+                $gitHubRepository = new Repository($gitHubConfig);
+                $updateService = new \Services\UpdateService($gitHubRepository);
+
+                if (!$updateService->checkProcessKey($processKey)) {
+                    return $this->response(
+                        'INVALID_PROCESS_KEY',
+                        [],
+                        401 // Unauthorized
+                    );
+                }
+
+                $updateService->setProcessKey($processKey);
                 $updateService->installRelease($tag);
+
                 return $this->response(
                     'INSTALL_SUCCESS',
                     [],
                     200
                 );
-            } catch (Exception $e) {
+
+            } catch (\Throwable $e) {
+
+                if (isset($updateService)) {
+                    $updateService->setUpdateStatus('FAILED');
+                } else {
+                    Cache::set('update', ['status' => 'FAILED', 'process_key' => $processKey], 1800);
+                    (new \ApiLib\GlobalApi())->sendUpdaterProcessStatus($processKey, 'FAILED');
+                }
+
+                \Services\UpdateService::log($processKey, 'Error: ' . $e->getMessage());
+                \Services\UpdateService::log($processKey, '-- UPDATE FAILED --');
+
+                (new \ApiLib\GlobalApi())->sendUpdaterProcessError($processKey, $e->getMessage());
+
                 return $this->response(
                     'INSTALL_FAILED',
                     [
@@ -565,6 +589,7 @@ class ApiController extends \Controller
                     ],
                     500
                 );
+
             }
 
         }

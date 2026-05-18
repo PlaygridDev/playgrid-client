@@ -64,12 +64,11 @@
                         <label for="payment_method">{$donate_title_pay}</label>
                     </div>
                     <div class="row gutters-tiny mt-20">
-                        {set $pay_first = true}
                         {foreach $payment_list as $pay}
                             {if $payment_system[$pay]? AND $payment_system[$pay] === true}
                                 <div class="col-sm-3 col-4">
                                     <div class="cc-selector-2">
-                                        <input id="{$pay}" type="radio" name="payment_method" value="{$pay}" {if $pay_first}checked="checked"{set $pay_first = false}{/if}/>
+                                        <input id="{$pay}" type="radio" name="payment_system" value="{$pay}" />
                                         <label class="drinkcard-cc" for="{$pay}">
                                             <img class="img-fluid" src="/template/panel/assets/media/payment/{$pay}.png" alt="{$pay}">
                                         </label>
@@ -81,6 +80,34 @@
                 </div>
             </div>
         </div>
+        <div id="methodsList">
+            <div class="block-content pl-50 pr-50" v-if="Object.keys(methods).length > 0">
+                <label>{$lang_select_payment_method}</label>
+                <div class="d-flex flex-wrap" style="gap: 1rem;">
+                    {ignore}
+                    <label
+                        class="donations-method-item"
+                        :class="{ 'method-active': method === gt.method }"
+                        v-for="gt in methods"
+                        :for="paymentSystem + '_' + gt.method"
+                    >
+                        <input
+                            type="radio"
+                            name="payment_method"
+                            :value="gt.method"
+                            v-model="method"
+                            @change="setMethod(gt.method)"
+                            :id="paymentSystem + '_' + gt.method"
+                        >
+                        <span class="method-selector">
+                            {{ gt.title }}
+                        </span>
+                    </label>
+                    {/ignore}
+                </div>
+            </div>
+            <input type="hidden" name="method_currency" id="method_currency" :value="methodCurrency">
+        </div>
         <div class="block-content block-content-sm block-content-full bg-body-light text-center mt-20">
             <button type="submit" class="btn btn-alt-primary submit-form">
                 <i class="fa fa-money mr-5"></i> {$donate_title_pay_btn}
@@ -88,6 +115,36 @@
         </div>
     </form>
 </div>
+
+<style>
+
+    .donations-method-item {
+    border: 1px solid #b5b5b5;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    }
+    .donations-method-item label {
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    }
+
+    .donations-method-item:hover {
+    border-color: #3f9ce8;
+    background-color: #e3f4fc;
+    }
+
+    .donations-method-item input[type="radio"] {
+    display: none;
+    }
+    .donations-method-item.method-active {
+    border-color: #3f9ce8;
+    background-color: #e3f4fc;
+    }
+
+</style>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {

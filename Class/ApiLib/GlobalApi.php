@@ -273,6 +273,9 @@ class GlobalApi extends Api
         return $response;
     }
 
+    /**
+     * @deprecated - use createOrder() method in \ApiLib\v2\Payment class instead
+     */
     public function checkout($vars){
 
         $response = $this->init()->addParam('checkout', $vars)->post('v1/Globals/payment/checkout')->response();
