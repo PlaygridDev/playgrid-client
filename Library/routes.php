@@ -11,6 +11,8 @@ $route['(\w{2})'] = $route['default_controller'];
 $route['app'] = "app/index";
 $route['app/(:any)'] = "app/$1";
 
+$route['payment/webhook/(:any)'] = "PaymentController/webhook/$1";
+
 $route['api/(:any)'] = "ApiController/$1";
 $route['api/payment/(:any)/(:any)'] = "ApiController/payment/$1/$2";
 

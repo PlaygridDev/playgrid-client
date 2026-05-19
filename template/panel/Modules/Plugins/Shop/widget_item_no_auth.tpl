@@ -168,12 +168,12 @@
                     <h3 class="h5 text-muted mb-0 text-center pt-5">{$shop_title_pay}</h3>
                     <div class="row gutters-tiny mt-20">
                         {foreach $payment_list as $pay}
-                            {if $payment_system[$pay]? AND $payment_system[$pay] === true}
+                            {if $payment_system[$pay]? && $payment_system[$pay] === true || $pay|match:"cstm:*"}
                                 <div class="col-sm-3 col-4">
                                     <div class="cc-selector-2">
                                         <input id="{$pay}" type="radio" name="payment_system" value="{$pay}" />
                                         <label class="drinkcard-cc" for="{$pay}">
-                                            <img class="img-fluid" src="/template/panel/assets/media/payment/{$pay}.png" alt="{$pay}">
+                                            <img class="img-fluid" src="/template/panel/assets/media/payment/{$pay|replace:'cstm:':''}.png" alt="{$pay}">
                                         </label>
                                     </div>
                                 </div>

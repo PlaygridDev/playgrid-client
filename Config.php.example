@@ -140,4 +140,15 @@ define('HTTP_FORWARDING', false); // Производить ли редирек�
 define('LIMIT_FILES', 5); // Лимит файлов / Max number of files
 define('MAX_SIZE', 2);    // Максимальный размер файла (МБ) / Max file size (MB)
 
+/**
+ * ============================================================
+ * 💳 Интеграции платежных систем / Payment systems integrations
+ * Здесь можно добавить свои платёжные методы
+ * You can add your own payment methods
+ * ============================================================
+ */
+define('PAYMENT_INTEGRATIONS', [
+    //'freekassa' => \Modules\Globals\Donations\Integrations\Handlers\FreeKassa::class,
+]);
+
 }

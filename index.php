@@ -147,6 +147,9 @@ $ignore_detect_lang_page = array(
     '/prefix/refresh',
     '/promo-game',
     '/input',
+
+    // Добавьте ниже URI вебхуков для обработки платежей
+    '/payment/webhook/frekassa',
 );
 
 $search_get = strstr($_SERVER['REQUEST_URI'], '?', true);

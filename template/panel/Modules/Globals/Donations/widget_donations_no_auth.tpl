@@ -122,12 +122,12 @@
                             </div>
                             <div class="row gutters-tiny mt-20">
                                 {foreach $payment_list as $pay}
-                                    {if $payment_system[$pay]? AND $payment_system[$pay] === true}
+                                    {if $payment_system[$pay]? && $payment_system[$pay] === true || $pay|match:"cstm:*"}
                                         <div class="col-sm-3 col-4">
                                             <div class="cc-selector-2">
                                                 <input id="{$pay}" type="radio" name="payment_system" value="{$pay}" />
                                                 <label class="drinkcard-cc" for="{$pay}">
-                                                    <img class="img-fluid" src="/template/panel/assets/media/payment/{$pay}.png" alt="{$pay}">
+                                                    <img class="img-fluid" src="/template/panel/assets/media/payment/{$pay|replace:'cstm:':''}.png" alt="{$pay}">
                                                 </label>
                                             </div>
                                         </div>
@@ -135,6 +135,36 @@
                                 {/foreach}
                             </div>
                         </div>
+
+                        <div id="methodsList" v-cloak>
+                            <div class="col-md-12" v-if="Object.keys(methods).length > 0">
+                                <label>{$lang_select_payment_method}</label>
+                                <div class="d-flex flex-wrap" style="gap: 1rem;">
+                                    {ignore}
+                                    <label
+                                        class="donations-method-item"
+                                        :class="{ 'method-active': method === gt.method }"
+                                        v-for="gt in methods"
+                                        :for="paymentSystem + '_' + gt.method"
+                                    >
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            :value="gt.method"
+                                            v-model="method"
+                                            @change="setMethod(gt.method)"
+                                            :id="paymentSystem + '_' + gt.method"
+                                        >
+                                        <span class="method-selector">
+                                            {{ gt.title }}
+                                        </span>
+                                    </label>
+                                    {/ignore}
+                                </div>
+                            </div>
+                            <input type="hidden" name="method_currency" id="method_currency" :value="methodCurrency">
+                        </div>
+
                         {if $config_cabinet.captcha == 'recaptchav2'}
                             <div class="col-12">
                                 <div class="form-group row justify-content-center text-center">
@@ -167,35 +197,6 @@
                         {/if}
                     </div>
                 </div>
-                <div id="methodsList" v-cloak>
-                    <div class="block-content pl-50 pr-50" v-if="Object.keys(methods).length > 0">
-                        <label>{$lang_select_payment_method}</label>
-                        <div class="d-flex flex-wrap" style="gap: 1rem;">
-                            {ignore}
-                            <label
-                                class="donations-method-item"
-                                :class="{ 'method-active': method === gt.method }"
-                                v-for="gt in methods"
-                                :for="paymentSystem + '_' + gt.method"
-                            >
-                                <input
-                                    type="radio"
-                                    name="payment_method"
-                                    :value="gt.method"
-                                    v-model="method"
-                                    @change="setMethod(gt.method)"
-                                    :id="paymentSystem + '_' + gt.method"
-                                >
-                                <span class="method-selector">
-                                    {{ gt.title }}
-                                </span>
-                            </label>
-                            {/ignore}
-                        </div>
-                    </div>
-                    <input type="hidden" name="method_currency" id="method_currency" :value="methodCurrency">
-                </div>
-
                 <div class="block-content block-content-sm block-content-full bg-body-light text-center mt-20">
                     <button type="submit" class="btn btn-alt-primary submit-form">
                         <i class="fa fa-money mr-5"></i> {$donate_title_pay_btn}

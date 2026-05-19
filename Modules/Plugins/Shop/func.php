@@ -3,7 +3,8 @@
 namespace Shop;
 
 
-use ApiLib\GlobalApi;
+use Modules\Globals\Donations\Integrations\PaymentHandler;
+
 use ApiLib\v2\Payment;
 use ApiLib\v2\Plugins\Shop;
 
@@ -64,6 +65,54 @@ class func
         if (isset(get_instance()->config['payment_system']['sorting_pay'])) {
             $this->payment_list = get_instance()->config['payment_system']['sorting_pay'];
         }
+
+        if (
+            defined('PAYMENT_INTEGRATIONS')
+            && is_array(PAYMENT_INTEGRATIONS)
+            && !empty(PAYMENT_INTEGRATIONS)
+        ) {
+            foreach (PAYMENT_INTEGRATIONS as $integration => $handlerClass) {
+
+                if (!class_exists($handlerClass)) {
+                    continue;
+                }
+
+                $integrationInstance = new $handlerClass();
+
+                if (!$integrationInstance instanceof PaymentHandler) {
+                    continue;
+                }
+
+                if(!method_exists($integrationInstance, 'getStatus') || !$integrationInstance->getStatus()) {
+                    continue;
+                }
+
+                if (method_exists($integrationInstance, 'getIdentifier')) {
+                    $identifier = $integrationInstance->getIdentifier();
+                }
+
+                $paymentMethod = 'cstm:' . $identifier;
+
+                if (in_array($paymentMethod, $this->payment_list, true)) {
+                    continue;
+                }
+
+                $sortOrder = 100;
+
+                if (method_exists($integrationInstance, 'getSortOrder')) {
+                    $sortOrder = (int) $integrationInstance->getSortOrder() - 1;
+                }
+
+                array_splice(
+                    $this->payment_list,
+                    $sortOrder,
+                    0,
+                    [$paymentMethod]
+                );
+
+            }
+        }
+
     }
 
 
@@ -189,6 +238,37 @@ class func
             $vars['custom_fields'] = $_REQUEST['custom_fields'];
         }
 
+        $isCustomIntegration = false;
+
+        if(strpos($vars['payment_system'], 'cstm:') === 0) {
+
+            $handlerClass = PAYMENT_INTEGRATIONS[str_replace('cstm:', '', $vars['payment_system'])] ?? null;
+
+            if ($handlerClass && class_exists($handlerClass)) {
+
+                $handlerInstance = new $handlerClass();
+
+                if (($handlerInstance instanceof PaymentHandler) === false) {
+                    return get_instance()->ajaxmsg->notify('Invalid payment handler')->danger();
+                }
+
+                if(!method_exists($handlerInstance, 'getStatus') || !$handlerInstance->getStatus()) {
+                    return get_instance()->ajaxmsg->notify('Payment method is currently unavailable')->danger();
+                }
+
+                if(!method_exists($handlerInstance, 'getIdentifier') || $handlerInstance->getIdentifier() !== str_replace('cstm:', '', $vars['payment_system'])) {
+                    return get_instance()->ajaxmsg->notify('Payment handler identifier mismatch')->danger();
+                }
+
+                if(method_exists($handlerInstance, 'getCurrency') && $handlerInstance->getCurrency()) {
+                    $vars['currency'] = $handlerInstance->getCurrency();
+                }
+
+                $isCustomIntegration = true;
+
+            }
+        }
+
         //тип доставки
         if (!isset($_POST['type_buy']) OR empty($_POST['type_buy']))
             return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_empty_type_buy'])->danger();
@@ -256,6 +336,33 @@ class func
                     $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
             } else {
                 if (isset($response["response"]->redirect)) {
+
+                    if ($isCustomIntegration) {
+
+                        if(empty($response["response"]->order_id)) {
+                            return get_instance()->ajaxmsg->notify('order not created')->danger();
+                        }
+
+                        $orderData['order_id'] = (string) $response["response"]->order_id;
+                        $orderData = array_merge($orderData, $vars);
+
+                        try {
+                            /** @var CheckoutResponse */
+                            $checkoutResponse = $handlerInstance->checkout($orderData);
+                        } catch (\Exception $e) {
+                            return get_instance()->ajaxmsg->notify('Error during checkout: ' . $e->getMessage())->danger();
+                        }
+
+                        $response['response']->redirect = $checkoutResponse->redirect ?? null;
+
+                        if (isset($checkoutResponse->post) && !empty($checkoutResponse->post)) {
+                            return get_instance()->ajaxmsg->post($checkoutResponse->post)->notify($checkoutResponse->success, $checkoutResponse->redirect)->success();
+                        } else {
+                            return get_instance()->ajaxmsg->notify($checkoutResponse->success, $checkoutResponse->redirect)->success();
+                        }
+
+                    }
+
                     $send = get_instance()->ajaxmsg->post($response["response"]->post)->notify((string)$response["response"]->success, (string)$response["response"]->redirect)->success();
                 } else
                     $send = get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
