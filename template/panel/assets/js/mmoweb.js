@@ -253,6 +253,11 @@ window.send_ajax = function (data, async) {
         }
     }).done(function (response) {
         if (response.text !== undefined) {
+            if (response.input !== undefined) {
+                $.each(response.input, function (name, text) {
+                    response.text += '<br>' + text;
+                });
+            }
             jQuery.notify({
                 icon: response.icon || '',
                 message: response.text,
@@ -347,6 +352,21 @@ window.send_ajax = function (data, async) {
 
         if (response.callback) {
             eval(response.callback)(response.data);
+        }
+
+        if (response.input !== undefined) {
+            $('.invalid-feedback').remove();
+            $('.is-invalid').removeClass('is-invalid');
+            $.each(response.input, function (name, text) {
+                var inp = $(":input[name*='" + name + "']").addClass("is-invalid").closest('div');
+
+                if (inp.hasClass('input-group') == false) {
+                    inp.append('<div class="invalid-feedback">' + text + '</div>');
+                }
+            });
+        } else {
+            $('.invalid-feedback').remove();
+            $('.is-invalid').removeClass('is-invalid');
         }
 
         if(response.localStorage !== undefined) {

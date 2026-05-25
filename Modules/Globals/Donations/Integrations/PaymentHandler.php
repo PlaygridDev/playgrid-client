@@ -10,6 +10,7 @@ abstract class PaymentHandler
     private array $description;
     private string $currency;
     private string $orderId;
+    private string $paymentId = '';
     private int $sortOrder;
     private string $successUrl;
     private string $failUrl;
@@ -97,6 +98,17 @@ abstract class PaymentHandler
     public function getOrderId(): string
     {
         return $this->orderId;
+    }
+
+    public function setPaymentId(string $paymentId): self
+    {
+        $this->paymentId = $paymentId;
+        return $this;
+    }
+
+    public function getPaymentId(): string
+    {
+        return $this->paymentId;
     }
 
     public function setFailUrl(string $url): self

@@ -59,6 +59,17 @@ class PaymentController extends Controller
 
         if ($webhookResult) {
 
+            $orderId = $handler->getOrderId();
+            if(empty($orderId)) {
+                http_response_code(500);
+                exit(json_encode([
+                    'status' => 'error',
+                    'message' => 'Order ID is empty'
+                ]));
+            }
+
+            $paymentId = $handler->getPaymentId() ?? '';
+
             $curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => API_URL . '/v2/payment/order/complete',
@@ -69,7 +80,8 @@ class PaymentController extends Controller
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => json_encode([
                     'payment_system' => 'cstm:'.$paymentSystem,
-                    'order_id' => $handler->getOrderId(),
+                    'order_id' => $orderId,
+                    'payment_id' => $paymentId,
                 ]),
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json',

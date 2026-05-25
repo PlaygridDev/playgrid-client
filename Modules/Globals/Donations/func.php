@@ -294,13 +294,18 @@ class func
 
         $payment = new Payment();
         $response = $payment->getMethods([
-            'payment_system' => $post['payment_system']
+            'payment_system' => $post['payment_system'],
+            'sum' => $post['sum'] ?? 0
         ]);
 
         if ($response['ok']) {
             if (isset($response['error'])) {
                 $error = get_lang('payment.lang')[$response['error']] ?? $response['error'];
-                $send = get_instance()->ajaxmsg->notify($error)->danger();
+                if (isset($response["response"]->input)) {
+                    $send = get_instance()->ajaxmsg->notify($error)->input_error($response["response"]->input)->danger();
+                } else {
+                    $send = get_instance()->ajaxmsg->notify($error)->danger();
+                }
             } else {
                 if(isset($response["response"]->methods) && !empty($response["response"]->methods)) {
                     $send = get_instance()

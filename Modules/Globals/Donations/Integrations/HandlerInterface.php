@@ -36,6 +36,9 @@ interface HandlerInterface
     public function setOrderId(string $orderId): PaymentHandler;
     public function getOrderId(): string;
 
+    public function setPaymentId(string $paymentId): PaymentHandler;
+    public function getPaymentId(): string;
+
     public function setAllowedIps(array $ips): PaymentHandler;
     public function getAllowedIps(): array;
     public function isIpAllowed(string $ip): bool;

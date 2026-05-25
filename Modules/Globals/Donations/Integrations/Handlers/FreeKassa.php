@@ -44,7 +44,7 @@ class FreeKassa extends PaymentHandler implements HandlerInterface
     ];
 
     /**
-     * Код валюты, используемой для платежей через этот метод
+     * Код валюты для платежа
      * например: 'RUB' | 'USD' | 'EUR' и т.д.
      */
     private static string $currency = 'RUB';
@@ -164,9 +164,9 @@ class FreeKassa extends PaymentHandler implements HandlerInterface
     }
 
     /**
-     * Метод для обработки входящих вебхуков от FreeKassa, который проверяет подпись и обрабатывает уведомления о статусе платежей.
+     * Метод для обработки входящих вебхуков от FreeKassa.
      * Если данные валидны, метод возвращает true, иначе - false. В случае ошибок выбрасывает исключения для логирования и отладки.
-     * @param array $payload данные, полученные от FreeKassa в запросе вебхука.
+     * @return bool Возвращает true при успешной обработке вебхука, false при неудаче.
      * @throws PaymentWebhookException при возникновении ошибок в процессе обработки вебхука
      */
     public function webhook(): bool
@@ -203,6 +203,12 @@ class FreeKassa extends PaymentHandler implements HandlerInterface
 
             // если все проверки пройдены успешно, устанавливаем ID заказа для дальнейшей передачи в API
             $this->SetOrderId($payload['MERCHANT_ORDER_ID']);
+
+            // устанавливаем внутренний ID платежа - payment_id
+            if(!empty($payload['intid'])) {
+                $this->setPaymentId($payload['intid']);
+            }
+
             return true;
 
         } catch (PaymentWebhookException $e) {

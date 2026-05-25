@@ -6,7 +6,7 @@ return [
         'lang_select_payment_method' => 'Выберите способ оплаты',
 
         'FUNCTION_NOT_IMPLEMENTED' => 'Функция не реализована',
-        'NO_METHODS_AVAILABLE' => 'Нет доступных методов оплаты',
+        'NO_METHODS_AVAILABLE' => 'Нет доступных методов оплаты, попробуйте изменить сумму',
 
     ],
     'en' => [
@@ -14,7 +14,7 @@ return [
         'lang_select_payment_method' => 'Select payment method',
 
         'FUNCTION_NOT_IMPLEMENTED' => 'Function not implemented',
-        'NO_METHODS_AVAILABLE' => 'No payment methods available',
+        'NO_METHODS_AVAILABLE' => 'No payment methods available, try changing the amount',
 
     ],
     'gr' => [
@@ -22,7 +22,7 @@ return [
         'lang_select_payment_method' => 'Επιλέξτε μέθοδο πληρωμής',
 
         'FUNCTION_NOT_IMPLEMENTED' => 'Η λειτουργία δεν έχει υλοποιηθεί',
-        'NO_METHODS_AVAILABLE' => 'Δεν υπάρχουν διαθέσιμες μέθοδοι πληρωμής',
+        'NO_METHODS_AVAILABLE' => 'Δεν υπάρχουν διαθέσιμες μέθοδοι πληρωμής, δοκιμάστε να αλλάξετε το ποσό',
 
     ],
 	'es' => [
@@ -30,7 +30,7 @@ return [
         'lang_select_payment_method' => 'Seleccione método de pago',
 
         'FUNCTION_NOT_IMPLEMENTED' => 'Función no implementada',
-        'NO_METHODS_AVAILABLE' => 'No hay métodos de pago disponibles',
+        'NO_METHODS_AVAILABLE' => 'No hay métodos de pago disponibles, intente cambiar el monto',
 
     ],
     'pt' => [
@@ -38,7 +38,7 @@ return [
         'lang_select_payment_method' => 'Selecione o método de pagamento',
 
         'FUNCTION_NOT_IMPLEMENTED' => 'Função não implementada',
-        'NO_METHODS_AVAILABLE' => 'Nenhum método de pagamento disponível',
+        'NO_METHODS_AVAILABLE' => 'Nenhum método de pagamento disponível, tente alterar o valor',
 
     ],
 	'cn' => [
@@ -46,7 +46,7 @@ return [
         'lang_select_payment_method' => '选择支付方式',
 
         'FUNCTION_NOT_IMPLEMENTED' => '功能未实现',
-        'NO_METHODS_AVAILABLE' => '没有可用的支付方式',
+        'NO_METHODS_AVAILABLE' => '没有可用的支付方式, 请尝试更改金额',
 
     ],
 	'ko' => [
@@ -54,7 +54,7 @@ return [
         'lang_select_payment_method' => '결제 수단 선택',
 
         'FUNCTION_NOT_IMPLEMENTED' => '기능이 구현되지 않았습니다',
-        'NO_METHODS_AVAILABLE' => '사용 가능한 결제 수단이 없습니다',
+        'NO_METHODS_AVAILABLE' => '사용 가능한 결제 수단이 없습니다 금액을 변경해 보십시오',
 
     ]
 ];
