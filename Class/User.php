@@ -275,6 +275,16 @@ class User
 
     }
 
+    public function getTotalBalance()
+    {
+        return $this->session['user_data']['balance_total'] ?? 0;
+    }
+
+    public function getSuccessOrders()
+    {
+        return $this->session['user_data']['success_orders'] ?? 0;
+    }
+
     /**
      * @return int
      */

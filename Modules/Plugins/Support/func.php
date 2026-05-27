@@ -72,8 +72,40 @@ class func
         /**@var $this_main \Modules\Plugins\Support\Support*/
         $this->this_main = $this_main;
 
-        if (isset(get_instance()->config['payment_system']['sorting_pay']))
+        if (isset(get_instance()->config['payment_system']['sorting_pay'])) {
             $this->payment_list = get_instance()->config['payment_system']['sorting_pay'];
+        }
+
+        $userData = [
+            'balance_total' => get_instance()->session->getTotalBalance(),
+            'success_orders' => get_instance()->session->getSuccessOrders()
+        ];
+
+        foreach($this->payment_list as $system) {
+
+            $availabilityConfigs = get_instance()->config['payment_system']['availability_settings'][$system] ?? null;
+
+            if($availabilityConfigs) {
+
+                $userTotal = (int) $availabilityConfigs['user_total'] ?? null;
+                $userSuccessOrders = (int) $availabilityConfigs['success_orders'] ?? null;
+                $condition = $availabilityConfigs['condition'] ?? null;
+
+                if ($userTotal !== null && $userSuccessOrders !== null && $condition !== null) {
+                    if ($condition === 'and') {
+                        if ($userData['balance_total'] < $userTotal || $userData['success_orders'] < $userSuccessOrders) {
+                            $this->payment_list = array_diff($this->payment_list, [$system]);
+                        }
+                    } elseif ($condition === 'or') {
+                        if ($userData['balance_total'] < $userTotal && $userData['success_orders'] < $userSuccessOrders) {
+                            $this->payment_list = array_diff($this->payment_list, [$system]);
+                        }
+                    }
+                }
+            }
+
+        }
+
     }
 
     public function widget_ticket_index(){
