@@ -54,12 +54,14 @@ class func
         'hydracode',
         'severpay',
         'severpay_byn',
+        'severpay_rub',
         'settlepay_pix',
         'settlepay_cbucvu',
         'abankcomua',
         'betatransfer',
         'wayforpay',
         'liqpay',
+        'pay4game',
     );
     //Список тикетов
     public $tickets = array(

@@ -45,12 +45,14 @@ class func
         'hydracode',
         'severpay',
         'severpay_byn',
+        'severpay_rub',
         'settlepay_pix',
         'settlepay_cbucvu',
         'abankcomua',
         'betatransfer',
         'wayforpay',
-        'liqpay'
+        'liqpay',
+        'pay4game',
     );
 
     public function __construct($this_main)

@@ -40,12 +40,14 @@ class App extends Controller
         'hydracode',
         'severpay',
         'severpay_byn',
+        'severpay_rub',
         'settlepay_pix',
         'settlepay_cbucvu',
         'abankcomua',
         'betatransfer',
         'wayforpay',
-        'liqpay'
+        'liqpay',
+        'pay4game',
     );
 
     public $advertising = false;
