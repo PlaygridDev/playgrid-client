@@ -107,6 +107,7 @@ $ignore_detect_lang_page = array(
     '/api/gift_code',
     '/api/money_withdrawal',
     '/api/item',
+    '/api/sync_currency_rates',
     '/api/payment/unitpay/'.PAYMENT_KEY,
     '/api/payment/payu/'.PAYMENT_KEY,
     '/api/payment/paypal/'.PAYMENT_KEY,

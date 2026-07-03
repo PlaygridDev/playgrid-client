@@ -1,0 +1,20 @@
+<?php
+
+namespace Modules\Plugins\Shop;
+
+use Shop\func;
+
+class ShopMiddleware
+{
+
+    public static function checkoutNoAuthBefore(func $shopFunc)
+    {
+        return;
+    }
+
+    public static function checkoutNoAuthAfter(func $shopFunc)
+    {
+        return;
+    }
+
+}

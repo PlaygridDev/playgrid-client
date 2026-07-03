@@ -13,12 +13,23 @@
             <div class="row">
                 <div class="col-4 col-md-4 col-sm-12" >
                     <h6 class="mb-10"><i class="fa fa-arrow-down"></i> {$title_select_wh}</h6>
-                    <div class="list-group push">
+                    <div class="list-group push" id="warehouseItemsList">
                         {if count($.site.session->session.user_data.warehouse) > 0}
+                            {ignore}
+                            <div class="list-group-item list-group-item-action align-items-center p1" :class="{'active': selectedAll}" style="cursor: pointer" @click="selectAll()">
+                            {/ignore}
+                                All items
+                                <span class="float-right">
+                                    <span class="badge badge-pill badge-secondary">
+                                        {count($.site.session->session.user_data.warehouse)}
+                                    </span>
+                                </span>
+                                <input type="hidden" name="wh_id" value="all" v-if="selectedAll === true">
+                            </div>
                             {foreach $.site.session->session.user_data.warehouse as $items}
-                                <a class="list-group-item list-group-item-action align-items-center check_box_wh p-1" data-id="{$items.id}" data-give-type="{$items.give_type}" href="javascript:void(0)">
+                                <a v-show="selectedAll === false" class="list-group-item list-group-item-action align-items-center check_box_wh p-1" data-id="{$items.id}" data-give-type="{$items.give_type}" href="javascript:void(0)">
                                     <label class="css-control css-control-sm css-control-secondary css-checkbox ml-1 mr-5">
-                                        <input type="checkbox" class="css-control-input check_box_wh_{$items.id}" name="wh_id[]" value="{$items.id}">
+                                        <input type="checkbox" class="css-control-input check_box_wh_{$items.id}" name="wh_id[]" value="{$items.id}" v-if="selectedAll === false">
                                         <span class="css-control-indicator"></span>
                                     </label>
 

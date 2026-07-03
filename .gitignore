@@ -26,6 +26,9 @@ Library/configs/**
 !Library/configs/**/
 !Library/configs/examples/*.json
 
+Modules/Globals/Donations/DonationsMiddleware.php
+Modules/Plugins/Shop/ShopMiddleware.php
+
 logs
 Config.php
 tests

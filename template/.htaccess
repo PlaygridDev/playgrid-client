@@ -1,4 +1,4 @@
-SetEnvIf Request_URI "\.(css|js|map|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|otf|eot|mp3)$" allow_static
+SetEnvIf Request_URI "\.(css|js|map|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|otf|eot|mp3)|./codemirror/source.html$" allow_static
 
 SetEnvIf Request_URI "^/template/error\.html$" allow_static
 

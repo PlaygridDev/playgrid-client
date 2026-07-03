@@ -1,0 +1,40 @@
+<?php
+
+namespace Modules\Globals\Donations;
+
+use Donations\func;
+
+class DonationsMiddleware
+{
+
+	public static function getPaymentMethodsBefore(func $donationFunc)
+	{
+        return;
+	}
+
+	public static function getPaymentMethodsAfter(func $donationFunc)
+	{
+		return;
+	}
+
+    public static function checkoutNoAuthBefore(func $donationFunc)
+    {
+        return;
+    }
+
+    public static function checkoutNoAuthAfter(func $donationFunc)
+    {
+        return;
+    }
+
+    public static function checkoutBefore(func $donationFunc)
+    {
+        return;
+    }
+
+    public static function checkoutAfter(func $donationFunc)
+    {
+        return;
+    }
+
+}

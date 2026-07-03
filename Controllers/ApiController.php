@@ -145,6 +145,29 @@ class ApiController extends \Controller
 
     }
 
+    public function sync_currency_rates()
+    {
+
+        $this->authorizeRequest();
+
+        if (!empty($_POST['course'])) {
+
+            $config = getConfig('config');
+            $config['payment_system']['auto_course'] = $_POST['auto_course'] ?? false;
+            $config['payment_system']['course'] = $_POST['course'];
+
+            if(SaveConfig($config, 'config')) {
+                echo (new \Curl\XMLFormatter())->format(array("title" => "Update success!","text" => "Successfully updated the project settings!", "status" => "success"));
+            } else {
+                echo (new \Curl\XMLFormatter())->format(array("title" => "Update Error!","text" => "Error! Failed to update configuration!", "status" => "error"));
+            }
+
+        } else {
+            echo (new \Curl\XMLFormatter())->format(array("title" => "Update Error!","text" => "Error! Not found cfg!", "status" => "error"));
+        }
+
+    }
+
     public function shop()
     {
 
@@ -406,17 +429,63 @@ class ApiController extends \Controller
 
         $curl = new \Curl\Curl(API_URL);
         $curl->setTimeout(100);
-        $curl->setHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         $url = API_URL . 'v2/payment/webhook/' . $payment;
 
+		$requestHeaders = getallheaders();
+
+		$unsetHeaders = [
+			'host',
+			'content-length',
+			'connection',
+			'accept-encoding',
+			'cookie',
+		];
+
+		$filteredHeaders = [];
+
+		foreach ($requestHeaders as $key => $value) {
+			$lowerKey = strtolower($key);
+
+			if (in_array($lowerKey, $unsetHeaders)) {
+				continue;
+			}
+
+			if (strpos($lowerKey, 'cf-') === 0) {
+				continue;
+			}
+
+			if (strpos($lowerKey, 'x-forwarded-') === 0) {
+				continue;
+			}
+
+			$filteredHeaders[$key] = $value;
+		}
+
+        $curl->setHeaders($filteredHeaders);
+
         if (is_array($_POST) AND count($_POST) > 0) {
+            $curl->setHeader('Content-Type', 'application/x-www-form-urlencoded');
             if (is_array($_GET) AND count($_GET) > 0) {
                 $url .= '?' . http_build_query($_GET);
             }
             $curl->post($url, $_POST);
-        } else {
-            $curl->get($url, $_GET);
+		} else {
+			$input = file_get_contents('php://input');
+			if(!empty($input)) {
+				$decodedData = json_decode($input, true);
+				if(!json_last_error()) {
+					if (is_array($_GET) AND count($_GET) > 0) {
+						$url .= '?' . http_build_query($_GET);
+					}
+					$curl->setHeader('Content-Type', 'application/json');
+					$curl->post($url, $decodedData);
+				} else {
+					throw new Exception('json decode failed: ' . json_last_error());
+				}
+			} else {
+				$curl->get($url, $_GET);
+			}
         }
 
         $headers = $curl->getResponseHeaders();
@@ -425,8 +494,10 @@ class ApiController extends \Controller
                 header($key.': '.$header);
             }
         }
+
         echo $curl->getRawResponse();
         exit();
+
     }
 
     public function updater_check_connection()

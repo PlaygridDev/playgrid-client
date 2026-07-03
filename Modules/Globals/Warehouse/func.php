@@ -2,8 +2,6 @@
 namespace Warehouse;
 
 
-use ApiLib\GlobalApi;
-
 class func
 {
     public $this_main;
@@ -23,8 +21,9 @@ class func
 
     }
 
-    public function ajax_send_item(){
-        $api = new GlobalApi();
+    public function ajax_send_item()
+    {
+
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
@@ -47,7 +46,8 @@ class func
                     $vars["wh_char_name_out"] = $_REQUEST['wh_char_name_out'];
             }
 
-            $response = $api->give_item_warehouse($vars);
+            $warehouse = new \ApiLib\v2\MasterAccount\Warehouse();
+            $response = $warehouse->deliveryItem($vars);
 
             if ($response['ok']) {
 

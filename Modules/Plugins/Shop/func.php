@@ -14,6 +14,9 @@ class func
     public $this_main = false;
     public $shop = array();
 
+    private array $payload = [];
+    private array $response = [];
+
     public $payment_list = array(
         'unitpay',
         'payu',
@@ -57,6 +60,11 @@ class func
 
     public function __construct($this_main)
     {
+
+        if (file_exists(__DIR__ . '/ShopMiddleware.php')) {
+            require_once __DIR__ . '/ShopMiddleware.php';
+        }
+
         $this->this_main = $this_main;
         $this->shop = &get_instance()->shop;
 
@@ -147,6 +155,25 @@ class func
 
     }
 
+    public function setPayload(array $payload): void
+    {
+        $this->payload = $payload;
+    }
+
+    public function getPayload(): array
+    {
+        return $this->payload;
+    }
+
+    public function setResponse(array $response): void
+    {
+        $this->response = $response;
+    }
+
+    public function getResponse(): array
+    {
+        return $this->response;
+    }
 
     public function widget_shop_no_auth(){
 
@@ -356,8 +383,24 @@ class func
             $vars["ymid"] = $this->advertising['ymid'];
         }
 
+        $this->setPayload($vars);
+
+        if(class_exists('\Modules\Plugins\Shop\ShopMiddleware', false)) {
+            if(method_exists('\Modules\Plugins\Shop\ShopMiddleware', 'checkoutNoAuthBefore')) {
+                \Modules\Plugins\Shop\ShopMiddleware::checkoutNoAuthBefore($this);
+            }
+        }
+
         $payment = new Payment();
-        $response = $payment->createOrder($vars);
+        $response = $payment->createOrder($this->payload);
+
+        $this->setResponse($response);
+
+        if(class_exists('\Modules\Plugins\Shop\ShopMiddleware', false)) {
+            if(method_exists('\Modules\Plugins\Shop\ShopMiddleware', 'checkoutNoAuthAfter')) {
+                \Modules\Plugins\Shop\ShopMiddleware::checkoutNoAuthAfter($this);
+            }
+        }
 
         if ($response['ok']) {
 

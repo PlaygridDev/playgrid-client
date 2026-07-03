@@ -15,6 +15,9 @@ class func
     public $market = false;
     public $sid = false;
 
+    private array $payload = [];
+    private array $response = [];
+
     public $payment_list = array(
         'unitpay',
         'payu',
@@ -57,6 +60,11 @@ class func
 
     public function __construct($this_main)
     {
+
+        if (file_exists(__DIR__ . '/DonationsMiddleware.php')) {
+            require_once __DIR__ . '/DonationsMiddleware.php';
+        }
+
         /**@var $this_main \Modules\Globals\Donations\Donations*/
         $this->this_main = $this_main;
 
@@ -160,6 +168,27 @@ class func
 
 
     }
+
+    public function setPayload(array $payload): void
+    {
+        $this->payload = $payload;
+    }
+
+    public function getPayload(): array
+    {
+        return $this->payload;
+    }
+
+    public function setResponse(array $response): void
+    {
+        $this->response = $response;
+    }
+
+    public function getResponse(): array
+    {
+        return $this->response;
+    }
+
     public function widget_donations_no_auth(){
 
         get_instance()->seo->addTeg('head', 'rangeslider_css', 'link', array('rel' => 'stylesheet', 'href' => VIEWPATH.'/panel/assets/js/plugins/ion-rangeslider/css/ion.rangeSlider.css'));
@@ -324,11 +353,27 @@ class func
             return get_instance()->ajaxmsg->notify(get_lang('widget_donate.lang')['donate_ajax_empty_payment_method'])->danger();
         }
 
-        $payment = new Payment();
-        $response = $payment->getMethods([
+		$this->setPayload([
             'payment_system' => $post['payment_system'],
             'sum' => $post['sum'] ?? 0
         ]);
+
+        if(class_exists('\Modules\Globals\Donations\DonationsMiddleware', false)) {
+            if(method_exists('\Modules\Globals\Donations\DonationsMiddleware', 'getPaymentMethodsBefore')) {
+                \Modules\Globals\Donations\DonationsMiddleware::getPaymentMethodsBefore($this);
+            }
+        }
+
+        $payment = new Payment();
+        $response = $payment->getMethods($this->payload);
+
+        $this->setResponse($response);
+
+        if(class_exists('\Modules\Globals\Donations\DonationsMiddleware', false)) {
+            if(method_exists('\Modules\Globals\Donations\DonationsMiddleware', 'getPaymentMethodsAfter')) {
+                \Modules\Globals\Donations\DonationsMiddleware::getPaymentMethodsAfter($this);
+            }
+        }
 
         if ($response['ok']) {
             if (isset($response['error'])) {
@@ -453,8 +498,24 @@ class func
 
             $vars["type"] = 1;
 
+            $this->setPayload($vars);
+
+            if(class_exists('\Modules\Globals\Donations\DonationsMiddleware', false)) {
+                if( method_exists('\Modules\Globals\Donations\DonationsMiddleware', 'checkoutBefore')) {
+                    \Modules\Globals\Donations\DonationsMiddleware::checkoutBefore($this);
+                }
+            }
+
             $payment = new Payment();
-            $response = $payment->createOrder($vars);
+            $response = $payment->createOrder($this->payload);
+
+            $this->setResponse($response);
+
+            if(class_exists('\Modules\Globals\Donations\DonationsMiddleware', false)) {
+                if( method_exists('\Modules\Globals\Donations\DonationsMiddleware', 'checkoutAfter')) {
+                    \Modules\Globals\Donations\DonationsMiddleware::checkoutAfter($this);
+                }
+            }
 
             if ($response['ok']) {
 
@@ -622,8 +683,24 @@ class func
 
         $vars["type"] = 2;
 
-        $payment = new Payment();
-        $response = $payment->createOrder($vars);
+		$this->setPayload($vars);
+
+        if(class_exists('\Modules\Globals\Donations\DonationsMiddleware', false)) {
+            if(method_exists('\Modules\Globals\Donations\DonationsMiddleware', 'checkoutNoAuthBefore')) {
+                \Modules\Globals\Donations\DonationsMiddleware::checkoutNoAuthBefore($this);
+            }
+        }
+
+		$payment = new Payment();
+		$response = $payment->createOrder($this->payload);
+
+        $this->setResponse($response);
+
+        if(class_exists('\Modules\Globals\Donations\DonationsMiddleware', false)) {
+            if(method_exists('\Modules\Globals\Donations\DonationsMiddleware', 'checkoutNoAuthAfter')) {
+                \Modules\Globals\Donations\DonationsMiddleware::checkoutNoAuthAfter($this);
+            }
+        }
 
         if ($response['ok']) {
 
