@@ -2,7 +2,6 @@
 
 namespace Modules\Globals\SignUp;
 
-use ApiLib\GlobalApi;
 use Modules\MainModulesClass;
 
 
@@ -41,15 +40,9 @@ class SignUp extends MainModulesClass
 
     }
 
-
-    /*
-     * CODE
-     */
-
     public function signup()
     {
 
-        $api = new GlobalApi();
         $vars = array();
 
         $cfg = get_instance()->config['cabinet'];
@@ -157,12 +150,25 @@ class SignUp extends MainModulesClass
             $vars["promo_game"] = $_SESSION['promo_game'];
 
 
-        if (!captcha_check())
+        if (!captcha_check()) {
             return get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_error_captcha'])->eval_js(captcha_reload('sign_up'))->danger();
-        //Передаем UTM метки
+        }
+
         $vars["utm"] = get_utm();
 
-        $response = $api->signup($vars);
+        $signUp = new \ApiLib\v2\MasterAccount\SignUp();
+
+        switch ($vars['type']) {
+            case 'email':
+                $response = $signUp->signUpWithEmail($vars);
+                break;
+            case 'phone':
+                $response = $signUp->signUpWithPhone($vars);
+                break;
+            default:
+                return get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_not_found_type_reg'])->danger();
+                break;
+        }
 
         if ($response['ok']) {
 
@@ -221,39 +227,42 @@ class SignUp extends MainModulesClass
 
         if (isset($cfg['registration_type']['phone'])) {
 
-            $api = new GlobalApi();
             $vars = array();
             $vars["type"] = 'sms';
             $vars["phone_code"] = isset($_POST["phone_code"]) ? intval($_POST["phone_code"]) : 0;
             $vars["phone"] = isset($_POST["phone"]) ? intval(clean_phone($_POST["phone"])) : 0;
 
-            if ($vars["phone_code"] < 1)
+            if ($vars["phone_code"] < 1) {
                 $send = get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_sms_phone_code_empty'])->danger();
-            elseif ($vars["phone"] < 1)
+            } elseif ($vars["phone"] < 1) {
                 $send = get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_sms_phone_empty'])->danger();
-            else {
+            } else {
 
-                $response = $api->signup($vars);
+                $signUp = new \ApiLib\v2\MasterAccount\SignUp();
+                $response = $signUp->sendSmsCode($vars);
 
                 if ($response['ok']) {
                     if (isset($response['error'])) {
-                        if (isset($response["response"]->input))
+                        if (isset($response["response"]->input)) {
                             $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                        else
+                        } else {
                             $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
-
-                    } else
+                        }
+                    } else {
                         $send = get_instance()->ajaxmsg->notify($response["response"]->success)->success();
+                    }
 
-                } else
+                } else {
                     $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
+                }
             }
 
-        } else
+        } else {
             $send = get_instance()->ajaxmsg->notify(get_lang('signup.lang')['signup_ajax_sms_disable'])->danger();
-
+        }
 
         return $send;
+
     }
 
 }

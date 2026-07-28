@@ -62,6 +62,9 @@ class GlobalApi extends Api
         return $response;
     }
 
+    /**
+     * @deprecated - use methods in \ApiLib\v2\MasterAccount\SignIn class instead
+     */
     public function signin($vars)
     {
 
@@ -120,6 +123,9 @@ class GlobalApi extends Api
 
 
 
+    /**
+     * @deprecated - use changePassword() method in \ApiLib\v2\MasterAccount\GameAccount class instead
+     */
     public function change_password_account($vars)
     {
         $response = $this->init()->addParam('change_password_account', $vars)->post('v1/Globals/settings/change-password-account')->response();
@@ -170,6 +176,9 @@ class GlobalApi extends Api
         return $response;
     }
 
+    /**
+     * @deprecated - use changePassword() method in \ApiLib\v2\MasterAccount\Security class instead
+     */
     public function change_pwd_ma($vars)
     {
 
@@ -178,6 +187,9 @@ class GlobalApi extends Api
         return $response;
     }
 
+    /**
+     * @deprecated - use emailVerificationSendCode() method in \ApiLib\v2\MasterAccount\User class instead
+     */
     public function confirm_email_send_code($vars)
     {
 
@@ -186,6 +198,9 @@ class GlobalApi extends Api
         return $response;
     }
 
+    /**
+     * @deprecated - use emailVerificationConfirm() method in \ApiLib\v2\MasterAccount\User class instead
+     */
     public function confirm_email($vars)
     {
 
@@ -202,6 +217,9 @@ class GlobalApi extends Api
         return $response;
     }
 
+    /**
+     * @deprecated - use emailVerificationSendCode() method in \ApiLib\v2\MasterAccount\User class instead
+     */
     public function bind_email_send_code($vars)
     {
 
@@ -210,6 +228,9 @@ class GlobalApi extends Api
         return $response;
     }
 
+    /**
+     * @deprecated - use emailVerificationConfirm() method in \ApiLib\v2\MasterAccount\User class instead
+     */
     public function bind_email($vars)
     {
 

@@ -14,7 +14,7 @@ class Warehouse extends Api
 
     public function deliveryItem($vars)
     {
-        $response = $this->init()->addParam('item', $vars)->post('v2/master-account/warehouse/item/delivery')->response();
+        $response = $this->init()->addParam('payload', $vars)->post('v2/master-account/warehouse/item/delivery')->response();
         return $response;
     }
 

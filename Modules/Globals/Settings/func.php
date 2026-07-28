@@ -36,7 +36,8 @@ class func
         $this->this_main = $this_main;
     }
 
-    public function widget_settings(){
+    public function widget_settings()
+    {
 
         $render = array(
             'widget_confirm_email',
@@ -44,10 +45,10 @@ class func
             'widget_reset_pin',
             'widget_social',
             'widget_telegram',
-            'widget_change_password',
         );
 
         $content = '';
+
         foreach ($render as $row) {
             $content .= $this->$row();
         }
@@ -73,7 +74,7 @@ class func
 
         return get_instance()->fenom->fetch(
             get_tpl_file('widget_confirm_email.tpl', get_class($this->this_main)),
-            get_lang('widget_confirm_email.lang')
+            get_lang('email_verification.lang')
         );
 
 
@@ -107,16 +108,6 @@ class func
 
     }
 
-    public function widget_change_password(){
-
-
-        return get_instance()->fenom->fetch(
-            get_tpl_file('widget_change_password.tpl', get_class($this->this_main)),
-            get_lang('widget_change_password.lang')
-        );
-
-
-    }
 
     public function widget_reset_pin(){
         if (get_instance()->config['cabinet']['pin_shield'] == false){
@@ -223,9 +214,9 @@ class func
         return $send;
     }
 
-    public function ajax_change_password_account(){
+    public function ajax_change_password_account()
+    {
 
-        $api = new GlobalApi();
         $vars = array();
 
         if (!isset($_POST['account']) OR empty($_POST['account']))
@@ -258,7 +249,8 @@ class func
 
         if (get_instance()->session->isLogin()) {
 
-            $response = $api->change_password_account($vars);
+            $gameAccount = new \ApiLib\v2\MasterAccount\GameAccount();
+            $response = $gameAccount->changePassword($vars);
 
             if ($response['ok']) {
 
@@ -644,8 +636,9 @@ class func
 
     }
 
-    public function ajax_change_pwd_ma(){
-        $api = new GlobalApi();
+    public function ajax_change_pwd_ma()
+    {
+
         $vars = array();
 
         if (get_instance()->session->isLogin()) {
@@ -673,8 +666,8 @@ class func
                     $vars["pin"] = $_POST['pin'];
             }
 
-
-            $response = $api->change_pwd_ma($vars);
+            $security = new \ApiLib\v2\MasterAccount\Security();
+            $response = $security->changePassword($vars);
 
             if ($response['ok']) {
 
@@ -704,6 +697,9 @@ class func
 
     }
 
+    /**
+     * @deprecated
+     */
     public function ajax_confirm_email_send_code(){
         $api = new GlobalApi();
         $vars = array();
@@ -743,6 +739,9 @@ class func
 
     }
 
+    /**
+     * @deprecated
+     */
     public function ajax_confirm_email(){
         $api = new GlobalApi();
         $vars = array();
@@ -870,6 +869,9 @@ class func
 
     }
 
+    /**
+     * @deprecated
+     */
     public function ajax_bind_email_send_code(){
 
         $api = new GlobalApi();
@@ -923,6 +925,9 @@ class func
 
     }
 
+    /**
+     * @deprecated
+     */
     public function ajax_bind_email()
     {
 
@@ -1355,5 +1360,243 @@ class func
         return $send;
     }
 
+
+    public function enableTwoFactorAuthMethodPopup()
+    {
+
+        $settingsLocales = get_lang('settings.lang');
+
+        $title = '2FA';
+
+        if (!get_instance()->session->isLogin()) {
+            return get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
+
+        $methods = [
+            'email' => [
+                'label' => $settingsLocales['two_factor_auth_method_labels']['email'],
+                'verified' => (int) get_instance()->session->session["master_account"]["email_valid"] === 1
+                            && (int) get_instance()->session->session["master_account"]["status"] === 0,
+                'status' => get_instance()->session->get2FAStatusForMethod('email'),
+            ],
+            'phone' => [
+                'label' => $settingsLocales['two_factor_auth_method_labels']['phone'],
+                'verified' => !empty(get_instance()->session->getPhone()),
+                'status' => get_instance()->session->get2FAStatusForMethod('phone'),
+            ]
+        ];
+
+        $methods = array_filter(
+            $methods,
+            fn($method) => _boolean($method['status']) === false
+        );
+
+        $content = get_instance()->fenom->fetch(
+            get_tpl_file('security/enable_two_factor_auth_method_popup.tpl', get_class($this->this_main)),
+            array_merge(
+                [
+                    'methods' => json_encode(
+                            $methods,
+                            JSON_UNESCAPED_UNICODE
+                            | JSON_UNESCAPED_SLASHES
+                            | JSON_HEX_AMP
+                            | JSON_HEX_QUOT
+                            | JSON_HEX_TAG
+                        ),
+                ],
+                get_lang('settings.lang'),
+                get_lang('email_verification.lang')
+            )
+        );
+
+        $footer = '';
+
+        $send = get_instance()->ajaxmsg->popup($title, $content, $footer)->success();
+        return $send;
+
+    }
+
+    public function enableTwoFactorAuthMethodSendCode()
+    {
+
+        $settingsLocales = get_lang('settings.lang');
+
+        if (!get_instance()->session->isLogin()) {
+            return get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
+
+        $post = $_POST;
+
+        if (!isset($post['method']) OR empty($post['method'])) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['two_factor_auth_method_empty'])->danger();
+        } else {
+            $payload['method'] = $post['method'];
+        }
+
+        $security = new \ApiLib\v2\MasterAccount\Security();
+        $apiResponse = $security->startTwoFactorMethodActivation($payload);
+
+        if($apiResponse['ok']) {
+
+                $responseMessage = !empty($apiResponse['error'])
+                                ? $apiResponse['error']
+                                : $apiResponse["response"]->success ?? null;
+
+                $statusCode = (string) $apiResponse['response']->status_code;
+                $responseMessage = $settingsLocales['enable_two_factor_method_status_codes'][$statusCode] ?? $responseMessage;
+
+                $response = get_instance()->ajaxmsg
+                    ->notify($responseMessage)
+                    ->variables(['retry_after' => (string) $apiResponse['response']->retry_after ?? 0]);
+
+                $response = isset($apiResponse['error'])
+                    ? $response->danger()
+                    : $response->success();
+
+                return $response;
+
+        } else {
+            return get_instance()->ajaxmsg->notify('Error: ' . $apiResponse['http_error'] . '<br>Code: ' . $apiResponse['http_code'])->danger();
+        }
+
+    }
+
+    public function enableTwoFactorAuthMethodConfirm()
+    {
+
+        if (!get_instance()->session->isLogin()) {
+            return get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
+
+        $post = $_POST;
+
+        $settingsLocales = get_lang('settings.lang');
+
+        if (!isset($post['method']) OR empty($post['method'])) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['two_factor_auth_method_empty'])->danger();
+        } else {
+            $payload['method'] = $post['method'];
+        }
+
+        if (!isset($post['code']) OR empty($post['code'])) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['two_factor_auth_code_empty'])->danger();
+        } else {
+            $payload['code'] = $post['code'];
+        }
+
+        $security = new \ApiLib\v2\MasterAccount\Security();
+        $apiResponse = $security->confirmTwoFactorMethodActivation($payload);
+
+        if($apiResponse['ok']) {
+
+            $responseMessage = !empty($apiResponse['error'])
+                            ? $apiResponse['error']
+                            : $apiResponse["response"]->success ?? null;
+
+            $statusCode = (string) $apiResponse['response']->status_code;
+            $responseMessage = $settingsLocales['enable_two_factor_method_status_codes'][$statusCode] ?? $responseMessage;
+
+            $response = get_instance()->ajaxmsg
+                ->notify($responseMessage)
+                ->variables(['retry_after' => (string) $apiResponse['response']->retry_after ?? 0]);
+
+            $response = isset($apiResponse['error'])
+                ? $response->danger()
+                : $response->success();
+
+            if (isset($apiResponse["response"]->data->user_data)) {
+                $data = json_encode($apiResponse["response"]->data);
+                $data = json_decode($data, true);
+                get_instance()->session->updateSessionDB($data);
+            }
+
+            return $response;
+
+        } else {
+            return get_instance()->ajaxmsg->notify('Error: ' . $apiResponse['http_error'] . '<br>Code: ' . $apiResponse['http_code'])->danger();
+        }
+
+    }
+
+    public function disableTwoFactorAuthConfirm()
+    {
+
+        if (!get_instance()->session->isLogin()) {
+            return get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
+
+        $post = $_POST;
+
+        $settingsLocales = get_lang('settings.lang');
+
+        if (!isset($post['2fa']['method']) OR empty($post['2fa']['method'])) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['two_factor_auth_method_empty'])->danger();
+        } else {
+            $payload['2fa']['method'] = $post['2fa']['method'];
+        }
+
+        if (!isset($post['2fa']['code']) OR empty($post['2fa']['code'])) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['two_factor_auth_code_empty'])->danger();
+        } else {
+            $payload['2fa']['code'] = $post['2fa']['code'];
+        }
+
+        $security = new \ApiLib\v2\MasterAccount\Security();
+        $apiResponse = $security->twoFactorAuthDeactivation($payload);
+
+        if($apiResponse['ok']) {
+
+            $responseMessage = !empty($apiResponse['error'])
+                            ? $apiResponse['error']
+                            : $apiResponse["response"]->success ?? null;
+
+            $statusCode = (string) $apiResponse['response']->status_code;
+            $responseMessage = $settingsLocales['disable_two_factor_auth_status_codes'][$statusCode] ?? $responseMessage;
+
+            $response = get_instance()->ajaxmsg
+                ->notify($responseMessage)
+                ->variables(['retry_after' => (string) $apiResponse['response']->retry_after ?? 0]);
+
+            $response = isset($apiResponse['error'])
+                ? $response->danger()
+                : $response->success();
+
+            if (isset($apiResponse["response"]->data->user_data)) {
+                $data = json_encode($apiResponse["response"]->data);
+                $data = json_decode($data, true);
+                get_instance()->session->updateSessionDB($data);
+            }
+
+            return $response;
+
+        } else {
+            return get_instance()->ajaxmsg->notify('Error: ' . $apiResponse['http_error'] . '<br>Code: ' . $apiResponse['http_code'])->danger();
+        }
+
+    }
+
+    public function changePasswordPopup()
+    {
+        $title = get_lang('widget_change_password.lang')['lang_title'];
+
+        if (!get_instance()->session->isLogin()) {
+            return get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
+
+        $content = get_instance()->fenom->fetch(
+            get_tpl_file('security/change_password_popup.tpl', get_class($this->this_main)),
+            array_merge(
+                get_lang('widget_change_password.lang'),
+            )
+        );
+
+        $footer = '<div class="row justify-content-center">
+            <button type="submit" class="btn btn-alt-primary submit-form"><i class="fa fa-save mr-5"></i> '.get_lang('settings.lang')['lang_button_change'].'
+            </button>
+        </div>';
+
+        $send = get_instance()->ajaxmsg->popup($title, $content, $footer)->success();
+        return $send;
+    }
 
 }

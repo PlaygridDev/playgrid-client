@@ -45,19 +45,62 @@ class In extends Controller
 
                 if (isset($this->ajax_data[$module_form][$module])) {
 
-                    if ($send = $this->ajax_data[$module_form][$module]())
+                    if($this->session->isLogin()) {
 
-                        if (empty($send))
+                        $securityConfigs = $this->config['security'] ?? [];
+
+                        if(
+                            isset($securityConfigs['two_factor_authentication_mode'])
+                            && $securityConfigs['two_factor_authentication_mode'] === 'required'
+                        ) {
+
+                            $availableActions = [
+                                'email_verification_popup',
+                                'email_verification_send_code',
+                                'email_verification_confirm',
+                                'enable_two_factor_auth_method_popup',
+                                'enable_two_factor_auth_method_send_code',
+                                'enable_two_factor_auth_method_confirm',
+                            ];
+
+                            if(!$this->session->get2FAStatus() && !in_array($module, $availableActions)) {
+                                if(
+                                    (int) $this->session->session["master_account"]["status"] === 1
+                                    && (int) $this->session->session["master_account"]["email_valid"] === 0
+                                ) {
+                                    $userModule = get_instance()->getModule('Modules\Globals\User\User');
+                                    echo $userModule->func->emailVerificationPopup();
+                                    exit();
+
+                                } else {
+                                    $settingsModule = get_instance()->getModule('Modules\Globals\Settings\Settings');
+                                    echo $settingsModule->func->enableTwoFactorAuthMethodPopup();
+                                    exit();
+                                }
+                            }
+
+                        }
+                    }
+
+                    if ($send = $this->ajax_data[$module_form][$module]()) {
+
+                        if (empty($send)) {
                             $send = $this->ajaxmsg->notify('This module does not accept requests. (array)' . htmlspecialchars($module_form))->danger();
+                        }
 
-                } else
+                    }
+
+                } else {
                     $send = $this->ajaxmsg->notify('Method - ' . htmlspecialchars($module) . ' not found module - ' . htmlspecialchars($module_form))->danger();
-            } else
+                }
+            } else {
                 $send = $this->ajaxmsg->notify('Module not found - ' . htmlspecialchars($module_form))->danger();
+            }
 
 
-        } else
+        } else {
             $send = $this->ajaxmsg->notify('The module name is not passed')->danger();
+        }
 
         echo $send;
 

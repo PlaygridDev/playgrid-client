@@ -168,53 +168,51 @@ class Reminder extends MainModulesClass
 
     }
 
-    public function ajax_reminder_change(){
+    public function ajax_reminder_change()
+    {
 
         $cfg = get_instance()->config['cabinet'];
-
 
         if (isset($cfg['reminder_type']['email'])) {
 
             $vars = array();
 
-            //Проверка code
-            if (!isset($_REQUEST['code']) OR empty($_REQUEST['code']) OR !preg_match("/^([A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4})$/", $_REQUEST['code']))
+            if (!isset($_REQUEST['code']) OR empty($_REQUEST['code']) OR !preg_match("/^([A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4})$/", $_REQUEST['code'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('reminder.lang')['reminder_ajax_empty_code'])->danger();
-            else
+            } else {
                 $vars["code"] = $_REQUEST['code'];
+            }
 
-            //Проверка password
-            if (!isset($_REQUEST['password']) OR empty($_REQUEST['password']))
+            if (!isset($_REQUEST['password']) OR empty($_REQUEST['password'])) {
                 return get_instance()->ajaxmsg->notify(get_lang('reminder.lang')['reminder_ajax_empty_password'])->danger();
-            else
+            } else {
                 $vars["password"] = $_REQUEST['password'];
-
-
+            }
 
             $vars["type"] = 'code';
 
-            $api = new GlobalApi();
-            $response = $api->reminder($vars);
+            $recovery = new \ApiLib\v2\MasterAccount\Recovery();
+            $response = $recovery->changePasswordWithEmailCode($vars);
 
             if ($response['ok']) {
                 if (isset($response['error'])) {
-                    if (isset($response["response"]->input))
+                    if (isset($response["response"]->input)) {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->input_error($response["response"]->input)->danger();
-                    else
+                    } else {
                         $send = get_instance()->ajaxmsg->notify($response['error'])->danger();
-
-                } else
+                    }
+                } else {
                     $send = get_instance()->ajaxmsg->notify($response["response"]->success, '/sign-in')->success();
-
-            } else
+                }
+            } else {
                 $send = get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
-
-
-        } else
+            }
+        } else {
             $send = get_instance()->ajaxmsg->notify(get_lang('reminder.lang')['reminder_ajax_email_disable'])->danger();
-
+        }
 
         return $send;
 
     }
+
 }

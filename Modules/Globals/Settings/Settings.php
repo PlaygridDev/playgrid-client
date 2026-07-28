@@ -65,6 +65,14 @@ class Settings extends MainModulesClass
             'manager_add' => function () { return $this->func->ajax_manager_add(); },
             'manager_confirm' => function () { return $this->func->ajax_manager_confirm(); },
 
+            'enable_two_factor_auth_method_popup' => function () { return $this->func->enableTwoFactorAuthMethodPopup(); },
+            'enable_two_factor_auth_method_send_code' => function () { return $this->func->enableTwoFactorAuthMethodSendCode(); },
+            'enable_two_factor_auth_method_confirm' => function () { return $this->func->enableTwoFactorAuthMethodConfirm(); },
+
+            'disable_two_factor_auth_confirm' => function () { return $this->func->disableTwoFactorAuthConfirm(); },
+
+            'change_password_popup' => function () { return $this->func->changePasswordPopup(); },
+
         );
 
     }

@@ -23,6 +23,9 @@
             <a class="nav-link" href="#invoice-list">{$lang_tab_title_invoice}</a>
         </li>
         {/if}
+        <li class="nav-item">
+            <a class="nav-link" href="#security">{$security_tab_title}</a>
+        </li>
 
 
     </ul>
@@ -126,6 +129,90 @@
             </table>
         </div>
         {/if}
+        <div class="tab-pane mb-20" id="security" role="tabpanel">
+            <h4 class="font-w400 text-center">{$security_tab_title}</h4>
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-right border-right">
+                    {$two_factor_auth_title}<br />
+                </label>
+                <div class="col-md-6 pt-5">
+                    <div class="d-flex flex-column align-items-start">
+                        {if count($.site.session->get2FAMethods()) == 0}
+                        <a href="javascript:void(0);" class="btn btn-alt-primary submit-btn" {$.php.btn_ajax("Modules\Globals\Settings\Settings", "enable_two_factor_auth_method_popup", [])}>
+                            <i class="fa fa-lock mr-2"></i>
+                            {$two_factor_enable_button}
+                        </a>
+                        {else}
+                            <div class="d-flex justify-content-center align-items-center mb-3">
+                                <span class="text-success">{$two_factor_auth_enabled}</span>
+                                {foreach $.site.session->get2FAMethods() as $method}
+                                <div class="badge badge-success text-capitalize ml-2">
+                                    <i class="fa fa-lock mr-1"></i>
+                                    {$two_factor_auth_method_labels[$method]}
+                                </div>
+                                {/foreach}
+                            </div>
+                            {if !$.site.session->get2FAStatusForMethod('email') || !$.site.session->get2FAStatusForMethod('phone')}
+                                <a href="javascript:void(0);" class="btn btn-alt-primary submit-btn mb-3" {$.php.btn_ajax("Modules\Globals\Settings\Settings", "enable_two_factor_auth_method_popup", [])}>
+                                    <i class="fa fa-plus mr-2"></i>
+                                    {$two_factor_auth_add_method}
+                                </a>
+                            {/if}
+                            <a href="javascript:void(0);" class="btn btn-alt-secondary submit-btn" {$.php.btn_ajax("Modules\Globals\Security\Security", "two_factor_verification_popup", ['action'=>'2fa_disable'])}>
+                                <i class="fa fa-unlock mr-2"></i>
+                                {$two_factor_auth_disable}
+                            </a>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label text-right border-right">
+                    {$change_password_title}
+                </label>
+                <div class="col-md-6 pt-5">
+                    <a href="javascript:void(0);" class="btn btn-alt-secondary submit-btn" {$.php.btn_ajax("Modules\Globals\Settings\Settings", "change_password_popup", [])}>
+                        {$change_password_button}
+                    </a>
+                </div>
+            </div>
+            <!-- <div class="form-group row">
+                <label class="col-md-4 col-form-label text-right border-right">
+                    {$notifications_title}
+                </label>
+                <div class="col-md-6 pt-5">
+                    <div class="d-block">
+                        <div class="form-group row mb-2">
+                            <label class="col-12">{$notofications_send_to}</label>
+                            <div class="col-12">
+                                <div class="custom-control custom-radio custom-control-inline mb-5">
+                                    <input class="custom-control-input" type="radio" name="example-inline-radios" id="example-inline-radio1" value="option1" checked="">
+                                    <label class="custom-control-label" for="example-inline-radio1">{$notifications_send_to_email}</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline mb-5">
+                                    <input class="custom-control-input" type="radio" name="example-inline-radios" id="example-inline-radio2" value="option2" disabled>
+                                    <label class="custom-control-label" for="example-inline-radio2">{$notifications_send_to_phone}</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline mb-5">
+                                    <input class="custom-control-input" type="radio" name="example-inline-radios" id="example-inline-radio3" value="option3" disabled>
+                                    <label class="custom-control-label" for="example-inline-radio3">{$notifications_send_to_telegram}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column mb-2">
+                            <label class="css-control css-control-sm css-control-primary css-switch m-0 my-1">
+                                <input type="checkbox" class="css-control-input">
+                                <span class="css-control-indicator"></span> {$notifications_on_signin_from_new_devices}
+                            </label>
+                        </div>
+                        <button class="btn btn-sm btn-alt-primary">
+                            <i class="fa fa-bell mr-1"></i>
+                            {$notifications_save_button}
+                        </button>
+                    </div>
+                </div>
+            </div> -->
+        </div>
     </div>
 </div>
 <!-- Page JS Plugins -->

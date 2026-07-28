@@ -60,7 +60,12 @@ return array(
 
         'signin_title_not_active_login_type' => '<br>Администратор отключил все варианты авторизации!<br><br><br>',
 
-
+        'signin_status_codes' => [
+            'VERIFICATION_PROCESS_NOT_FOUND' => 'Процесс подтверждения авторизации истек. Отправьте код еще раз.',
+            'METHOD_NOT_ENABLED' => 'Способ подтверждения не активирован.',
+            'INVALID_VERIFICATION_CODE' => 'Неверный код подтверждения.',
+            'UNKNOWN_ERROR' => 'Неизвестная ошибка, попробуйте позже.',
+        ],
 
     ),
     'en' => array(
@@ -119,6 +124,13 @@ return array(
 		'signin_ajax_login_error' => 'An error has occurred, please contact the administration!',
 
 		'signin_title_not_active_login_type' => '<br> All login methods are disabled! <br> <br> <br>',
+
+		'signin_status_codes' => [
+			'VERIFICATION_PROCESS_NOT_FOUND' => 'The verification process has expired. Please request the code again.',
+			'METHOD_NOT_ENABLED' => 'The verification method is not enabled.',
+			'INVALID_VERIFICATION_CODE' => 'Invalid verification code.',
+			'UNKNOWN_ERROR' => 'Unknown error, please try again later.',
+		],
     ),
     'gr' => array(
 		'signin_title_lang' => 'Καλωσήρθατε στο Account Panel',
@@ -176,6 +188,13 @@ return array(
 		'signin_ajax_login_error' => 'Προέκυψε κάποιο σφάλμα! Παρακαλούμε επικοινωνήστε με την διαχείρηση!',
 
 		'signin_title_not_active_login_type' => '<br> Όλες οι μέθοδοι σύνδεσης είναι απενεργοποιημένες! <br> <br> <br>',
+
+		'signin_status_codes' => [
+			'VERIFICATION_PROCESS_NOT_FOUND' => 'Η διαδικασία επαλήθευσης έχει λήξει. Παρακαλούμε ζητήστε το κωδικό ξανά.',
+			'METHOD_NOT_ENABLED' => 'Η μέθοδος επαλήθευσης δεν είναι ενεργοποιημένη.',
+			'INVALID_VERIFICATION_CODE' => 'Μη έγκυρος κωδικός επαλήθευσης.',
+			'UNKNOWN_ERROR' => 'Άγνωστο σφάλμα, παρακαλούμε δοκιμάστε αργότερα.',
+		],
     ),
 	'es' => array(
 		'signin_title_lang' => 'Bienvenido al Panel de Cuenta',
@@ -233,6 +252,13 @@ return array(
 		'signin_ajax_login_error' => 'Ocurrió un error, por favor contacta con la administración!',
 
 		'signin_title_not_active_login_type' => '<br> Todos los métodos de inicio de sesión están deshabilitados! <br> <br> <br>',
+
+		'signin_status_codes' => [
+			'VERIFICATION_PROCESS_NOT_FOUND' => 'El proceso de verificación ha expirado. Por favor, solicita el código nuevamente.',
+			'METHOD_NOT_ENABLED' => 'El método de verificación no está habilitado.',
+			'INVALID_VERIFICATION_CODE' => 'Código de verificación inválido.',
+			'UNKNOWN_ERROR' => 'Error desconocido, por favor intenta más tarde.',
+		],
     ),
     'pt' => array(
         'signin_title_lang' => 'Bem-vindo ao Painel de Contas',
@@ -289,6 +315,13 @@ return array(
         'signin_ajax_login_error' => 'Ocorreu um erro, entre em contato com a administração!',
 
         'signin_title_not_active_login_type' => '<br> Todos os métodos de login estão desabilitados! <br> <br> <br>',
+
+        'signin_status_codes' => [
+            'VERIFICATION_PROCESS_NOT_FOUND' => 'O processo de verificação expirou. Por favor, solicite o código novamente.',
+            'METHOD_NOT_ENABLED' => 'O método de verificação não está habilitado.',
+            'INVALID_VERIFICATION_CODE' => 'Código de verificação inválido.',
+            'UNKNOWN_ERROR' => 'Erro desconhecido, tente novamente mais tarde.',
+        ],
     ),
 	'cn' => array(
 		'signin_title_lang' => '欢迎访问帐户小组',
@@ -346,6 +379,13 @@ return array(
 		'signin_ajax_login_error' => '出现错误,请与管理部门联系!',
 
 		'signin_title_not_active_login_type' => '<br>所有登录方法均被禁用! <br> <br> <br>',
+
+		'signin_status_codes' => [
+			'VERIFICATION_PROCESS_NOT_FOUND' => '验证过程已过期。请重新请求代码。',
+			'METHOD_NOT_ENABLED' => '验证方法未启用。',
+			'INVALID_VERIFICATION_CODE' => '验证代码无效。',
+			'UNKNOWN_ERROR' => '未知错误，请稍后再试。',
+		],
     ),
 	'ko' => array(
 		'signin_title_lang' => '계정 패널에 오신 것을 환영합',
@@ -403,5 +443,12 @@ return array(
 		'signin_ajax_login_error' => '오류가 발생했습니다. 관리자에게 문의하십시!',
 
 		'signin_title_not_active_login_type' => '<br> 모든 로그인 방법이 비활성화! <br> <br> <br>',
+
+		'signin_status_codes' => [
+			'VERIFICATION_PROCESS_NOT_FOUND' => '확인 프로세스가 만료되었습니다. 다시 코드를 요청해주세요.',
+			'METHOD_NOT_ENABLED' => '확인 방법이 활성화되지 않았습니다.',
+			'INVALID_VERIFICATION_CODE' => '잘못된 확인 코드입니다.',
+			'UNKNOWN_ERROR' => '알 수 없는 오류가 발생했습니다. 나중에 다시 시도해주세요.',
+		],
     ),
 );

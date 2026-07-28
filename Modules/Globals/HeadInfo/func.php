@@ -41,7 +41,8 @@ class func
                     'bonusBalanceSettings' => \BonusBalance\func::getSettings(),
                     'row_col' => $col,
                 ),
-                get_lang('widget_head.lang')
+                get_lang('widget_head.lang'),
+                get_lang('email_verification.lang')
             )
 
         );

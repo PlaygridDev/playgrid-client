@@ -1,4 +1,21 @@
 <div class="row invisible" data-toggle="appear">
+    {if $.site.session->session.master_account.status == 1
+        && $.site.session->session.master_account.email_valid == 0
+        && ($.site.config.cabinet.registration_confirmation || $.site.config.security.email_alias_mode !== 'off')}
+    <div class="col-12">
+        <div class="alert alert-primary" role="alert">
+            <h5 class="alert-heading">
+                {$verification_title}
+            </h5>
+            <p class="mb-3">
+                {$verification_description}
+            </p>
+            <a href="javascript:void(0);" class="btn btn-alt-primary submit-btn" {$.php.btn_ajax("Modules\Globals\User\User", "email_verification_popup", [])}>
+                {$verification_button}
+            </a>
+        </div>
+    </div>
+    {/if}
     <div class="col-12 col-xl-{$row_col}">
         <div class="block block-rounded block-bordered block-link-shadow options-container" >
             <div class="block-content block-content-full clearfix">

@@ -42,6 +42,7 @@ class User extends MainModulesClass
     {
 
         return array(
+
             'ajax_refresh_accounts' => function () { return $this->ajax_refresh_accounts(); },
             'ajax_refresh_warehouse' => function () { return $this->ajax_refresh_warehouse(); },
             'hide_game_account' => function () { return $this->ajax_hide_game_account(); },
@@ -49,6 +50,10 @@ class User extends MainModulesClass
 
             'create_game_account_open' => function () { return $this->ajax_create_game_account_open(); },
             'create_game_account' => function () { return $this->ajax_create_game_account(); },
+
+            'email_verification_popup' => function () { return $this->func->emailVerificationPopup(); },
+            'email_verification_send_code' => function () { return $this->func->emailVerificationSendCode(); },
+            'email_verification_confirm' => function () { return $this->func->emailVerificationConfirm(); },
 
         );
 

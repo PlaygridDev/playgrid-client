@@ -32,8 +32,8 @@ class User
             'discount' => '',
             'social' => '',
             'warehouse' => '',
+            'two_factor_auth_methods' => '',
         ),
-
 
     );
 
@@ -170,6 +170,38 @@ class User
     {
 
         $this->session = $session;
+    }
+
+    public function get2FAMethods()
+    {
+
+        $methods = array();
+
+        if (isset($this->session['user_data']['two_factor_auth_methods']) AND is_array($this->session['user_data']['two_factor_auth_methods'])){
+            foreach ($this->session['user_data']['two_factor_auth_methods']  as $method) {
+                $methods[] = $method["method"];
+            }
+        }
+
+        return $methods;
+
+    }
+
+    public function get2FAStatus()
+    {
+
+        if (isset($this->session['user_data']['two_factor_auth_methods']) AND is_array($this->session['user_data']['two_factor_auth_methods'])){
+            if (count($this->session['user_data']['two_factor_auth_methods']) > 0)
+                return true;
+        }
+
+        return false;
+
+    }
+
+    public function get2FAStatusForMethod(string $method): bool
+    {
+        return in_array($method, $this->get2FAMethods());
     }
 
     /**

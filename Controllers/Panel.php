@@ -323,20 +323,16 @@ class Panel extends Controller {
             die;
         }
 
-
-
-        $api = new GlobalApi();
         $vars = array();
 
         $vars["type"] = 'code';
         $vars["code"] = $code;
 
-        $response = $api->signup($vars);
+        $signUp = new \ApiLib\v2\MasterAccount\SignUp();
 
+        $response = $signUp->activationWithEmailCode($vars);
 
-        if($response['ok']){
-
-
+        if($response['ok']) {
 
             if(isset($response["response"]->success)) {
                 $error = 0;
