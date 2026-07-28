@@ -152,6 +152,10 @@ class SignIn extends MainModulesClass
 
         if ($apiResponse['ok']) {
 
+            if (isset($apiResponse["response"]->input)) {
+                return get_instance()->ajaxmsg->notify($apiResponse['error'])->input_error($apiResponse["response"]->input)->eval_js(captcha_reload('sign_in'))->danger();
+            }
+
             $responseMessage = !empty($apiResponse['error'])
                             ? $apiResponse['error']
                             : $apiResponse["response"]->success ?? null;
