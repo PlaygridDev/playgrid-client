@@ -31,7 +31,7 @@
                     name="code"
                     placeholder="{$two_factor_verification_code_input_placeholder}"
                 >
-                <div class="mt-1">
+                <div class="mt-1" v-if="methods[selectedMethod].send_required">
                     <small>
                         <div v-if="remainingSeconds > 0" class="text-muted">
                             {$two_factor_verification_retry_send_after}
@@ -41,6 +41,9 @@
                             {$two_factor_verification_retry_send_button}
                         </div>
                     </small>
+                </div>
+                <div class="mt-1" v-else>
+                    <small class="text-muted">{$two_factor_verification_totp_hint}</small>
                 </div>
             </div>
         </div>
@@ -145,10 +148,15 @@
                     return;
                 }
                 this.syncTimer(0);
-                this.showCodeInput = false;
+                this.showCodeInput = !this.methods[method].send_required;
                 this.code = null;
                 this.selectedMethod = method;
                 this.setAlert(null, null);
+                if (this.showCodeInput) {
+                    this.$nextTick(() => {
+                        $('#verificationCode').focus();
+                    });
+                }
             },
 
             startVerificationProcess: function() {

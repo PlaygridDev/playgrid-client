@@ -1383,8 +1383,18 @@ class func
                 'label' => $settingsLocales['two_factor_auth_method_labels']['phone'],
                 'verified' => !empty(get_instance()->session->getPhone()),
                 'status' => get_instance()->session->get2FAStatusForMethod('phone'),
+            ],
+            'totp' => [
+                'label' => $settingsLocales['two_factor_auth_method_labels']['totp'],
+                'verified' => true,
+                'qr' => true,
+                'status' => get_instance()->session->get2FAStatusForMethod('totp'),
             ]
         ];
+
+        if (!isset(get_instance()->config['cabinet']['signin_type']['phone'])) {
+            unset($methods['phone']);
+        }
 
         $methods = array_filter(
             $methods,
@@ -1447,7 +1457,10 @@ class func
 
                 $response = get_instance()->ajaxmsg
                     ->notify($responseMessage)
-                    ->variables(['retry_after' => (string) $apiResponse['response']->retry_after ?? 0]);
+                    ->variables([
+                        'retry_after' => (string) $apiResponse['response']->retry_after ?? 0,
+                        'qr_code' => (string) ($apiResponse['response']->totp->qr_code ?? ''),
+                    ]);
 
                 $response = isset($apiResponse['error'])
                     ? $response->danger()

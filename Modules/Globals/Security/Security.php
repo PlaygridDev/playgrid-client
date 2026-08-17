@@ -109,7 +109,7 @@ class Security extends MainModulesClass
 
             if(!empty($methods)) {
                 foreach($methods as $method) {
-                    if(in_array($method['method'], ['email', 'phone'])) {
+                    if(in_array($method['method'], ['email', 'phone', 'totp'])) {
                         $user2FAMethods[] = $method['method'];
                     }
                 }
@@ -121,6 +121,7 @@ class Security extends MainModulesClass
         foreach($user2FAMethods as $method) {
             $methods[$method] = [
                 'label' => $this->getLocale('two_factor_auth_method_labels')[$method] ?? $method,
+                'send_required' => $method !== 'totp',
             ];
         }
 

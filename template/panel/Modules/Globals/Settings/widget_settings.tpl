@@ -152,7 +152,7 @@
                                 </div>
                                 {/foreach}
                             </div>
-                            {if !$.site.session->get2FAStatusForMethod('email') || !$.site.session->get2FAStatusForMethod('phone')}
+                            {if !$.site.session->get2FAStatusForMethod('email') || !$.site.session->get2FAStatusForMethod('totp') || (!$.site.session->get2FAStatusForMethod('phone') && $.site.config.cabinet.signin_type.phone is set)}
                                 <a href="javascript:void(0);" class="btn btn-alt-primary submit-btn mb-3" {$.php.btn_ajax("Modules\Globals\Settings\Settings", "enable_two_factor_auth_method_popup", [])}>
                                     <i class="fa fa-plus mr-2"></i>
                                     {$two_factor_auth_add_method}

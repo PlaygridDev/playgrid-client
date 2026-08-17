@@ -806,6 +806,14 @@ if ( ! function_exists('get_utm')) {
             $utm['_ga'] = $_COOKIE["_ga"];
         }
 
+        if(isset($_COOKIE["yclid"])) {
+            $utm["yclid"] = $_COOKIE["yclid"];
+        }
+
+        if(isset($_COOKIE["_ym_uid"])) {
+            $utm["_ym_uid"] = $_COOKIE["_ym_uid"];
+        }
+
         $advertisingConfig = getConfig('advertising');
         $measurementId = $advertisingConfig['gt_measurement_id'] ?? null;
 

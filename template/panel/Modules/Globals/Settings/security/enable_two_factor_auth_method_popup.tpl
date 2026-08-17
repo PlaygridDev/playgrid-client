@@ -38,16 +38,30 @@
                 @click="sendCode(selectedMethod)"
                 :disabled="isSending"
             >
-                {$two_factor_auth_method_enable_send_code_to} [[ methods[selectedMethod].label ]]
+                <template v-if="methods[selectedMethod].qr">{$two_factor_auth_method_enable_show_qr_button}</template>
+                <template v-else>{$two_factor_auth_method_enable_send_code_to} [[ methods[selectedMethod].label ]]</template>
             </button>
+        </div>
+        <div class="text-center mb-3" v-if="showCodeInput && qrCode">
+            <img :src="qrCode" alt="QR" class="img-fluid" style="max-width: 220px;">
+            <div class="mt-1">
+                <small class="text-muted">{$two_factor_auth_method_enable_totp_scan_info}</small>
+            </div>
         </div>
         <div class="d-flex justify-content-center mb-3 align-items-start" v-if="showCodeInput">
             <div class="form-material pt-0 text-center">
                 <input type="text" class="form-control form-control-lg text-center" id="verificationCode" name="code" placeholder="Введите код" v-model="code">
                 <div class="mt-1">
                     <small>
-                        <div v-if="remainingSeconds > 0" class="text-muted">{$two_factor_auth_method_enable_retry_send_after} [[ timer ]]</div>
-                        <div v-else class="text-primary" style="cursor: pointer" @click="showCodeInput = false">{$two_factor_auth_method_enable_retry_send_button}</div>
+                        <div v-if="remainingSeconds > 0" class="text-muted">
+                            <template v-if="qrCode">{$two_factor_auth_method_enable_qr_valid_for}</template>
+                            <template v-else>{$two_factor_auth_method_enable_retry_send_after}</template>
+                            [[ timer ]]
+                        </div>
+                        <div v-else class="text-primary" style="cursor: pointer" @click="showCodeInput = false">
+                            <template v-if="methods[selectedMethod].qr">{$two_factor_auth_method_enable_show_qr_button}</template>
+                            <template v-else>{$two_factor_auth_method_enable_retry_send_button}</template>
+                        </div>
                     </small>
                 </div>
             </div>
@@ -63,7 +77,7 @@
         delimiters: ['[[', ']]'],
         data: {
             methods: {$methods},
-            selectedMethod: 'email',
+            selectedMethod: Object.keys({$methods})[0] || 'email',
             code: null,
             alert: {
                 type: null,
@@ -73,6 +87,7 @@
             showCodeInput: false,
             remainingSeconds: 0,
             isSending: false,
+            qrCode: null,
         },
         watch: {
             code(code) {
@@ -115,6 +130,7 @@
                 this.syncTimer(0);
                 this.showCodeInput = false;
                 this.code = null;
+                this.qrCode = null;
                 this.selectedMethod = method;
                 this.setAlert(null, null);
             },
@@ -181,7 +197,8 @@
                         this.syncTimer(data.retry_after || 0);
                         switch(data.status) {
                             case 'success':
-                                this.setAlert('text-success', data.text);
+                                this.qrCode = data.qr_code || null;
+                                this.setAlert(this.qrCode ? null : 'text-success', this.qrCode ? null : data.text);
                                 this.code = null;
                                 this.showCodeInput = true;
                                 this.$nextTick(() => {

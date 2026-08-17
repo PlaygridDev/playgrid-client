@@ -245,7 +245,7 @@
                         </div>
                     </div>
                 </div>
-            </form>]
+            </form>
 {if $_IFRAME == false}
         </div>
     </div>

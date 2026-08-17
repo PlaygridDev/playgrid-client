@@ -56,6 +56,7 @@ return array(
 		'two_factor_auth_method_labels' => [
 			'email' => 'E-Mail',
 			'phone' => 'телефон',
+			'totp' => 'аутентификатор',
 		],
 
 		'two_factor_auth_method_enable_popup_info' => 'Выберите метод двухфакторной аутентификации:',
@@ -65,6 +66,9 @@ return array(
 		'two_factor_auth_method_enable_send_code_to' => 'Отправить код на',
 		'two_factor_auth_method_enable_retry_send_after' => 'Повторная отправка кода через',
 		'two_factor_auth_method_enable_retry_send_button' => 'Отправить код повторно',
+		'two_factor_auth_method_enable_show_qr_button' => 'Показать QR-код',
+		'two_factor_auth_method_enable_totp_scan_info' => 'Отсканируйте QR-код в приложении-аутентификаторе и введите код подтверждения',
+		'two_factor_auth_method_enable_qr_valid_for' => 'QR-код действителен ещё',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Код отправлен',
@@ -154,6 +158,7 @@ return array(
 		'two_factor_auth_method_labels' => [
 			'email' => 'E-Mail',
 			'phone' => 'Phone',
+			'totp' => 'Authenticator',
 		],
 
 		'two_factor_auth_method_enable_popup_info' => 'Select the two-factor authentication:',
@@ -163,6 +168,9 @@ return array(
 		'two_factor_auth_method_enable_send_code_to' => 'Send code to',
 		'two_factor_auth_method_enable_retry_send_after' => 'Resend code after',
 		'two_factor_auth_method_enable_retry_send_button' => 'Resend code',
+		'two_factor_auth_method_enable_show_qr_button' => 'Show QR code',
+		'two_factor_auth_method_enable_totp_scan_info' => 'Scan the QR code with your authenticator app and enter the verification code',
+		'two_factor_auth_method_enable_qr_valid_for' => 'QR code is valid for',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Code sent',
@@ -252,6 +260,7 @@ return array(
 		'two_factor_auth_method_labels' => [
 			'email' => 'E-Mail',
 			'phone' => 'Τηλέφωνο',
+			'totp' => 'Εφαρμογή αυθεντικοποίησης',
 		],
 
 		'two_factor_auth_method_enable_popup_info' => 'Επιλέξτε τη μέθοδο ελέγχου ταυτότητας δύο παραγόντων:',
@@ -261,6 +270,9 @@ return array(
 		'two_factor_auth_method_enable_send_code_to' => 'Αποστολή κωδικού σε',
 		'two_factor_auth_method_enable_retry_send_after' => 'Επαναποστολή κωδικού μετά από',
 		'two_factor_auth_method_enable_retry_send_button' => 'Αποστολή κωδικού ξανά',
+		'two_factor_auth_method_enable_show_qr_button' => 'Εμφάνιση κωδικού QR',
+		'two_factor_auth_method_enable_totp_scan_info' => 'Σαρώστε τον κωδικό QR με την εφαρμογή αυθεντικοποίησης και εισαγάγετε τον κωδικό επιβεβαίωσης',
+		'two_factor_auth_method_enable_qr_valid_for' => 'Ο κωδικός QR ισχύει για',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Κωδικός αποστολής',
@@ -350,6 +362,7 @@ return array(
 		'two_factor_auth_method_labels' => [
 			'email' => 'E-Mail',
 			'phone' => 'Teléfono',
+			'totp' => 'Autenticador',
 		],
 
 		'two_factor_auth_method_enable_popup_info' => 'Seleccione el método de autenticación de dos factores:',
@@ -359,6 +372,9 @@ return array(
 		'two_factor_auth_method_enable_send_code_to' => 'Enviar código a',
 		'two_factor_auth_method_enable_retry_send_after' => 'Reenviar código después de',
 		'two_factor_auth_method_enable_retry_send_button' => 'Reenviar código',
+		'two_factor_auth_method_enable_show_qr_button' => 'Mostrar código QR',
+		'two_factor_auth_method_enable_totp_scan_info' => 'Escanea el código QR con tu aplicación de autenticación e introduce el código de verificación',
+		'two_factor_auth_method_enable_qr_valid_for' => 'El código QR es válido por',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Código enviado',
@@ -443,6 +459,7 @@ return array(
 		'two_factor_auth_method_labels' => [
 			'email' => 'E-Mail',
 			'phone' => 'Telefone',
+			'totp' => 'Autenticador',
 		],
 
 		'two_factor_auth_method_enable_popup_info' => 'Selecione o método de autenticação de dois fatores:',
@@ -452,6 +469,9 @@ return array(
 		'two_factor_auth_method_enable_send_code_to' => 'Enviar código para',
 		'two_factor_auth_method_enable_retry_send_after' => 'Reenviar código após',
 		'two_factor_auth_method_enable_retry_send_button' => 'Reenviar código',
+		'two_factor_auth_method_enable_show_qr_button' => 'Mostrar código QR',
+		'two_factor_auth_method_enable_totp_scan_info' => 'Escaneie o código QR com seu aplicativo autenticador e insira o código de verificação',
+		'two_factor_auth_method_enable_qr_valid_for' => 'O código QR é válido por',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Código enviado',
@@ -541,6 +561,7 @@ return array(
 		'two_factor_auth_method_labels' => [
 			'email' => 'E-Mail',
 			'phone' => '手机',
+			'totp' => '验证器',
 		],
 
 		'two_factor_auth_method_enable_popup_info' => '请选择双重身份验证方式:',
@@ -550,6 +571,9 @@ return array(
 		'two_factor_auth_method_enable_send_code_to' => '发送代码到',
 		'two_factor_auth_method_enable_retry_send_after' => '重新发送代码在',
 		'two_factor_auth_method_enable_retry_send_button' => '重新发送代码',
+		'two_factor_auth_method_enable_show_qr_button' => '显示二维码',
+		'two_factor_auth_method_enable_totp_scan_info' => '使用验证器应用扫描二维码并输入验证码',
+		'two_factor_auth_method_enable_qr_valid_for' => '二维码有效期还剩',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => '代码已发送',
@@ -639,6 +663,7 @@ return array(
 		'two_factor_auth_method_labels' => [
 			'email' => 'E-Mail',
 			'phone' => '전화',
+			'totp' => '인증 앱',
 		],
 
 		'two_factor_auth_method_enable_popup_info' => '2단계 인증 방법을 선택하세요:',
@@ -648,6 +673,9 @@ return array(
 		'two_factor_auth_method_enable_send_code_to' => '코드 전송 대상',
 		'two_factor_auth_method_enable_retry_send_after' => '코드 재전송 후',
 		'two_factor_auth_method_enable_retry_send_button' => '코드 다시 보내기',
+		'two_factor_auth_method_enable_show_qr_button' => 'QR 코드 표시',
+		'two_factor_auth_method_enable_totp_scan_info' => '인증 앱으로 QR 코드를 스캔하고 확인 코드를 입력하세요',
+		'two_factor_auth_method_enable_qr_valid_for' => 'QR 코드 유효 시간',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => '코드가 전송되었습니다',
