@@ -53,8 +53,17 @@ class SignIn extends MainModulesClass
         $vars = array();
 
         if(isset($_POST['2fa']) && !empty($_POST['2fa'])) {
+
             $vars['2fa'] = $_POST['2fa'];
             $_POST = MetadataBag::get('2fa_signin') ?? [];
+
+            if(
+                ($vars['2fa']['method'] ?? '') === 'recovery_code'
+                AND empty(get_instance()->config['security']['two_factor_recovery_codes'])
+            ) {
+                return get_instance()->ajaxmsg->notify(get_lang('settings.lang')['regenerate_two_factor_recovery_codes_status_codes']['RECOVERY_CODES_DISABLED'])->danger();
+            }
+
         }
 
         $vars['type'] = 'signin';
@@ -179,7 +188,8 @@ class SignIn extends MainModulesClass
 
                     return $securityModule->twoFactorVerificationPopup(
                         ActionType::SIGNIN,
-                        $twoFactorMethods ?? []
+                        $twoFactorMethods ?? [],
+                        _boolean((string) ($apiResponse["response"]->recovery_code_available ?? ''))
                     );
 
                 }

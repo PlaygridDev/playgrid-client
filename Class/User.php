@@ -33,6 +33,7 @@ class User
             'social' => '',
             'warehouse' => '',
             'two_factor_auth_methods' => '',
+            'two_factor_recovery_codes' => '',
         ),
 
     );
@@ -202,6 +203,23 @@ class User
     public function get2FAStatusForMethod(string $method): bool
     {
         return in_array($method, $this->get2FAMethods());
+    }
+
+    public function get2FARecoveryCodes(): array
+    {
+
+        $info = $this->session['user_data']['two_factor_recovery_codes'] ?? [];
+
+        if (!is_array($info)) {
+            $info = [];
+        }
+
+        return [
+            'enabled' => (int) ($info['enabled'] ?? 0) === 1,
+            'total' => (int) ($info['total'] ?? 0),
+            'remaining' => (int) ($info['remaining'] ?? 0),
+        ];
+
     }
 
     /**

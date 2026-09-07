@@ -1,4 +1,5 @@
 <div id="twoFactorAuthMethodEnablePopup">
+    <div v-if="!showRecoveryCodes">
     {if $.site.config.security.two_factor_authentication_mode === 'required' && !$.site.session->get2FAStatus()}
     <h5 class="text-danger text-center">
         {$two_factor_auth_method_enable_popup_required_info}
@@ -18,8 +19,8 @@
             [[ methodParams.label ]]
         </button>
     </div>
-    <div class="form-group d-flex flex-column justify-content-center align-items-center py-30 mb-0">
-        <div class="alert alert-primary" v-if="!methods[selectedMethod].verified">
+    <div class="form-group d-flex flex-column justify-content-center align-items-center pt-20 mb-0">
+        <div class="alert alert-primary text-center mb-3" v-if="!methods[selectedMethod].verified">
             <p class="mb-0">
                 {$two_factor_auth_method_enable_not_available_info}
                 <a
@@ -34,7 +35,7 @@
             <button
                 v-if="!showCodeInput"
                 type="button"
-                class="btn btn-hero btn-sm btn-alt-primary text-uppercase mb-10"
+                class="btn btn-hero btn-sm btn-alt-primary text-uppercase mb-3"
                 @click="sendCode(selectedMethod)"
                 :disabled="isSending"
             >
@@ -50,7 +51,7 @@
         </div>
         <div class="d-flex justify-content-center mb-3 align-items-start" v-if="showCodeInput">
             <div class="form-material pt-0 text-center">
-                <input type="text" class="form-control form-control-lg text-center" id="verificationCode" name="code" placeholder="Введите код" v-model="code">
+                <input type="text" class="form-control form-control-lg text-center" id="verificationCode" name="code" placeholder="{$two_factor_auth_method_enable_code_placeholder}" v-model="code">
                 <div class="mt-1">
                     <small>
                         <div v-if="remainingSeconds > 0" class="text-muted">
@@ -66,15 +67,19 @@
                 </div>
             </div>
         </div>
-        <span class="text-center" :class="alert.type" v-if="alert.type !== null && alert.message !== null">
+        <span class="text-center mb-3" :class="alert.type" v-if="alert.type !== null && alert.message !== null">
             [[ alert.message ]]
         </span>
     </div>
+    </div>
+    {include $.php.get_tpl_file('security/recovery_codes_list.tpl', "Modules\Globals\Settings\Settings")}
 </div>
+{include $.php.get_tpl_file('security/recovery_codes_mixin.tpl', "Modules\Globals\Settings\Settings")}
 <script>
     var twoFactorAuthMethodEnablePopup = new Vue({
         el: '#twoFactorAuthMethodEnablePopup',
         delimiters: ['[[', ']]'],
+        mixins: [window.recoveryCodesMixin],
         data: {
             methods: {$methods},
             selectedMethod: Object.keys({$methods})[0] || 'email',
@@ -254,10 +259,10 @@
                     if('status' in data && 'text' in data) {
                         switch(data.status) {
                             case 'success':
-                                $('#modal-ajax').modal('hide');
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 1000);
+                                if (this.showRecoveryCodesList(data.recovery_codes)) {
+                                    break;
+                                }
+                                this.finish();
                                 break;
                             case 'danger':
                                 this.setAlert('text-danger', data.text);

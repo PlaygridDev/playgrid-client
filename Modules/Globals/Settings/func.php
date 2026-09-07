@@ -1509,9 +1509,15 @@ class func
             $statusCode = (string) $apiResponse['response']->status_code;
             $responseMessage = $settingsLocales['enable_two_factor_method_status_codes'][$statusCode] ?? $responseMessage;
 
+            $variables = ['retry_after' => (string) $apiResponse['response']->retry_after ?? 0];
+
+            if (isset($apiResponse["response"]->recovery_codes)) {
+                $variables['recovery_codes'] = array_values(json_decode(json_encode($apiResponse["response"]->recovery_codes), true));
+            }
+
             $response = get_instance()->ajaxmsg
                 ->notify($responseMessage)
-                ->variables(['retry_after' => (string) $apiResponse['response']->retry_after ?? 0]);
+                ->variables($variables);
 
             $response = isset($apiResponse['error'])
                 ? $response->danger()
@@ -1548,6 +1554,10 @@ class func
             $payload['2fa']['method'] = $post['2fa']['method'];
         }
 
+        if ($payload['2fa']['method'] === 'recovery_code' AND empty(get_instance()->config['security']['two_factor_recovery_codes'])) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['regenerate_two_factor_recovery_codes_status_codes']['RECOVERY_CODES_DISABLED'])->danger();
+        }
+
         if (!isset($post['2fa']['code']) OR empty($post['2fa']['code'])) {
             return get_instance()->ajaxmsg->notify($settingsLocales['two_factor_auth_code_empty'])->danger();
         } else {
@@ -1569,6 +1579,98 @@ class func
             $response = get_instance()->ajaxmsg
                 ->notify($responseMessage)
                 ->variables(['retry_after' => (string) $apiResponse['response']->retry_after ?? 0]);
+
+            $response = isset($apiResponse['error'])
+                ? $response->danger()
+                : $response->success();
+
+            if (isset($apiResponse["response"]->data->user_data)) {
+                $data = json_encode($apiResponse["response"]->data);
+                $data = json_decode($data, true);
+                get_instance()->session->updateSessionDB($data);
+            }
+
+            return $response;
+
+        } else {
+            return get_instance()->ajaxmsg->notify('Error: ' . $apiResponse['http_error'] . '<br>Code: ' . $apiResponse['http_code'])->danger();
+        }
+
+    }
+
+    public function regenerateTwoFactorRecoveryCodesPopup()
+    {
+
+        $settingsLocales = get_lang('settings.lang');
+
+        if (!get_instance()->session->isLogin()) {
+            return get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
+
+        if (!get_instance()->session->get2FAStatus()) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['disable_two_factor_auth_status_codes']['NO_METHODS_ENABLED'])->danger();
+        }
+
+        if (empty(get_instance()->config['security']['two_factor_recovery_codes'])) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['regenerate_two_factor_recovery_codes_status_codes']['RECOVERY_CODES_DISABLED'])->danger();
+        }
+
+        $recoveryCodes = get_instance()->session->get2FARecoveryCodes();
+
+        $content = get_instance()->fenom->fetch(
+            get_tpl_file('security/regenerate_recovery_codes_popup.tpl', get_class($this->this_main)),
+            array_merge(
+                $settingsLocales,
+                ['has_recovery_codes' => $recoveryCodes['total'] > 0]
+            )
+        );
+
+        return get_instance()->ajaxmsg->popup($settingsLocales['two_factor_recovery_codes_title'], $content, '')->success();
+
+    }
+
+    public function regenerateTwoFactorRecoveryCodes()
+    {
+
+        $settingsLocales = get_lang('settings.lang');
+
+        if (!get_instance()->session->isLogin()) {
+            return get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+        }
+
+        if (empty(get_instance()->config['security']['two_factor_recovery_codes'])) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['regenerate_two_factor_recovery_codes_status_codes']['RECOVERY_CODES_DISABLED'])->danger();
+        }
+
+        $post = $_POST;
+
+        if (!isset($post['password']) OR empty($post['password'])) {
+            return get_instance()->ajaxmsg->notify($settingsLocales['two_factor_recovery_codes_password_empty'])->danger();
+        } else {
+            $payload['password'] = $post['password'];
+        }
+
+        $security = new \ApiLib\v2\MasterAccount\Security();
+        $apiResponse = $security->regenerateTwoFactorRecoveryCodes($payload);
+
+        if($apiResponse['ok']) {
+
+            $responseMessage = !empty($apiResponse['error'])
+                            ? $apiResponse['error']
+                            : $apiResponse["response"]->success ?? null;
+
+            $statusCode = (string) $apiResponse['response']->status_code;
+            $responseMessage = $settingsLocales['regenerate_two_factor_recovery_codes_status_codes'][$statusCode] ?? $responseMessage;
+
+            $variables = ['retry_after' => (string) $apiResponse['response']->retry_after ?? 0];
+
+            if (isset($apiResponse["response"]->recovery_codes)) {
+                $variables['recovery_codes'] = array_values(json_decode(json_encode($apiResponse["response"]->recovery_codes), true));
+            }
+
+            $response = get_instance()->ajaxmsg
+                ->notify($responseMessage)
+                ->variables($variables);
 
             $response = isset($apiResponse['error'])
                 ? $response->danger()

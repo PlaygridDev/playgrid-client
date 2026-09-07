@@ -37,5 +37,9 @@ class Security extends Api
         return $this->init()->addParam('payload', $vars)->post('v2/master-account/security/2fa/deactivation')->response();
     }
 
+    public function regenerateTwoFactorRecoveryCodes($vars)
+    {
+        return $this->init()->addParam('payload', $vars)->post('v2/master-account/security/2fa/recovery-codes/regenerate')->response();
+    }
 
 }

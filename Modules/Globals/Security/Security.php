@@ -20,7 +20,7 @@ class Security extends MainModulesClass
     public function __construct()
     {
 
-        $this->securitySettings = getConfig('project')['security'] ?? [];
+        $this->securitySettings = getConfig('config')['security'] ?? [];
         $this->locales = get_lang('security.lang') ?? [];
         $this->user = get_instance()->session;
         $this->ajaxMsg = get_instance()->ajaxmsg;
@@ -73,7 +73,7 @@ class Security extends MainModulesClass
         );
     }
 
-    public function twoFactorVerificationPopup(string $action = '', array $methods = [])
+    public function twoFactorVerificationPopup(string $action = '', array $methods = [], bool $recoveryCodeAvailable = false)
     {
 
         $payload = $_POST;
@@ -104,6 +104,8 @@ class Security extends MainModulesClass
             }
 
             $user2FAMethods = $this->user->get2FAMethods();
+            $recoveryCodes = $this->user->get2FARecoveryCodes();
+            $recoveryCodeAvailable = $recoveryCodes['enabled'] && $recoveryCodes['remaining'] > 0;
 
         } else {
 
@@ -122,6 +124,14 @@ class Security extends MainModulesClass
             $methods[$method] = [
                 'label' => $this->getLocale('two_factor_auth_method_labels')[$method] ?? $method,
                 'send_required' => $method !== 'totp',
+            ];
+        }
+
+        if ($recoveryCodeAvailable && !empty($this->securitySettings['two_factor_recovery_codes']) && !empty($methods)) {
+            $methods['recovery_code'] = [
+                'label' => $this->getLocale('two_factor_auth_method_labels')['recovery_code'] ?? 'recovery_code',
+                'send_required' => false,
+                'recovery' => true,
             ];
         }
 
@@ -162,7 +172,7 @@ class Security extends MainModulesClass
 
         $post = $_POST;
 
-        if (!isset($post['method']) || empty($post['method'])) {
+        if (!isset($post['method']) || empty($post['method']) || $post['method'] === 'recovery_code') {
             return get_instance()->ajaxmsg->notify($this->getLocale('two_factor_verification_invalid_method'))->danger();
         } else {
             $payload['method'] = $post['method'];

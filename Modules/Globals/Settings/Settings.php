@@ -71,6 +71,9 @@ class Settings extends MainModulesClass
 
             'disable_two_factor_auth_confirm' => function () { return $this->func->disableTwoFactorAuthConfirm(); },
 
+            'regenerate_two_factor_recovery_codes_popup' => function () { return $this->func->regenerateTwoFactorRecoveryCodesPopup(); },
+            'regenerate_two_factor_recovery_codes' => function () { return $this->func->regenerateTwoFactorRecoveryCodes(); },
+
             'change_password_popup' => function () { return $this->func->changePasswordPopup(); },
 
         );

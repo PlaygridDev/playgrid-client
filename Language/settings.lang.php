@@ -69,6 +69,7 @@ return array(
 		'two_factor_auth_method_enable_show_qr_button' => 'Показать QR-код',
 		'two_factor_auth_method_enable_totp_scan_info' => 'Отсканируйте QR-код в приложении-аутентификаторе и введите код подтверждения',
 		'two_factor_auth_method_enable_qr_valid_for' => 'QR-код действителен ещё',
+		'two_factor_auth_method_enable_code_placeholder' => 'Введите код',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Код отправлен',
@@ -84,6 +85,7 @@ return array(
 		],
 
 		'disable_two_factor_auth_status_codes' => [
+			'VALIDATION_ERROR' => 'Неверный формат кода подтверждения.',
 			'NO_METHODS_ENABLED' => 'Двухфакторная аутентификация не включена.',
 			'TWO_FACTOR_DISABLED' => 'Двухфакторная аутентификация отключена.',
 			'VERIFICATION_PROCESS_NOT_FOUND' => 'Процесс подтверждения деактивации истек. Отправьте код еще раз.',
@@ -97,6 +99,30 @@ return array(
 		'two_factor_auth_disable' => 'Отключить 2FA',
 		'two_factor_auth_method_empty' => 'Метод не передан',
 		'two_factor_auth_code_empty' => 'Код не передан',
+
+		'two_factor_recovery_codes_title' => 'Коды восстановления',
+		'two_factor_recovery_codes_label' => 'Коды восстановления',
+		'two_factor_recovery_codes_save_warning' => 'Сохраните эти коды в надёжном месте. Каждый код можно использовать один раз, повторно они не показываются.',
+		'two_factor_recovery_codes_saved_button' => 'Я сохранил коды',
+		'two_factor_recovery_codes_download_button' => 'Сохранить как TXT',
+		'two_factor_recovery_codes_missing' => 'Создайте коды, чтобы не потерять доступ к аккаунту при утере устройства.',
+		'two_factor_recovery_codes_exhausted' => 'Все коды восстановления использованы. Создайте новые.',
+		'two_factor_recovery_codes_low' => 'Осталось мало кодов восстановления. Рекомендуем создать новые.',
+		'two_factor_recovery_codes_regenerate_button' => 'Создать новые коды',
+		'two_factor_recovery_codes_create_button' => 'Создать коды',
+		'two_factor_recovery_codes_regenerate_warning' => 'После создания новых кодов старые перестанут действовать.',
+		'two_factor_recovery_codes_password_label' => 'Пароль мастер-аккаунта',
+		'two_factor_recovery_codes_password_empty' => 'Введите пароль',
+
+		'regenerate_two_factor_recovery_codes_status_codes' => [
+			'RECOVERY_CODES_REGENERATED' => 'Новые коды восстановления созданы.',
+			'NO_METHODS_ENABLED' => 'Двухфакторная аутентификация не включена.',
+			'INVALID_PASSWORD' => 'Неверный пароль.',
+			'RECOVERY_CODES_DISABLED' => 'Коды восстановления отключены администратором проекта.',
+			'RATE_LIMIT_EXCEEDED' => 'Слишком много попыток, попробуйте позже.',
+			'VALIDATION_ERROR' => 'Проверьте введённые данные.',
+			'UNKNOWN_ERROR' => 'Неизвестная ошибка, попробуйте позже.',
+		],
 
     ),
 
@@ -171,6 +197,7 @@ return array(
 		'two_factor_auth_method_enable_show_qr_button' => 'Show QR code',
 		'two_factor_auth_method_enable_totp_scan_info' => 'Scan the QR code with your authenticator app and enter the verification code',
 		'two_factor_auth_method_enable_qr_valid_for' => 'QR code is valid for',
+		'two_factor_auth_method_enable_code_placeholder' => 'Enter code',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Code sent',
@@ -186,6 +213,7 @@ return array(
 		],
 
 		'disable_two_factor_auth_status_codes' => [
+			'VALIDATION_ERROR' => 'Invalid verification code format.',
 			'NO_METHODS_ENABLED' => 'Two-factor authentication is not enabled.',
 			'TWO_FACTOR_DISABLED' => 'Two-factor authentication is disabled.',
 			'VERIFICATION_PROCESS_NOT_FOUND' => 'The deactivation verification process has expired. Please request the code again.',
@@ -199,6 +227,30 @@ return array(
 		'two_factor_auth_disable' => 'Disable 2FA',
 		'two_factor_auth_method_empty' => 'Method not provided',
 		'two_factor_auth_code_empty' => 'Code not provided',
+
+		'two_factor_recovery_codes_title' => 'Recovery codes',
+		'two_factor_recovery_codes_label' => 'Recovery codes',
+		'two_factor_recovery_codes_save_warning' => 'Store these codes in a safe place. Each code can be used once and they will not be shown again.',
+		'two_factor_recovery_codes_saved_button' => 'I have saved the codes',
+		'two_factor_recovery_codes_download_button' => 'Save as TXT',
+		'two_factor_recovery_codes_missing' => 'Create codes so you do not lose access to your account if you lose your device.',
+		'two_factor_recovery_codes_exhausted' => 'All recovery codes have been used. Create new ones.',
+		'two_factor_recovery_codes_low' => 'Only a few recovery codes are left. We recommend creating new ones.',
+		'two_factor_recovery_codes_regenerate_button' => 'Create new codes',
+		'two_factor_recovery_codes_create_button' => 'Create codes',
+		'two_factor_recovery_codes_regenerate_warning' => 'Once new codes are created, the old ones will stop working.',
+		'two_factor_recovery_codes_password_label' => 'Master account password',
+		'two_factor_recovery_codes_password_empty' => 'Enter your password',
+
+		'regenerate_two_factor_recovery_codes_status_codes' => [
+			'RECOVERY_CODES_REGENERATED' => 'New recovery codes have been created.',
+			'NO_METHODS_ENABLED' => 'Two-factor authentication is not enabled.',
+			'INVALID_PASSWORD' => 'Invalid password.',
+			'RECOVERY_CODES_DISABLED' => 'Recovery codes are disabled by the project administrator.',
+			'RATE_LIMIT_EXCEEDED' => 'Too many attempts, please try again later.',
+			'VALIDATION_ERROR' => 'Please check the entered data.',
+			'UNKNOWN_ERROR' => 'Unknown error, please try again later.',
+		],
 
     ),
 
@@ -273,6 +325,7 @@ return array(
 		'two_factor_auth_method_enable_show_qr_button' => 'Εμφάνιση κωδικού QR',
 		'two_factor_auth_method_enable_totp_scan_info' => 'Σαρώστε τον κωδικό QR με την εφαρμογή αυθεντικοποίησης και εισαγάγετε τον κωδικό επιβεβαίωσης',
 		'two_factor_auth_method_enable_qr_valid_for' => 'Ο κωδικός QR ισχύει για',
+		'two_factor_auth_method_enable_code_placeholder' => 'Εισαγάγετε τον κωδικό',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Κωδικός αποστολής',
@@ -288,6 +341,7 @@ return array(
 		],
 
 		'disable_two_factor_auth_status_codes' => [
+			'VALIDATION_ERROR' => 'Μη έγκυρη μορφή κωδικού επιβεβαίωσης.',
 			'NO_METHODS_ENABLED' => 'Η διακρίβωση δύο παραγόντων δεν είναι ενεργοποιημένη.',
 			'TWO_FACTOR_DISABLED' => 'Η διακρίβωση δύο παραγόντων είναι απενεργοποιημένη.',
 			'VERIFICATION_PROCESS_NOT_FOUND' => 'Η διαδικασία επιβεβαίωσης απενεργοποίησης έχει λήξει. Παρακαλούμε ζητήστε το κωδικό ξανά.',
@@ -301,6 +355,30 @@ return array(
 		'two_factor_auth_disable' => 'Απενεργοποίηση 2FA',
 		'two_factor_auth_method_empty' => 'Μέθοδος δεν παρέχεται',
 		'two_factor_auth_code_empty' => 'Κωδικός δεν παρέχεται',
+
+		'two_factor_recovery_codes_title' => 'Κωδικοί ανάκτησης',
+		'two_factor_recovery_codes_label' => 'Κωδικοί ανάκτησης',
+		'two_factor_recovery_codes_save_warning' => 'Αποθηκεύστε αυτούς τους κωδικούς σε ασφαλές μέρος. Κάθε κωδικός χρησιμοποιείται μία φορά και δεν θα εμφανιστεί ξανά.',
+		'two_factor_recovery_codes_saved_button' => 'Αποθήκευσα τους κωδικούς',
+		'two_factor_recovery_codes_download_button' => 'Αποθήκευση ως TXT',
+		'two_factor_recovery_codes_missing' => 'Δημιουργήστε κωδικούς για να μη χάσετε την πρόσβαση στον λογαριασμό σας αν χάσετε τη συσκευή.',
+		'two_factor_recovery_codes_exhausted' => 'Όλοι οι κωδικοί ανάκτησης έχουν χρησιμοποιηθεί. Δημιουργήστε νέους.',
+		'two_factor_recovery_codes_low' => 'Απομένουν λίγοι κωδικοί ανάκτησης. Συνιστούμε να δημιουργήσετε νέους.',
+		'two_factor_recovery_codes_regenerate_button' => 'Δημιουργία νέων κωδικών',
+		'two_factor_recovery_codes_create_button' => 'Δημιουργία κωδικών',
+		'two_factor_recovery_codes_regenerate_warning' => 'Μετά τη δημιουργία νέων κωδικών, οι παλιοί θα σταματήσουν να ισχύουν.',
+		'two_factor_recovery_codes_password_label' => 'Κωδικός πρόσβασης κύριου λογαριασμού',
+		'two_factor_recovery_codes_password_empty' => 'Εισαγάγετε τον κωδικό πρόσβασης',
+
+		'regenerate_two_factor_recovery_codes_status_codes' => [
+			'RECOVERY_CODES_REGENERATED' => 'Δημιουργήθηκαν νέοι κωδικοί ανάκτησης.',
+			'NO_METHODS_ENABLED' => 'Η αυθεντικοποίηση δύο παραγόντων δεν είναι ενεργοποιημένη.',
+			'INVALID_PASSWORD' => 'Λανθασμένος κωδικός πρόσβασης.',
+			'RECOVERY_CODES_DISABLED' => 'Οι κωδικοί ανάκτησης είναι απενεργοποιημένοι από τον διαχειριστή του έργου.',
+			'RATE_LIMIT_EXCEEDED' => 'Πάρα πολλές προσπάθειες, δοκιμάστε ξανά αργότερα.',
+			'VALIDATION_ERROR' => 'Ελέγξτε τα δεδομένα που εισαγάγατε.',
+			'UNKNOWN_ERROR' => 'Άγνωστο σφάλμα, δοκιμάστε ξανά αργότερα.',
+		],
 
 	),
 
@@ -375,6 +453,7 @@ return array(
 		'two_factor_auth_method_enable_show_qr_button' => 'Mostrar código QR',
 		'two_factor_auth_method_enable_totp_scan_info' => 'Escanea el código QR con tu aplicación de autenticación e introduce el código de verificación',
 		'two_factor_auth_method_enable_qr_valid_for' => 'El código QR es válido por',
+		'two_factor_auth_method_enable_code_placeholder' => 'Introduce el código',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Código enviado',
@@ -390,6 +469,7 @@ return array(
 		],
 
 		'disable_two_factor_auth_status_codes' => [
+			'VALIDATION_ERROR' => 'Formato de código de verificación no válido.',
 			'NO_METHODS_ENABLED' => 'La autenticación de dos factores no está habilitada.',
 			'TWO_FACTOR_DISABLED' => 'La autenticación de dos factores está deshabilitada.',
 			'VERIFICATION_PROCESS_NOT_FOUND' => 'El proceso de verificación de desactivación ha expirado. Por favor, solicita el código nuevamente.',
@@ -403,6 +483,30 @@ return array(
 		'two_factor_auth_disable' => 'Deshabilitar 2FA',
 		'two_factor_auth_method_empty' => 'Método no proporcionado',
 		'two_factor_auth_code_empty' => 'Código no proporcionado',
+
+		'two_factor_recovery_codes_title' => 'Códigos de recuperación',
+		'two_factor_recovery_codes_label' => 'Códigos de recuperación',
+		'two_factor_recovery_codes_save_warning' => 'Guarda estos códigos en un lugar seguro. Cada código se puede usar una sola vez y no se mostrarán de nuevo.',
+		'two_factor_recovery_codes_saved_button' => 'He guardado los códigos',
+		'two_factor_recovery_codes_download_button' => 'Guardar como TXT',
+		'two_factor_recovery_codes_missing' => 'Crea los códigos para no perder el acceso a tu cuenta si pierdes el dispositivo.',
+		'two_factor_recovery_codes_exhausted' => 'Se han usado todos los códigos de recuperación. Crea nuevos.',
+		'two_factor_recovery_codes_low' => 'Quedan pocos códigos de recuperación. Recomendamos crear nuevos.',
+		'two_factor_recovery_codes_regenerate_button' => 'Crear nuevos códigos',
+		'two_factor_recovery_codes_create_button' => 'Crear códigos',
+		'two_factor_recovery_codes_regenerate_warning' => 'Al crear nuevos códigos, los anteriores dejarán de funcionar.',
+		'two_factor_recovery_codes_password_label' => 'Contraseña de la cuenta maestra',
+		'two_factor_recovery_codes_password_empty' => 'Introduce la contraseña',
+
+		'regenerate_two_factor_recovery_codes_status_codes' => [
+			'RECOVERY_CODES_REGENERATED' => 'Se han creado nuevos códigos de recuperación.',
+			'NO_METHODS_ENABLED' => 'La autenticación de dos factores no está habilitada.',
+			'INVALID_PASSWORD' => 'Contraseña incorrecta.',
+			'RECOVERY_CODES_DISABLED' => 'Los códigos de recuperación están deshabilitados por el administrador del proyecto.',
+			'RATE_LIMIT_EXCEEDED' => 'Demasiados intentos, inténtalo de nuevo más tarde.',
+			'VALIDATION_ERROR' => 'Revisa los datos introducidos.',
+			'UNKNOWN_ERROR' => 'Error desconocido, inténtalo de nuevo más tarde.',
+		],
 
     ),
 
@@ -472,6 +576,7 @@ return array(
 		'two_factor_auth_method_enable_show_qr_button' => 'Mostrar código QR',
 		'two_factor_auth_method_enable_totp_scan_info' => 'Escaneie o código QR com seu aplicativo autenticador e insira o código de verificação',
 		'two_factor_auth_method_enable_qr_valid_for' => 'O código QR é válido por',
+		'two_factor_auth_method_enable_code_placeholder' => 'Digite o código',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => 'Código enviado',
@@ -487,6 +592,7 @@ return array(
 		],
 
 		'disable_two_factor_auth_status_codes' => [
+			'VALIDATION_ERROR' => 'Formato de código de verificação inválido.',
 			'NO_METHODS_ENABLED' => 'Autenticação de dois fatores não está habilitada.',
 			'TWO_FACTOR_DISABLED' => 'Autenticação de dois fatores está desabilitada.',
 			'VERIFICATION_PROCESS_NOT_FOUND' => 'O processo de verificação de desativação expirou. Por favor, solicite o código novamente.',
@@ -500,6 +606,30 @@ return array(
 		'two_factor_auth_disable' => 'Desabilitar 2FA',
 		'two_factor_auth_method_empty' => 'Método não fornecido',
 		'two_factor_auth_code_empty' => 'Código não fornecido',
+
+		'two_factor_recovery_codes_title' => 'Códigos de recuperação',
+		'two_factor_recovery_codes_label' => 'Códigos de recuperação',
+		'two_factor_recovery_codes_save_warning' => 'Guarde estes códigos em um local seguro. Cada código pode ser usado uma vez e eles não serão exibidos novamente.',
+		'two_factor_recovery_codes_saved_button' => 'Salvei os códigos',
+		'two_factor_recovery_codes_download_button' => 'Salvar como TXT',
+		'two_factor_recovery_codes_missing' => 'Crie os códigos para não perder o acesso à sua conta caso perca o dispositivo.',
+		'two_factor_recovery_codes_exhausted' => 'Todos os códigos de recuperação foram usados. Crie novos.',
+		'two_factor_recovery_codes_low' => 'Restam poucos códigos de recuperação. Recomendamos criar novos.',
+		'two_factor_recovery_codes_regenerate_button' => 'Criar novos códigos',
+		'two_factor_recovery_codes_create_button' => 'Criar códigos',
+		'two_factor_recovery_codes_regenerate_warning' => 'Após criar novos códigos, os antigos deixarão de funcionar.',
+		'two_factor_recovery_codes_password_label' => 'Senha da conta principal',
+		'two_factor_recovery_codes_password_empty' => 'Informe a senha',
+
+		'regenerate_two_factor_recovery_codes_status_codes' => [
+			'RECOVERY_CODES_REGENERATED' => 'Novos códigos de recuperação foram criados.',
+			'NO_METHODS_ENABLED' => 'A autenticação de dois fatores não está habilitada.',
+			'INVALID_PASSWORD' => 'Senha incorreta.',
+			'RECOVERY_CODES_DISABLED' => 'Os códigos de recuperação foram desabilitados pelo administrador do projeto.',
+			'RATE_LIMIT_EXCEEDED' => 'Muitas tentativas, tente novamente mais tarde.',
+			'VALIDATION_ERROR' => 'Verifique os dados informados.',
+			'UNKNOWN_ERROR' => 'Erro desconhecido, tente novamente mais tarde.',
+		],
 
     ),
 
@@ -574,6 +704,7 @@ return array(
 		'two_factor_auth_method_enable_show_qr_button' => '显示二维码',
 		'two_factor_auth_method_enable_totp_scan_info' => '使用验证器应用扫描二维码并输入验证码',
 		'two_factor_auth_method_enable_qr_valid_for' => '二维码有效期还剩',
+		'two_factor_auth_method_enable_code_placeholder' => '输入验证码',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => '代码已发送',
@@ -589,6 +720,7 @@ return array(
 		],
 
 		'disable_two_factor_auth_status_codes' => [
+			'VALIDATION_ERROR' => '验证码格式无效。',
 			'NO_METHODS_ENABLED' => '双因素身份验证未启用。',
 			'TWO_FACTOR_DISABLED' => '双因素身份验证已禁用。',
 			'VERIFICATION_PROCESS_NOT_FOUND' => '停用验证过程已过期。请重新请求代码。',
@@ -602,6 +734,30 @@ return array(
 		'two_factor_auth_disable' => '禁用 2FA',
 		'two_factor_auth_method_empty' => '未提供方法',
 		'two_factor_auth_code_empty' => '未提供代码',
+
+		'two_factor_recovery_codes_title' => '恢复代码',
+		'two_factor_recovery_codes_label' => '恢复代码',
+		'two_factor_recovery_codes_save_warning' => '请将这些代码保存在安全的地方。每个代码只能使用一次，并且不会再次显示。',
+		'two_factor_recovery_codes_saved_button' => '我已保存代码',
+		'two_factor_recovery_codes_download_button' => '保存为 TXT',
+		'two_factor_recovery_codes_missing' => '请创建代码，以免在丢失设备时失去账户访问权限。',
+		'two_factor_recovery_codes_exhausted' => '所有恢复代码已用完。请创建新的代码。',
+		'two_factor_recovery_codes_low' => '剩余的恢复代码很少。建议创建新的代码。',
+		'two_factor_recovery_codes_regenerate_button' => '创建新代码',
+		'two_factor_recovery_codes_create_button' => '创建代码',
+		'two_factor_recovery_codes_regenerate_warning' => '创建新代码后，旧代码将失效。',
+		'two_factor_recovery_codes_password_label' => '主账户密码',
+		'two_factor_recovery_codes_password_empty' => '请输入密码',
+
+		'regenerate_two_factor_recovery_codes_status_codes' => [
+			'RECOVERY_CODES_REGENERATED' => '已创建新的恢复代码。',
+			'NO_METHODS_ENABLED' => '双重认证未启用。',
+			'INVALID_PASSWORD' => '密码错误。',
+			'RECOVERY_CODES_DISABLED' => '项目管理员已禁用恢复代码。',
+			'RATE_LIMIT_EXCEEDED' => '尝试次数过多，请稍后再试。',
+			'VALIDATION_ERROR' => '请检查输入的数据。',
+			'UNKNOWN_ERROR' => '未知错误，请稍后再试。',
+		],
 
     ),
 
@@ -676,6 +832,7 @@ return array(
 		'two_factor_auth_method_enable_show_qr_button' => 'QR 코드 표시',
 		'two_factor_auth_method_enable_totp_scan_info' => '인증 앱으로 QR 코드를 스캔하고 확인 코드를 입력하세요',
 		'two_factor_auth_method_enable_qr_valid_for' => 'QR 코드 유효 시간',
+		'two_factor_auth_method_enable_code_placeholder' => '코드를 입력하세요',
 
 		'enable_two_factor_method_status_codes' => [
 			'ACTIVATION_STARTED' => '코드가 전송되었습니다',
@@ -691,6 +848,7 @@ return array(
 		],
 
 		'disable_two_factor_auth_status_codes' => [
+			'VALIDATION_ERROR' => '확인 코드 형식이 올바르지 않습니다.',
 			'NO_METHODS_ENABLED' => '이중 인증이 활성화되지 않았습니다.',
 			'TWO_FACTOR_DISABLED' => '이중 인증이 비활성화되었습니다.',
 			'VERIFICATION_PROCESS_NOT_FOUND' => '비활성화 확인 프로세스가 만료되었습니다. 다시 코드를 요청해주세요.',
@@ -704,6 +862,30 @@ return array(
 		'two_factor_auth_disable' => '2FA 비활성화',
 		'two_factor_auth_method_empty' => '메서드가 제공되지 않음',
 		'two_factor_auth_code_empty' => '코드가 제공되지 않음',
+
+		'two_factor_recovery_codes_title' => '복구 코드',
+		'two_factor_recovery_codes_label' => '복구 코드',
+		'two_factor_recovery_codes_save_warning' => '이 코드를 안전한 곳에 보관하세요. 각 코드는 한 번만 사용할 수 있으며 다시 표시되지 않습니다.',
+		'two_factor_recovery_codes_saved_button' => '코드를 저장했습니다',
+		'two_factor_recovery_codes_download_button' => 'TXT로 저장',
+		'two_factor_recovery_codes_missing' => '기기를 잃어버려도 계정 접근을 잃지 않도록 코드를 생성하세요.',
+		'two_factor_recovery_codes_exhausted' => '모든 복구 코드가 사용되었습니다. 새 코드를 생성하세요.',
+		'two_factor_recovery_codes_low' => '남은 복구 코드가 적습니다. 새 코드를 생성하는 것을 권장합니다.',
+		'two_factor_recovery_codes_regenerate_button' => '새 코드 생성',
+		'two_factor_recovery_codes_create_button' => '코드 생성',
+		'two_factor_recovery_codes_regenerate_warning' => '새 코드를 생성하면 기존 코드는 더 이상 사용할 수 없습니다.',
+		'two_factor_recovery_codes_password_label' => '마스터 계정 비밀번호',
+		'two_factor_recovery_codes_password_empty' => '비밀번호를 입력하세요',
+
+		'regenerate_two_factor_recovery_codes_status_codes' => [
+			'RECOVERY_CODES_REGENERATED' => '새 복구 코드가 생성되었습니다.',
+			'NO_METHODS_ENABLED' => '2단계 인증이 활성화되어 있지 않습니다.',
+			'INVALID_PASSWORD' => '비밀번호가 올바르지 않습니다.',
+			'RECOVERY_CODES_DISABLED' => '프로젝트 관리자가 복구 코드를 비활성화했습니다.',
+			'RATE_LIMIT_EXCEEDED' => '시도 횟수가 너무 많습니다. 나중에 다시 시도하세요.',
+			'VALIDATION_ERROR' => '입력한 데이터를 확인하세요.',
+			'UNKNOWN_ERROR' => '알 수 없는 오류입니다. 나중에 다시 시도하세요.',
+		],
 
     ),
 );

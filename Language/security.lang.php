@@ -7,6 +7,7 @@ return [
 			'email' => 'E-Mail',
 			'phone' => 'телефон',
 			'totp' => 'аутентификатор',
+			'recovery_code' => 'код восстановления',
 		],
         'two_factor_verification_popup_title' => 'Двухфакторная аутентификация',
         'two_factor_verification_popup_subtitle' => 'Выберите способ подтверждения',
@@ -18,6 +19,10 @@ return [
         'two_factor_auth_not_enabled' => 'Двухфакторная аутентификация не включена',
         'two_factor_verification_invalid_method' => 'Не удалось определить способ подтверждения.',
         'two_factor_verification_invalid_action' => 'Не удалось определить подтверждаемое действие.',
+        'two_factor_verification_use_recovery_code' => 'Нет доступа к устройству? Использовать код восстановления',
+        'two_factor_verification_back_to_methods' => 'Вернуться к способам подтверждения',
+        'two_factor_verification_recovery_hint' => 'Введите один из сохранённых кодов восстановления',
+        'two_factor_verification_recovery_placeholder' => 'xxxxx-xxxxx',
 
         'two_factor_verification_status_codes' => [
             'METHOD_NOT_ENABLED' => 'Выбранный способ подтверждения не включен.',
@@ -33,6 +38,7 @@ return [
 			'email' => 'E-Mail',
 			'phone' => 'Phone',
 			'totp' => 'Authenticator',
+			'recovery_code' => 'recovery code',
 		],
         'two_factor_verification_popup_title' => 'Two-Factor Authentication',
         'two_factor_verification_popup_subtitle' => 'Select a verification method',
@@ -44,6 +50,10 @@ return [
         'two_factor_auth_not_enabled' => 'Two-factor authentication is not enabled',
         'two_factor_verification_invalid_method' => 'Unable to determine the verification method.',
         'two_factor_verification_invalid_action' => 'Unable to determine the action being verified.',
+        'two_factor_verification_use_recovery_code' => 'No access to your device? Use a recovery code',
+        'two_factor_verification_back_to_methods' => 'Back to verification methods',
+        'two_factor_verification_recovery_hint' => 'Enter one of your saved recovery codes',
+        'two_factor_verification_recovery_placeholder' => 'xxxxx-xxxxx',
 
         'two_factor_verification_status_codes' => [
             'METHOD_NOT_ENABLED' => 'Selected verification method is not enabled.',
@@ -59,6 +69,7 @@ return [
 			'email' => 'E-Mail',
 			'phone' => 'Τηλέφωνο',
 			'totp' => 'Εφαρμογή αυθεντικοποίησης',
+			'recovery_code' => 'κωδικός ανάκτησης',
 		],
         'two_factor_verification_popup_title' => 'Διακρίβωση Δύο Παραγόντων',
         'two_factor_verification_popup_subtitle' => 'Επιλέξτε μέθοδο επιβεβαίωσης',
@@ -70,6 +81,10 @@ return [
         'two_factor_auth_not_enabled' => 'Η διακρίβωση δύο παραγόντων δεν είναι ενεργοποιημένη',
         'two_factor_verification_invalid_method' => 'Δεν ήταν δυνατό να προσδιοριστεί η μέθοδος επιβεβαίωσης.',
         'two_factor_verification_invalid_action' => 'Δεν ήταν δυνατό να προσδιοριστεί η ενέργεια που επιβεβαιώνεται.',
+        'two_factor_verification_use_recovery_code' => 'Δεν έχετε πρόσβαση στη συσκευή σας; Χρησιμοποιήστε κωδικό ανάκτησης',
+        'two_factor_verification_back_to_methods' => 'Επιστροφή στις μεθόδους επιβεβαίωσης',
+        'two_factor_verification_recovery_hint' => 'Εισαγάγετε έναν από τους αποθηκευμένους κωδικούς ανάκτησης',
+        'two_factor_verification_recovery_placeholder' => 'xxxxx-xxxxx',
 
         'two_factor_verification_status_codes' => [
             'METHOD_NOT_ENABLED' => 'Η επιλεγμένη μέθοδος επιβεβαίωσης δεν είναι ενεργοποιημένη.',
@@ -85,6 +100,7 @@ return [
 			'email' => 'E-Mail',
 			'phone' => 'Teléfono',
 			'totp' => 'Autenticador',
+			'recovery_code' => 'código de recuperación',
 		],
         'two_factor_verification_popup_title' => 'Autenticación de Dos Factores',
         'two_factor_verification_popup_subtitle' => 'Selecciona un método de verificación',
@@ -96,6 +112,10 @@ return [
         'two_factor_auth_not_enabled' => 'La autenticación de dos factores no está habilitada',
         'two_factor_verification_invalid_method' => 'No se puede determinar el método de verificación.',
         'two_factor_verification_invalid_action' => 'No se puede determinar la acción que se verifica.',
+        'two_factor_verification_use_recovery_code' => '¿Sin acceso a tu dispositivo? Usa un código de recuperación',
+        'two_factor_verification_back_to_methods' => 'Volver a los métodos de verificación',
+        'two_factor_verification_recovery_hint' => 'Introduce uno de tus códigos de recuperación guardados',
+        'two_factor_verification_recovery_placeholder' => 'xxxxx-xxxxx',
 
         'two_factor_verification_status_codes' => [
             'METHOD_NOT_ENABLED' => 'El método de verificación seleccionado no está habilitado.',
@@ -111,6 +131,7 @@ return [
 			'email' => 'E-Mail',
 			'phone' => 'Telefone',
 			'totp' => 'Autenticador',
+			'recovery_code' => 'código de recuperação',
 		],
         'two_factor_verification_popup_title' => 'Autenticação de Dois Fatores',
         'two_factor_verification_popup_subtitle' => 'Selecione um método de verificação',
@@ -122,6 +143,10 @@ return [
         'two_factor_auth_not_enabled' => 'Autenticação de dois fatores não está habilitada',
         'two_factor_verification_invalid_method' => 'Não foi possível determinar o método de verificação.',
         'two_factor_verification_invalid_action' => 'Não foi possível determinar a ação sendo verificada.',
+        'two_factor_verification_use_recovery_code' => 'Sem acesso ao seu dispositivo? Use um código de recuperação',
+        'two_factor_verification_back_to_methods' => 'Voltar aos métodos de verificação',
+        'two_factor_verification_recovery_hint' => 'Insira um dos seus códigos de recuperação salvos',
+        'two_factor_verification_recovery_placeholder' => 'xxxxx-xxxxx',
 
         'two_factor_verification_status_codes' => [
             'METHOD_NOT_ENABLED' => 'Método de verificação selecionado não está habilitado.',
@@ -137,6 +162,7 @@ return [
 			'email' => 'E-Mail',
 			'phone' => '手机',
 			'totp' => '验证器',
+			'recovery_code' => '恢复代码',
 		],
         'two_factor_verification_popup_title' => '双因素身份验证',
         'two_factor_verification_popup_subtitle' => '选择验证方法',
@@ -148,6 +174,10 @@ return [
         'two_factor_auth_not_enabled' => '双因素身份验证未启用',
         'two_factor_verification_invalid_method' => '无法确定验证方法。',
         'two_factor_verification_invalid_action' => '无法确定要验证的操作。',
+        'two_factor_verification_use_recovery_code' => '无法访问您的设备？使用恢复代码',
+        'two_factor_verification_back_to_methods' => '返回验证方法',
+        'two_factor_verification_recovery_hint' => '请输入您保存的恢复代码之一',
+        'two_factor_verification_recovery_placeholder' => 'xxxxx-xxxxx',
 
         'two_factor_verification_status_codes' => [
             'METHOD_NOT_ENABLED' => '所选的验证方法未启用。',
@@ -163,6 +193,7 @@ return [
 			'email' => 'E-Mail',
 			'phone' => '전화',
 			'totp' => '인증 앱',
+			'recovery_code' => '복구 코드',
 		],
         'two_factor_verification_popup_title' => '이중 인증',
         'two_factor_verification_popup_subtitle' => '확인 방법 선택',
@@ -174,6 +205,10 @@ return [
         'two_factor_auth_not_enabled' => '이중 인증이 활성화되지 않았습니다',
         'two_factor_verification_invalid_method' => '확인 방법을 확인할 수 없습니다.',
         'two_factor_verification_invalid_action' => '확인 중인 작업을 확인할 수 없습니다.',
+        'two_factor_verification_use_recovery_code' => '기기에 접근할 수 없나요? 복구 코드 사용',
+        'two_factor_verification_back_to_methods' => '확인 방법으로 돌아가기',
+        'two_factor_verification_recovery_hint' => '저장한 복구 코드 중 하나를 입력하세요',
+        'two_factor_verification_recovery_placeholder' => 'xxxxx-xxxxx',
 
         'two_factor_verification_status_codes' => [
             'METHOD_NOT_ENABLED' => '선택된 확인 방법이 활성화되지 않았습니다.',

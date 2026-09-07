@@ -1,9 +1,10 @@
 <div id="twoFactorVerificationPopup">
     <div class="d-flex flex-column align-items-center justify-content-center">
         <h5 class="mb-4 text-dark">{$two_factor_verification_popup_subtitle}</h5>
-        <div class="btn-group btn-group-toggle text-capitalize mb-3" data-toggle="buttons">
+        <div class="btn-group btn-group-toggle text-capitalize mb-3" data-toggle="buttons" v-if="!isRecoveryMode">
             <label
                 v-for="(methodParams, method) in methods"
+                v-if="!methodParams.recovery"
                 :class="selectedMethod == method ? 'btn-primary' : 'btn-secondary'"
                 @click="setSelectedmethod(method)"
                 class="btn"
@@ -12,9 +13,9 @@
                 [[ methodParams.label ]]
             </label>
         </div>
-        <div class="d-flex justify-content-center mb-3 align-items-start">
+        <div class="d-flex justify-content-center mb-3 align-items-start" v-if="selectedMethod">
             <button
-                v-if="!showCodeInput && selectedMethod"
+                v-if="!showCodeInput"
                 type="button"
                 class="btn btn-hero btn-sm btn-alt-primary text-uppercase"
                 @click="startVerificationProcess(selectedMethod)"
@@ -29,7 +30,7 @@
                     class="form-control form-control-lg text-center"
                     id="verificationCode"
                     name="code"
-                    placeholder="{$two_factor_verification_code_input_placeholder}"
+                    :placeholder="codePlaceholder"
                 >
                 <div class="mt-1" v-if="methods[selectedMethod].send_required">
                     <small>
@@ -42,14 +43,27 @@
                         </div>
                     </small>
                 </div>
-                <div class="mt-1" v-else>
+                <div class="mt-1" v-else-if="!methods[selectedMethod].recovery">
                     <small class="text-muted">{$two_factor_verification_totp_hint}</small>
+                </div>
+                <div class="mt-1" v-else>
+                    <small class="text-muted">{$two_factor_verification_recovery_hint}</small>
                 </div>
             </div>
         </div>
         <span class="text-center mb-3" :class="alert.type" v-if="alert.type !== null && alert.message !== null">
             [[ alert.message ]]
         </span>
+        <div class="text-center mb-3" v-if="methods.recovery_code">
+            <small>
+                <a href="javascript:void(0);" v-if="!isRecoveryMode" @click="setSelectedmethod('recovery_code')">
+                    {$two_factor_verification_use_recovery_code}
+                </a>
+                <a href="javascript:void(0);" v-else @click="backToMethods()">
+                    {$two_factor_verification_back_to_methods}
+                </a>
+            </small>
+        </div>
     </div>
 </div>
 
@@ -84,6 +98,18 @@
                 return this.remainingSeconds > 0;
             },
 
+            isRecoveryMode() {
+                return this.selectedMethod !== null
+                    && !!this.methods[this.selectedMethod]
+                    && !!this.methods[this.selectedMethod].recovery;
+            },
+
+            codePlaceholder() {
+                return this.isRecoveryMode
+                    ? '{$two_factor_verification_recovery_placeholder}'
+                    : '{$two_factor_verification_code_input_placeholder}';
+            },
+
             timer() {
                 const minutes = Math.floor(this.remainingSeconds / 60);
                 const seconds = this.remainingSeconds % 60;
@@ -97,6 +123,24 @@
         watch: {
             code(code) {
                 var value = '';
+
+                if (this.isRecoveryMode) {
+
+                    if (code) {
+                        value = code.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 10);
+                        if (value.length > 5) {
+                            value = value.slice(0, 5) + '-' + value.slice(5);
+                        }
+                    }
+
+                    this.code = value;
+
+                    if (value.length === 11) {
+                        this.checkCode(value);
+                    }
+
+                    return;
+                }
 
                 if(code) {
                     value = code.replace(/\D/g, '').slice(0, 6);
@@ -157,6 +201,14 @@
                         $('#verificationCode').focus();
                     });
                 }
+            },
+
+            backToMethods: function() {
+                this.syncTimer(0);
+                this.showCodeInput = false;
+                this.code = null;
+                this.selectedMethod = null;
+                this.setAlert(null, null);
             },
 
             startVerificationProcess: function() {

@@ -152,6 +152,35 @@
                                 </div>
                                 {/foreach}
                             </div>
+                            {set $recoveryCodes = $.site.session->get2FARecoveryCodes()}
+                            {if $.site.config.security.two_factor_recovery_codes}
+                            <div class="d-flex flex-column align-items-start">
+                                {if $recoveryCodes.total == 0}
+                                    <div class="text-danger mb-2">{$two_factor_recovery_codes_missing}</div>
+                                {else}
+                                    <div class="mb-2">
+                                        <span class="text-muted">{$two_factor_recovery_codes_label}:</span>
+                                        <span class="badge ml-1 {if $recoveryCodes.remaining == 0}badge-danger{elseif $recoveryCodes.remaining <= 3}badge-warning{else}badge-success{/if}">
+                                            {$recoveryCodes.remaining} / {$recoveryCodes.total}
+                                        </span>
+                                    </div>
+                                    {if $recoveryCodes.remaining == 0}
+                                        <small class="text-danger mb-2">{$two_factor_recovery_codes_exhausted}</small>
+                                    {elseif $recoveryCodes.remaining <= 3}
+                                        <small class="text-warning mb-2">{$two_factor_recovery_codes_low}</small>
+                                    {/if}
+                                {/if}
+                                <a href="javascript:void(0);" class="btn btn-sm btn-alt-secondary submit-btn mb-3" {$.php.btn_ajax("Modules\Globals\Settings\Settings", "regenerate_two_factor_recovery_codes_popup", [])}>
+                                    {if $recoveryCodes.total == 0}
+                                        <i class="fa fa-key mr-2"></i>
+                                        {$two_factor_recovery_codes_create_button}
+                                    {else}
+                                        <i class="fa fa-refresh mr-2"></i>
+                                        {$two_factor_recovery_codes_regenerate_button}
+                                    {/if}
+                                </a>
+                            </div>
+                            {/if}
                             {if !$.site.session->get2FAStatusForMethod('email') || !$.site.session->get2FAStatusForMethod('totp') || (!$.site.session->get2FAStatusForMethod('phone') && $.site.config.cabinet.signin_type.phone is set)}
                                 <a href="javascript:void(0);" class="btn btn-alt-primary submit-btn mb-3" {$.php.btn_ajax("Modules\Globals\Settings\Settings", "enable_two_factor_auth_method_popup", [])}>
                                     <i class="fa fa-plus mr-2"></i>
