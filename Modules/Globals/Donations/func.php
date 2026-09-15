@@ -49,6 +49,7 @@ class func
         'severpay',
         'severpay_byn',
         'severpay_rub',
+        'severpay_rub2',
         'settlepay_pix',
         'settlepay_cbucvu',
         'abankcomua',
@@ -56,6 +57,7 @@ class func
         'wayforpay',
         'liqpay',
         'pay4game',
+        'changecoins',
     );
 
     public function __construct($this_main)

@@ -41,6 +41,7 @@ class App extends Controller
         'severpay',
         'severpay_byn',
         'severpay_rub',
+        'severpay_rub2',
         'settlepay_pix',
         'settlepay_cbucvu',
         'abankcomua',
@@ -48,6 +49,7 @@ class App extends Controller
         'wayforpay',
         'liqpay',
         'pay4game',
+        'changecoins',
     );
 
     public $advertising = false;
