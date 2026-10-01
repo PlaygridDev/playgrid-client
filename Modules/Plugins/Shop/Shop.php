@@ -50,6 +50,7 @@ class Shop extends MainModulesClass
         return array(
             'ajax_buy_shop' => function () { return $this->func->ajax_buy_shop(); },
             'ajax_buy_service' => function () { return $this->func->ajax_buy_service(); },
+            'ajax_buy_service_confirm' => function () { return $this->func->ajax_buy_service_confirm(); },
             'ajax_checkout_shop_no_auth' => function () { return $this->func->ajax_checkout_shop_no_auth(); },
         );
 

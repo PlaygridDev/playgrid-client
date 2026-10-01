@@ -13,9 +13,9 @@
         {if $item.complect == 0}
             <div class="isel__price isel__price_header isel__heading">
                 {$lang_item_price} {if $sale.status}
-                    <span class="badge badge-sale ml-1" style="position: absolute;padding: 1px;" title="{$lang_label_sale} {$sale.name}{if $sale_ma > 0} + Master Account{/if}">-{$sale.sale + $sale_ma}%</span>
-                {elseif $sale_ma > 0}
-                    <span class="badge badge-sale-ma ml-1" style="position: absolute;padding: 1px;" title="{$lang_label_sale} Master Account">-{$sale_ma}%</span>
+                    <span class="badge badge-sale ml-1" style="position: absolute;padding: 1px;" title="{$lang_label_sale} {$sale.name}{if $sale_ma > 0} + Master Account{/if}{if $premium_club_sale > 0} + {$premium_club_title}{/if}">-{$sale.sale + $sale_ma + $premium_club_sale}%</span>
+                {elseif $sale_ma > 0 || $premium_club_sale > 0}
+                    <span class="badge badge-sale-ma ml-1" style="position: absolute;padding: 1px;" title="{$lang_label_sale} {if $sale_ma > 0}Master Account{/if}{if $sale_ma > 0 && $premium_club_sale > 0} + {/if}{if $premium_club_sale > 0}{$premium_club_title}{/if}">-{$sale_ma + $premium_club_sale}%</span>
                 {/if}
             </div>
         {/if}
@@ -27,7 +27,7 @@
 
                     <input type="radio" class="checkbox__input"
                            name="items[premium]" value="{$it.key}"
-                           data-price="{if $sale.status}{$.php.percentage($it.price, $sale.sale + $sale_ma)}{else}{$.php.percentage($it.price, $sale_ma)}{/if}"
+                           data-price="{if $sale.status}{$.php.percentage($it.price, $sale.sale + $sale_ma + $premium_club_sale)}{else}{$.php.percentage($it.price, $sale_ma + $premium_club_sale)}{/if}"
                     />
                     <div class="checkbox__block"></div>
                     <div class="checkbox__content">{$it.name}</div>
@@ -37,7 +37,7 @@
             <div class="isel__quantity">
                 <em class="font-size-sm text-muted">{$it.visual_day}</em>
             </div>
-            <div class="isel__price"  title="{$payment_system.short_name_valute}">{if $sale.status}{$.php.percentage($it.price, $sale.sale + $sale_ma)}{else}{$.php.percentage($it.price, $sale_ma)}{/if}</div>
+            <div class="isel__price"  title="{$payment_system.short_name_valute}">{if $sale.status}{$.php.percentage($it.price, $sale.sale + $sale_ma + $premium_club_sale)}{else}{$.php.percentage($it.price, $sale_ma + $premium_club_sale)}{/if}</div>
         </div> <!-- END isel -->
     {/foreach}
     {if $item.complect == 0}

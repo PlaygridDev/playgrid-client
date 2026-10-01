@@ -48,6 +48,7 @@ return array(
         "ajax_shop_not_found" => 'Данный товар не найден, обновите страницу или сообщите администрации!',
         "ajax_empty_items" => 'Вы не выбрали ни одного товара!',
         "ajax_empty_payment_method" => 'Выберите варианты оплаты',
+        "ajax_service_confirm_expired" => 'Данные покупки устарели, обновите страницу и повторите',
 
 
 
@@ -56,6 +57,10 @@ return array(
         "l2_char_transfer_new_acc" => 'Укажите новый игровой аккаунт',
         "l2_name_change_new" => 'Укажите новое имя персонажа',
         "l2_name_reserved" => 'Укажите ник персонажа для резервирование',
+        "l2_game_account_transfer_receiver_contact" => 'Email или телефон получателя',
+        "l2_game_account_transfer_receiver_email" => 'Email получателя',
+        "l2_game_account_transfer_password" => 'Пароль мастер-аккаунта',
+        "l2_game_account_transfer_notice" => 'Игровой аккаунт вместе со всеми персонажами перейдёт на другой мастер-аккаунт. Отменить передачу нельзя.',
 
         "service_no_auth" => 'Покупка товара возможно только авторизованному пользователю!',
 
@@ -108,6 +113,7 @@ return array(
   		"ajax_shop_not_found" => 'This product was not found, refresh the page or inform the administration!',
   		"ajax_empty_items" => 'You have not selected any products!',
   		"ajax_empty_payment_method" => 'Choose payment method!',
+  		"ajax_service_confirm_expired" => 'The purchase data has expired, reload the page and try again',
 
 
 
@@ -116,6 +122,10 @@ return array(
   		"l2_char_transfer_new_acc" => 'New game account ID',
   		"l2_name_change_new" => 'New character name',
   		"l2_name_reserved" => 'Character name to be reserved',
+  		"l2_game_account_transfer_receiver_contact" => 'Recipient email or phone',
+  		"l2_game_account_transfer_receiver_email" => 'Recipient email',
+  		"l2_game_account_transfer_password" => 'Master account password',
+  		"l2_game_account_transfer_notice" => 'The game account and all of its characters will be transferred to another master account. The transfer cannot be undone.',
 
   		"service_no_auth" => 'Only logged in users may purchase products!',
     ),
@@ -166,6 +176,7 @@ return array(
       "ajax_shop_not_found" => 'Αυτό το προϊόν δεν βρέθηκε! Ανανεώστε τη σελίδα ή ενημερώστε την διαχείρηση!',
       "ajax_empty_items" => 'Δεν έχετε επιλέξει προϊόν!',
       "ajax_empty_payment_method" => 'Επιλέξτε τρόπο πληρωμής',
+      "ajax_service_confirm_expired" => 'Τα δεδομένα της αγοράς έληξαν, ανανεώστε τη σελίδα και δοκιμάστε ξανά',
   
   
   
@@ -174,6 +185,10 @@ return array(
       "l2_char_transfer_new_acc" => 'ID νέου game account',
       "l2_name_change_new" => 'Νέο όνομα χαρακτήρα',
       "l2_name_reserved" => 'Όνομα χαρακτήρα προς κράτηση',
+      "l2_game_account_transfer_receiver_contact" => 'Email ή τηλέφωνο παραλήπτη',
+      "l2_game_account_transfer_receiver_email" => 'Email παραλήπτη',
+      "l2_game_account_transfer_password" => 'Κωδικός master account',
+      "l2_game_account_transfer_notice" => 'Ο λογαριασμός παιχνιδιού μαζί με όλους τους χαρακτήρες θα μεταβιβαστεί σε άλλο master account. Η μεταβίβαση δεν αναιρείται.',
   
       "service_no_auth" => 'Η αγορά προϊόντων είναι διαθέσιμη μόνο σε συνδεδεμένους χρήστες!',
     ),
@@ -224,6 +239,7 @@ return array(
       "ajax_shop_not_found" => 'Este producto no fue encontrado, actualiza la página o informa a la administración!',
       "ajax_empty_items" => 'No has selecciona ningún producto!',
       "ajax_empty_payment_method" => 'Elige un método de pago!',
+      "ajax_service_confirm_expired" => 'Los datos de la compra han caducado, actualiza la página e inténtalo de nuevo',
 
 
 
@@ -232,6 +248,10 @@ return array(
       "l2_char_transfer_new_acc" => 'Nuevo ID de cuenta de juego',
       "l2_name_change_new" => 'Nuevo nombre de personaje',
       "l2_name_reserved" => 'Nombre de personaje a reservar',
+      "l2_game_account_transfer_receiver_contact" => 'Email o teléfono del destinatario',
+      "l2_game_account_transfer_receiver_email" => 'Email del destinatario',
+      "l2_game_account_transfer_password" => 'Contraseña de la cuenta maestra',
+      "l2_game_account_transfer_notice" => 'La cuenta de juego con todos sus personajes pasará a otra cuenta maestra. La transferencia no se puede deshacer.',
 
       "service_no_auth" => 'Solo los usuarios que han iniciado sesión pueden comprar productos!',
     ),
@@ -280,12 +300,17 @@ return array(
       "ajax_shop_not_found" => 'Este produto não foi encontrado, atualize a página ou informe a administração!',
       "ajax_empty_items" => 'Você não selecionou nenhum produto!',
       "ajax_empty_payment_method" => 'Escolha o método de pagamento!',
+      "ajax_service_confirm_expired" => 'Os dados da compra expiraram, atualize a página e tente novamente',
 
       //Services
       "l2_clan_name_change_placeholder" => 'Novo nome do clã',
       "l2_char_transfer_new_acc" => 'Novo ID de conta de jogo',
       "l2_name_change_new" => 'Novo nome do personagem',
       "l2_name_reserved" => 'Nome do personagem a ser reservado',
+      "l2_game_account_transfer_receiver_contact" => 'Email ou telefone do destinatário',
+      "l2_game_account_transfer_receiver_email" => 'Email do destinatário',
+      "l2_game_account_transfer_password" => 'Senha da conta mestre',
+      "l2_game_account_transfer_notice" => 'A conta de jogo com todos os seus personagens será transferida para outra conta mestre. A transferência não pode ser desfeita.',
 
       "service_no_auth" => 'Apenas usuários logados podem comprar produtos!',
     ),
@@ -336,6 +361,7 @@ return array(
   		"ajax_shop_not_found" => '未找到此产品,请刷新页面或通知管理部门!',
   		"ajax_empty_items" => '您尚未选择任何产品!',
   		"ajax_empty_payment_method" => '选择支付方式!',
+  		"ajax_service_confirm_expired" => '购买数据已过期，请刷新页面后重试',
 
 
 
@@ -344,6 +370,10 @@ return array(
   		"l2_char_transfer_new_acc" => '新游戏帐号ID',
   		"l2_name_change_new" => '新字元名',
   		"l2_name_reserved" => '要保留的字符名称',
+  		"l2_game_account_transfer_receiver_contact" => '接收者的邮箱或电话',
+  		"l2_game_account_transfer_receiver_email" => '接收者的邮箱',
+  		"l2_game_account_transfer_password" => '主账号密码',
+  		"l2_game_account_transfer_notice" => '游戏帐户及其所有角色将转移到另一个主账号。转移无法撤销。',
 
   		"service_no_auth" => '仅登录用户可购买产品!',
     ),
@@ -394,6 +424,7 @@ return array(
   		"ajax_shop_not_found" => '이 제품을 찾지 못하거나 페이지를 새로 고치거나 관리자에게 알리지!',
   		"ajax_empty_items" => '제품을 선택하지 않았습니다!',
   		"ajax_empty_payment_method" => '결제 방법 선택!',
+  		"ajax_service_confirm_expired" => '구매 데이터가 만료되었습니다. 페이지를 새로 고친 후 다시 시도하세요',
 
 
 
@@ -402,6 +433,10 @@ return array(
   		"l2_char_transfer_new_acc" => '새 게임 계정 ID',
   		"l2_name_change_new" => '새 문자 이름',
   		"l2_name_reserved" => '예약할 문자 이름',
+  		"l2_game_account_transfer_receiver_contact" => '받는 사람의 이메일 또는 전화번호',
+  		"l2_game_account_transfer_receiver_email" => '받는 사람의 이메일',
+  		"l2_game_account_transfer_password" => '마스터 계정 비밀번호',
+  		"l2_game_account_transfer_notice" => '게임 계정과 모든 캐릭터가 다른 마스터 계정으로 이전됩니다. 이전은 취소할 수 없습니다.',
 
   		"service_no_auth" => '로그인 한 사용자 만 제품을 구입할 수 있!',
     ),

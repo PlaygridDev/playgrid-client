@@ -38,10 +38,13 @@
                                 <div class="box__price">
                                     {if $sale.status}
                                         {if $sale.sale_ma == false}{set $sale_ma = false}{/if}
-                                        <div class="box__price-new">{$.php.percentage($shop.price, $sale.sale + $sale_ma)} {$payment_system.short_name_valute}</div>
+                                        <div class="box__price-new">{$.php.percentage($shop.price, $sale.sale + $sale_ma + $premium_club_sale)} {$payment_system.short_name_valute}</div>
                                         <div class="box__price-old">{if $shop.complect == 0}{$price_from} {/if}{$shop.price} {$payment_system.short_name_valute}</div>
                                     {else}
-                                        <div class="box__price-new">{$.php.percentage($shop.price, $sale_ma)} {$payment_system.short_name_valute}</div>
+                                        <div class="box__price-new">{$.php.percentage($shop.price, $sale_ma + $premium_club_sale)} {$payment_system.short_name_valute}</div>
+                                    {/if}
+                                    {if $premium_club_sale > 0}
+                                        <span class="badge badge-premium-club ml-5" title="{$premium_club_title}">-{$premium_club_sale}%</span>
                                     {/if}
                                 </div>
                             </div>
@@ -70,6 +73,7 @@
         {$.site._SEO->addTegHTML('footer', 'timer_lang', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/js/plugins/jquery.countdown/jquery.countdown-'~$.site._LANG~'.js'])}
     {/if}
     {$.site._SEO->addTegHTML('head', 'game_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/game/css/style.css?v1'])}
+    {$.site._SEO->addTegHTML('head', 'premium_club_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/css/premium_club.css?v=' ~ filemtime($.const.ROOT_DIR~$.const.VIEWPATH~'/panel/assets/css/premium_club.css')])}
     {$.site._SEO->addTegHTML('footer', 'popper.min', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/game/libs/tippy/js/popper.min.js'])}
     {$.site._SEO->addTegHTML('footer', 'tippy-bundle', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/game/libs/tippy/js/tippy-bundle.iife.min.js'])}
     {$.site._SEO->addTegHTML('footer', 'game-app', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/game/js/app.js?v11'])}

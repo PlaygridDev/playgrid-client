@@ -74,7 +74,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text short_name_icon"><i class="fa fa-plus-square"></i></span>
                 </div>
-                <input type="number" min="1" max="600000" maxlength="6" name="count" class="form-control" id="count-in-game" title="{$lang_current_sale}: {$.site.session->getDiscount()}%" placeholder="{$lang_input_enter_count}">
+                <input type="number" min="1" max="600000" maxlength="6" name="count" class="form-control" id="count-in-game" title="{$lang_current_sale}: {$.site.session->getDiscount()}%{if $premium_club_sale > 0} + {$premium_club_title} {$premium_club_sale}%{/if}" placeholder="{$lang_input_enter_count}">
             </div>
         </div>
     </div>
@@ -157,6 +157,6 @@
     $("#count-in-game").bind("keyup change", function(e) {
         let price = $("input[name='type_id']:checked").data('price');
         let sum = $(this).val() * price;
-        $('#out_price').html(sum - (sum * {$.site.session->getDiscount()} / 100));
+        $('#out_price').html(sum - (sum * ({$.php.floatval($.site.session->getDiscount())} + {$premium_club_sale}) / 100));
     });
 </script>

@@ -48,12 +48,14 @@ class func
                 array(
                     'items' => $items,
                     'price' => $price,
+                    'premium_club_sale' => \PremiumClub\func::getDiscount('games'),
                     'free_spin' => $free_spin,
                     'max_price_spin' => $max_price_spin,
                     'module_form' => 'Modules\\\\Plugins\\\\LuckyWheel\\\\LuckyWheel',
                     'module' => 'ajax_get_prize',
                 ),
-                get_lang('lucky_wheel.lang')
+                get_lang('lucky_wheel.lang'),
+                get_lang('premium_club.lang')
             )
 
         );
@@ -97,7 +99,7 @@ class func
                             'result'    => 'success', //success/error/warning/info
                             'balance'    => get_instance()->session->getBalance('main'),
                             'info'    => $response["response"]->data->user_data->lucky_wheel,
-                            'price'    => $this->lucky_wheel[$sid]['price'],
+                            'price'    => percentage($this->lucky_wheel[$sid]['price'], \PremiumClub\func::getDiscount('games')),
                             'count'    => round(get_instance()->session->getBalance('main') / $this->lucky_wheel[$sid]['price']),
                             'item'    => array(
                                 'name' => (string) $response["response"]->items->name,

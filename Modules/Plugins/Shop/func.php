@@ -7,6 +7,8 @@ use Modules\Globals\Donations\Integrations\PaymentHandler;
 
 use ApiLib\v2\Payment;
 use ApiLib\v2\Plugins\Shop;
+use Modules\Globals\Security\Enum\ActionType;
+use Session\MetadataBag;
 
 class func
 {
@@ -484,10 +486,11 @@ class func
                 array(
                     'payment_system' => get_instance()->config['payment_system'],
                     'categorys' => $category,
-                    'shops' => $shop,
+                    'shops' => $this->withPremiumClubSale($shop),
                     'sale_ma' => get_instance()->session->getDiscount('shop')
                 ),
-                get_lang('shop.lang')
+                get_lang('shop.lang'),
+                get_lang('premium_club.lang')
             )
 
         );
@@ -525,9 +528,11 @@ class func
                         'categorys' => $category,
                         'item' => $item,
                         'char_list' => get_instance()->session->getGameChars(),
-                        'sale_ma' => get_instance()->session->getDiscount('shop')
+                        'sale_ma' => get_instance()->session->getDiscount('shop'),
+                        'premium_club_sale' => $this->premiumClubSale($item)
                     ),
-                    get_lang('shop.lang')
+                    get_lang('shop.lang'),
+                    get_lang('premium_club.lang')
                 )
 
             );
@@ -543,10 +548,12 @@ class func
                         'char_list' => get_instance()->session->getGameChars(),
                         'char_list_full' => get_instance()->session->getGameChars(false, true),
                         'sale_ma' => get_instance()->session->getDiscount('service'),
+                        'premium_club_sale' => $this->premiumClubSale($item),
 
                         'tpl_enrollment' => $item['type']
                     ),
-                    get_lang('shop.lang')
+                    get_lang('shop.lang'),
+                    get_lang('premium_club.lang')
                 )
 
             );
@@ -572,13 +579,32 @@ class func
                 array(
                     'payment_system' => get_instance()->config['payment_system'],
                     'categorys' => $category,
-                    'shops' => $shop,
+                    'shops' => $this->withPremiumClubSale($shop),
                     'sale_ma' => get_instance()->session->getDiscount('shop')
                 ),
-                get_lang('shop.lang')
+                get_lang('shop.lang'),
+                get_lang('premium_club.lang')
             )
 
         );
+    }
+
+    private function premiumClubSale(array $item): float
+    {
+        if (!empty($item['premium_club_discount_disabled'])) {
+            return 0.0;
+        }
+
+        return \PremiumClub\func::getDiscount($item['type'] == 'shop' ? 'shop' : 'service');
+    }
+
+    private function withPremiumClubSale(array $shop): array
+    {
+        foreach ($shop as $id => $item) {
+            $shop[$id]['premium_club_sale'] = $this->premiumClubSale($item);
+        }
+
+        return $shop;
     }
 
     public function ajax_buy_shop()
@@ -714,6 +740,32 @@ class func
                 $vars[$key] = $item;
             }
 
+            if (
+                $this->shop['shop'][$sid][$vars["shop_id"]]['type'] === 'l2_game_account_transfer'
+                AND empty($vars['2fa'])
+                AND get_instance()->session->get2FAStatus()
+            ) {
+
+                if (empty($vars['account_name']))
+                    return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_empty_account_name'])->danger();
+
+                if (empty($vars['email']))
+                    return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_empty_email'])->danger();
+
+                MetadataBag::set('2fa_buy_service', array(
+                    'sid' => $sid,
+                    'shop_id' => $vars['shop_id'],
+                    'account_name' => $vars['account_name'],
+                    'email' => $vars['email'],
+                ));
+
+                unset($_POST['action']);
+
+                return get_instance()
+                    ->getModule('Modules\Globals\Security\Security')
+                    ->twoFactorVerificationPopup(ActionType::GAME_ACCOUNT_TRANSFER);
+            }
+
             $shop = new Shop();
             $response = $shop->buyService($vars);
 
@@ -753,6 +805,44 @@ class func
         }
 
         return $send;
+
+    }
+
+    public function ajax_buy_service_confirm()
+    {
+
+        if (!get_instance()->session->isLogin())
+            return get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+
+        $payload = MetadataBag::get('2fa_buy_service') ?? [];
+
+        if (empty($payload) OR empty($_POST['2fa']))
+            return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_service_confirm_expired'])->danger();
+
+        get_instance()->set_sid((int) $payload['sid'], false);
+
+        if ((int) get_instance()->get_sid() !== (int) $payload['sid'])
+            return get_instance()->ajaxmsg->notify(get_lang('shop.lang')['ajax_service_confirm_expired'])->danger();
+
+        $_POST = array(
+            'shop_id' => $payload['shop_id'],
+            'account_name' => $payload['account_name'],
+            'email' => $payload['email'],
+            '2fa' => $_POST['2fa'],
+        );
+
+        $response = json_decode($this->ajax_buy_service(), true);
+
+        if (isset($response['status']) AND $response['status'] === 'success')
+            MetadataBag::remove('2fa_buy_service');
+
+        if (!empty($response['input'])) {
+            foreach ($response['input'] as $text) {
+                $response['text'] .= '<br>' . $text;
+            }
+        }
+
+        return json_encode($response);
 
     }
 

@@ -4,7 +4,6 @@ namespace Donations;
 
 use Modules\Globals\Donations\Integrations\PaymentHandler;
 
-use ApiLib\GlobalApi;
 use ApiLib\v2\Payment;
 
 class func
@@ -332,6 +331,7 @@ class func
                     'payment_system' => get_instance()->config['payment_system'],
                     'market' => $this->market,
                     'event_cfg' => $event_list,
+                    'premium_club_statuses' => \PremiumClub\func::getStatuses(),
                     'payment_list' => $this->payment_list,
                     'config_cabinet' => get_instance()->config['cabinet'],
                     get_lang('course.lang')
@@ -762,12 +762,11 @@ class func
     public function ajax_refresh_balance()
     {
 
-        $api = new GlobalApi();
-        $vars = array('temp');
+        $api = new \ApiLib\v2\MasterAccount\User();
 
         if (get_instance()->session->isLogin()) {
 
-            $response = $api->refresh_balance($vars);
+            $response = $api->refreshBalance();
 
             if ($response['ok']) {
 

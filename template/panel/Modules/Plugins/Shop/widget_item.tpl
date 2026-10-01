@@ -4,6 +4,7 @@
     {$.site._SEO->addTegHTML('footer', 'timer_lang', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/js/plugins/jquery.countdown/jquery.countdown-'~$.site._LANG~'.js'])}
 {/if}
 {$.site._SEO->addTegHTML('head', 'shop_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/css/shop.css?v=' ~ filemtime($.const.ROOT_DIR~$.const.VIEWPATH~'/panel/assets/css/shop.css')])}
+{$.site._SEO->addTegHTML('head', 'premium_club_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/css/premium_club.css?v=' ~ filemtime($.const.ROOT_DIR~$.const.VIEWPATH~'/panel/assets/css/premium_club.css')])}
 {$.site._SEO->addTegHTML('head', 'og:image', 'meta',     ['property'=>'og:image', 'content'=> $item.img])}
 {$.site._SEO->addTegHTML('head', 'og:image:alt', 'meta', ['property'=>'og:image:alt', 'content'=> $item.name])}
 
@@ -36,9 +37,9 @@
                         {if $item.complect == 0}
                             <div class="isel__price isel__price_header isel__heading">
                                 {$lang_item_price} {if $sale.status}
-                                    <span class="badge badge-sale ml-1" style="position: absolute;padding: 1px;" title="{$lang_label_sale} {$sale.name}{if $sale_ma > 0} + Master Account{/if}">-{$sale.sale + $sale_ma}%</span>
-                                    {elseif $sale_ma > 0}
-                                    <span class="badge badge-sale-ma ml-1" style="position: absolute;padding: 1px;" title="{$lang_label_sale} Master Account">-{$sale_ma}%</span>
+                                    <span class="badge badge-sale ml-1" style="position: absolute;padding: 1px;" title="{$lang_label_sale} {$sale.name}{if $sale_ma > 0} + Master Account{/if}{if $premium_club_sale > 0} + {$premium_club_title}{/if}">-{$sale.sale + $sale_ma + $premium_club_sale}%</span>
+                                    {elseif $sale_ma > 0 || $premium_club_sale > 0}
+                                    <span class="badge badge-sale-ma ml-1" style="position: absolute;padding: 1px;" title="{$lang_label_sale} {if $sale_ma > 0}Master Account{/if}{if $sale_ma > 0 && $premium_club_sale > 0} + {/if}{if $premium_club_sale > 0}{$premium_club_title}{/if}">-{$sale_ma + $premium_club_sale}%</span>
                                 {/if}
                             </div>
                         {/if}
@@ -53,7 +54,7 @@
                                             checked="" disabled
                                         {else}
                                             name="items[{$it.key}][id]" value="{$it.id}"
-                                            data-price="{if $sale.status}{$.php.percentage($it.price, $sale.sale + $sale_ma)}{else}{$.php.percentage($it.price, $sale_ma)}{/if}"
+                                            data-price="{if $sale.status}{$.php.percentage($it.price, $sale.sale + $sale_ma + $premium_club_sale)}{else}{$.php.percentage($it.price, $sale_ma + $premium_club_sale)}{/if}"
                                                 {if $it.apiece?}data-apiece="{$it.key}"{/if}
                                         {/if}
                                 />
@@ -79,7 +80,7 @@
                             {/if}
                         </div>
                         {if $item.complect == 0}
-                            <div class="isel__price"  title="{$payment_system.short_name_valute}">{if $sale.status}{$.php.percentage($it.price, $sale.sale + $sale_ma)}{else}{$.php.percentage($it.price, $sale_ma)}{/if}</div>
+                            <div class="isel__price"  title="{$payment_system.short_name_valute}">{if $sale.status}{$.php.percentage($it.price, $sale.sale + $sale_ma + $premium_club_sale)}{else}{$.php.percentage($it.price, $sale_ma + $premium_club_sale)}{/if}</div>
                         {/if}
                     </div> <!-- END isel -->
                    {/foreach}
@@ -205,7 +206,7 @@
                 <div class="block-content block-content-full shop-price text-center">
                     <div class="font-w600">
                         {if $sale.status}
-                            {if $item.complect == 0}{$price_from} {/if}{$.php.percentage($item.price, $sale.sale + $sale_ma)} {$payment_system.short_name_valute}
+                            {if $item.complect == 0}{$price_from} {/if}{$.php.percentage($item.price, $sale.sale + $sale_ma + $premium_club_sale)} {$payment_system.short_name_valute}
                             <br>
                             <small>
                                 <del class="" style="color: rgb(146, 146, 146);">
@@ -215,11 +216,14 @@
                             <span class="badge badge-sale ml-1" title="{$lang_label_sale} {$sale.name}">-{$sale.sale}%</span>
 
                         {else}
-                            {$price_from} {$.php.percentage($item.price, $sale_ma)} {$payment_system.short_name_valute}
+                            {$price_from} {$.php.percentage($item.price, $sale_ma + $premium_club_sale)} {$payment_system.short_name_valute}
                         {/if}
 
                         {if $sale_ma > 0}
                             <span class="badge badge-sale-ma ml-1" title="{$lang_label_sale} Master Account">-{$sale_ma}%</span>
+                        {/if}
+                        {if $premium_club_sale > 0}
+                            <span class="badge badge-premium-club ml-1" title="{$lang_label_sale} {$premium_club_title}">-{$premium_club_sale}%</span>
                         {/if}
                     </div>
                 </div>

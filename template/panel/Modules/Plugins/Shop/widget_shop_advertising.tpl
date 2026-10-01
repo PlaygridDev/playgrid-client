@@ -8,6 +8,7 @@
         {$.site._SEO->addTegHTML('footer', 'timer_lang', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/js/plugins/jquery.countdown/jquery.countdown-'~$.site._LANG~'.js'])}
     {/if}
     {$.site._SEO->addTegHTML('head', 'shop_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/css/shop.css?v=' ~ filemtime($.const.ROOT_DIR~$.const.VIEWPATH~'/panel/assets/css/shop.css')])}
+    {$.site._SEO->addTegHTML('head', 'premium_club_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/css/premium_club.css?v=' ~ filemtime($.const.ROOT_DIR~$.const.VIEWPATH~'/panel/assets/css/premium_club.css')])}
 
 
     <div class="row items-push js-slider" data-dots="true" data-autoplay="true" data-autoplay-speed="2000">
@@ -27,13 +28,13 @@
                     <div class="block-content block-content-full shop-price">
                         <div class="font-w600">
                             {if $sale.status}
-                                {if $shop.complect == 0}{$price_from} {/if}{$.php.percentage($shop.price, $sale.sale + $sale_ma)} {$payment_system.short_name_valute}
+                                {if $shop.complect == 0}{$price_from} {/if}{$.php.percentage($shop.price, $sale.sale + $sale_ma + $shop.premium_club_sale)} {$payment_system.short_name_valute}
                                 <br>
                                 <small><del class="" style="color: rgb(146, 146, 146);">
                                         {if $shop.complect == 0}{$price_from} {/if}{$shop.price} {$payment_system.short_name_valute}
                                     </del></small>
                             {else}
-                                {if $shop.complect == 0}{$price_from} {/if}{$.php.percentage($shop.price, $sale_ma)} {$payment_system.short_name_valute}
+                                {if $shop.complect == 0}{$price_from} {/if}{$.php.percentage($shop.price, $sale_ma + $shop.premium_club_sale)} {$payment_system.short_name_valute}
                             {/if}
                         </div>
                     </div>

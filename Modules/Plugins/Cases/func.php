@@ -42,8 +42,10 @@ class func
                     'payment_system' => get_instance()->config['payment_system'],
                     'categorys' => $category,
                     'shops' => $shop,
+                    'premium_club_sale' => \PremiumClub\func::getDiscount('games'),
                 ),
-                get_lang('cases.lang')
+                get_lang('cases.lang'),
+                get_lang('premium_club.lang')
             )
 
         );
@@ -85,11 +87,13 @@ class func
                     'payment_system' => get_instance()->config['payment_system'],
                     'categorys' => $category,
                     'item' => $item,
+                    'premium_club_sale' => \PremiumClub\func::getDiscount('games'),
 
                     'module_form' => 'Modules\\\\Plugins\\\\Cases\\\\Cases',
                     'module' => 'ajax_get_prize',
                 ),
-                get_lang('cases.lang')
+                get_lang('cases.lang'),
+                get_lang('premium_club.lang')
             )
 
         );

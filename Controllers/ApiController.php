@@ -73,6 +73,12 @@ class ApiController extends \Controller
                     if (isset($session['vote']) AND isset($_POST['vote']))
                         $session['vote'] = $_POST['vote'];
 
+                    $premiumClubServerId = (int) ($_POST['premium_club_server_id'] ?? 0);
+
+                    if ($premiumClubServerId !== 0 AND $premiumClubServerId !== (int) ($session['master_account']['select_sid'] ?? 0)) {
+                        unset($_POST['user_data']['premium_club']);
+                    }
+
                     if (isset($session['user_data']) AND isset($_POST['user_data'])) {
                         $session['user_data'] = array_merge($session['user_data'], $_POST['user_data']);
                     }
@@ -199,6 +205,26 @@ class ApiController extends \Controller
             $config = unserialize($_POST['cfg'], ['allowed_classes' => false]);
 
             if(SaveConfig($config, 'lucky_wheel')) {
+                echo (new \Curl\XMLFormatter())->format(array("title" => "Update success! config","text" => "Successfully updated the project settings!", "status" => "success"));
+            } else {
+                echo (new \Curl\XMLFormatter())->format(array("title" => "Update Error! config","text" => "Error! Failed to update configuration!", "status" => "error"));
+            }
+        } else {
+            echo (new \Curl\XMLFormatter())->format(array("title" => "Update Error! config","text" => "Error! Not found cfg!", "status" => "error"));
+        }
+
+    }
+
+    public function premium_club()
+    {
+
+        $this->authorizeRequest();
+
+        if (isset($_POST['cfg'])) {
+
+            $config = unserialize($_POST['cfg'], ['allowed_classes' => false]);
+
+            if(is_array($config) && SaveConfig($config, 'premium_club')) {
                 echo (new \Curl\XMLFormatter())->format(array("title" => "Update success! config","text" => "Successfully updated the project settings!", "status" => "success"));
             } else {
                 echo (new \Curl\XMLFormatter())->format(array("title" => "Update Error! config","text" => "Error! Failed to update configuration!", "status" => "error"));

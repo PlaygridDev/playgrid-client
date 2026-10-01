@@ -305,6 +305,9 @@ class GlobalApi extends Api
 
     }
 
+    /**
+     * @deprecated - use refreshBalance() method in \ApiLib\v2\MasterAccount\User class instead
+     */
     public function refresh_balance($vars){
 
         $response = $this->init()->addParam('refresh_balance', $vars)->get('v1/Globals/payment/refresh-balance')->response();

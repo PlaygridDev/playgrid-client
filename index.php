@@ -103,6 +103,7 @@ $ignore_detect_lang_page = array(
     '/api/service',
     '/api/cases',
     '/api/lucky_wheel',
+    '/api/premium_club',
     '/api/daily_rewards',
     '/api/gift_code',
     '/api/money_withdrawal',

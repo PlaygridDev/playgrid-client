@@ -7,7 +7,7 @@
                 <label class="checkbox__label">
                     <input type="radio" class="checkbox__input"
                         name="items[color]" value="{$it.key}"
-                        data-price="{if $sale.status}{$.php.percentage($item.price, $sale.sale + $sale_ma)}{else}{$.php.percentage($item.price, $sale_ma)}{/if}"
+                        data-price="{if $sale.status}{$.php.percentage($item.price, $sale.sale + $sale_ma + $premium_club_sale)}{else}{$.php.percentage($item.price, $sale_ma + $premium_club_sale)}{/if}"
                     />
                     <div class="checkbox__block"></div>
                     <div class="isel__color" style="background-color: {$it.color};"></div>

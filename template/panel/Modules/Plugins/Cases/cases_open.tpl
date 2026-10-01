@@ -56,9 +56,9 @@
                 {set $sale = $.php.get_cases_sale($item.sale_id)}
                 {if $sale.status}
                     {if $sale.sale_ma == false}{set $sale_ma = false}{/if}
-                    <div class="btn__content">{$open_cases} {$.php.percentage($item.price, $sale.sale + $sale_ma)} {$payment_system.short_name_valute}</div>
+                    <div class="btn__content">{$open_cases} {$.php.percentage($item.price, $sale.sale + $sale_ma + $premium_club_sale)} {$payment_system.short_name_valute}{if $premium_club_sale > 0} <span class="badge badge-premium-club" title="{$premium_club_title}">-{$premium_club_sale}%</span>{/if}</div>
                 {else}
-                    <div class="btn__content">{$open_cases} {$.php.percentage($item.price, $sale_ma)} {$payment_system.short_name_valute}</div>
+                    <div class="btn__content">{$open_cases} {$.php.percentage($item.price, $sale_ma + $premium_club_sale)} {$payment_system.short_name_valute}{if $premium_club_sale > 0} <span class="badge badge-premium-club" title="{$premium_club_title}">-{$premium_club_sale}%</span>{/if}</div>
                 {/if}
             </div>
         </div>
@@ -85,6 +85,7 @@
     </div>
 
     {$.site._SEO->addTegHTML('head', 'game_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/game/css/style.css?v1'])}
+    {$.site._SEO->addTegHTML('head', 'premium_club_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/css/premium_club.css?v=' ~ filemtime($.const.ROOT_DIR~$.const.VIEWPATH~'/panel/assets/css/premium_club.css')])}
     {$.site._SEO->addTegHTML('footer', 'popper.min', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/game/libs/tippy/js/popper.min.js'])}
     {$.site._SEO->addTegHTML('footer', 'tippy-bundle', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/game/libs/tippy/js/tippy-bundle.iife.min.js'])}
     {$.site._SEO->addTegHTML('footer', 'game-app', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/game/js/app.js?v17'])}

@@ -42,6 +42,7 @@ class Controller
     public $money_withdrawal = null;
     public $cases = null;
     public $daily_rewards = null;
+    public $premium_club = null;
 
     /* Project ID*/
     public $pid = null;
@@ -103,6 +104,7 @@ class Controller
         $this->money_withdrawal = getConfig('money_withdrawal');
         $this->cases = getConfig('cases');
         $this->daily_rewards = getConfig('daily_rewards');
+        $this->premium_club = getConfig('premium_club');
 
         if (!is_array($this->config)) {
             $this->config = array();

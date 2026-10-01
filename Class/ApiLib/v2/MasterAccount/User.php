@@ -22,4 +22,9 @@ class User extends Api
         return $this->init()->addParam('payload', $vars)->post('v2/master-account/user/email-verification/confirm')->response();
     }
 
+    public function refreshBalance()
+    {
+        return $this->init()->get('v2/master-account/user/balance/refresh')->response();
+    }
+
 }

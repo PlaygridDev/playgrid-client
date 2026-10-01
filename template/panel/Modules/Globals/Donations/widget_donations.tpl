@@ -224,6 +224,14 @@
                     {/if}
                 {/foreach}
 
+                {foreach $premium_club_statuses as $status}
+                    {foreach $status.bonus.ranges as $range first=$first}
+                        {if !$first}else {/if}if (num >= {$range.start}{if !$range.open} && num < {$range.end + 1}{/if}) {
+                            bonus += (num * {$range.percent} / 100);
+                        }
+                    {/foreach}
+                {/foreach}
+
 
                 $.each( bonus_item_key, function( key, value ) {
                     if (value !== "undefined"){

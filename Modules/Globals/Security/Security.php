@@ -42,6 +42,12 @@ class Security extends MainModulesClass
                     'module_form' => "Modules\\Globals\\Settings\\Settings",
                     'auth' => true,
                 ];
+            case ActionType::GAME_ACCOUNT_TRANSFER:
+                return [
+                    'module' => 'ajax_buy_service_confirm',
+                    'module_form' => "Modules\\Plugins\\Shop\\Shop",
+                    'auth' => true,
+                ];
             default:
                 return null;
         }

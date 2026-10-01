@@ -1,0 +1,39 @@
+.badge-premium-club{
+    background: #fff8e6;
+    color: #d99a00;
+    font-size: 70%;
+    font-weight: 600;
+}
+
+.premium-club-icon {
+    display: inline-block;
+    opacity: .45;
+    transition: opacity .2s, transform .2s;
+}
+
+.premium-club-icon img {
+    height: 64px;
+}
+
+.premium-club-icon:hover {
+    opacity: .8;
+}
+
+.premium-club-icon-active {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.premium-club-icon-active:hover {
+    opacity: 1;
+}
+
+.premium-club-fade-enter-active,
+.premium-club-fade-leave-active {
+    transition: opacity .25s;
+}
+
+.premium-club-fade-enter,
+.premium-club-fade-leave-to {
+    opacity: 0;
+}

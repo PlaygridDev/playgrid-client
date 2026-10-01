@@ -39,8 +39,8 @@
             <div class="ttl mb-10">{$balance_title}</div>
             <div class="gamef__balance mb-20">
                 <div class="gamef__gbal gbal" data-bprize-price-container>
-                    <div class="gbal__num" data-bprize-price>{$price}</div>
-                    <div class="gbal__content">{$price_title} ({$.site.session->config.payment_system.short_name_valute})</div>
+                    <div class="gbal__num" data-bprize-price>{$.php.percentage($price, $premium_club_sale)}</div>
+                    <div class="gbal__content">{$price_title} ({$.site.session->config.payment_system.short_name_valute}){if $premium_club_sale > 0} <span class="badge badge-premium-club" title="{$premium_club_title}">-{$premium_club_sale}%</span>{/if}</div>
                 </div>
                 {if $max_price_spin > 0}
                 <div class="gamef__gbal gbal gbal_color" data-bprize-paid-container data-bprize-paid-msg="{$paid_msg}">
@@ -162,6 +162,7 @@
     
     
     {$.site._SEO->addTegHTML('head', 'game_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/game/css/style.css?v46'])}
+    {$.site._SEO->addTegHTML('head', 'premium_club_css', 'link', ['rel'=>'stylesheet', 'href'=> $.const.VIEWPATH~'/panel/assets/css/premium_club.css?v=' ~ filemtime($.const.ROOT_DIR~$.const.VIEWPATH~'/panel/assets/css/premium_club.css')])}
     {$.site._SEO->addTegHTML('footer', 'popper.min', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/game/libs/tippy/js/popper.min.js'])}
     {$.site._SEO->addTegHTML('footer', 'tippy-bundle', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/game/libs/tippy/js/tippy-bundle.iife.min.js'])}
     {$.site._SEO->addTegHTML('footer', 'game-app', 'script', ['src'=> $.const.VIEWPATH~'/panel/assets/game/js/app.js?v46'])}

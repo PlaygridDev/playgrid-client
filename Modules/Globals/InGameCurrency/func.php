@@ -28,10 +28,12 @@ class func
                 array(
                     'select_account' => $account_name,
                     'select_char' => $char_name,
+                    'premium_club_sale' => \PremiumClub\func::getDiscount('game_valute'),
 
                     'char_list' => get_instance()->session->getGameChars(),
                 ),
-                get_lang('ingame.lang')
+                get_lang('ingame.lang'),
+                get_lang('premium_club.lang')
             )
         );
 

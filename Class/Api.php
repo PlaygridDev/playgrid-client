@@ -62,11 +62,12 @@ class Api
 
     }
 
-    public function generate_hash()
+    public function generate_hash(bool $query = false)
     {
         unset($this->post_data["hash"]);
         ksort($this->post_data);
-        $this->post_data["hash"] = hash_hmac('sha256', $this->curl->buildPostData($this->post_data), $this->key);
+        $data = $query ? http_build_query($this->post_data, '', '&') : $this->curl->buildPostData($this->post_data);
+        $this->post_data["hash"] = hash_hmac('sha256', $data, $this->key);
     }
 
 
@@ -76,7 +77,7 @@ class Api
         if (!check(get_ip(), CONNECTION_MAX_COUNT, CONNECTION_TIME) AND $throttler) {
             $this->throttler = true;
         } else {
-            $this->generate_hash();
+            $this->generate_hash(true);
             $this->time = startTime();
             $this->curl->get($this->base_url .$url , array('request' => $this->post_data));
         }
@@ -91,7 +92,7 @@ class Api
         if (!check(get_ip(), CONNECTION_MAX_COUNT, CONNECTION_TIME) AND $throttler) {
             $this->throttler = true;
         } else {
-            $this->generate_hash();
+            $this->generate_hash(true);
             $this->time = startTime();
             $this->curl->delete($this->base_url . $url, array('request' => $this->post_data));
         }
