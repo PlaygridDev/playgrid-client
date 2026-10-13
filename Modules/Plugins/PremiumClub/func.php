@@ -61,6 +61,7 @@ class func
             }
 
             $level      = $levels[$index];
+            $start      = (float) ($level['threshold'] ?? 0);
             $nextLevel  = $levels[$index + 1] ?? null;
             $nextGroup  = $groups[(int) ($group['next_id'] ?? 0)] ?? null;
             $completion = is_numeric($group['completion'] ?? null) ? (float) $group['completion'] : null;
@@ -84,9 +85,10 @@ class func
                 'level_name'      => (string) $level['name'],
                 'progress'        => $progress,
                 'goal'            => $goal,
+                'next_level_name' => $goal === 'level' ? (string) $nextLevel['name'] : null,
                 'next_group_name' => $goal === 'transition' ? (string) $nextGroup['name'] : null,
                 'remaining'       => $boundary === null ? 0.0 : round(max(0.0, $boundary - $progress), 3),
-                'percent'         => $boundary > 0 ? (int) min(100, max(0, round($progress / $boundary * 100))) : 100,
+                'percent'         => $boundary > $start ? (int) min(100, max(0, floor(round(($progress - $start) / ($boundary - $start) * 100, 6)))) : 100,
                 'discounts'       => array_map(fn($percent) => is_numeric($percent) ? (float) $percent : null, is_array($level['discounts'] ?? null) ? $level['discounts'] : []),
                 'bonus'           => [
                     'target'   => ($bonus['target'] ?? '') === 'bonus' && $bonusBalance ? 'bonus' : 'main',
