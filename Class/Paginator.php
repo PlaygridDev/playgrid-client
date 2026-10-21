@@ -280,19 +280,19 @@ class Paginator
 
         $html = '<ul class="pagination">';
         if ($this->getPrevUrl()) {
-            $html .= '<li><a href="' . htmlspecialchars($this->getPrevUrl()) . '">&laquo; '. $this->previousText .'</a></li>';
+            $html .= '<li><a href="' . htmlspecialchars($this->getPrevUrl(), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401) . '">&laquo; '. $this->previousText .'</a></li>';
         }
 
         foreach ($this->getPages() as $page) {
             if ($page['url']) {
-                $html .= '<li' . ($page['isCurrent'] ? ' class="active"' : '') . '><a href="' . htmlspecialchars($page['url']) . '">' . htmlspecialchars($page['num']) . '</a></li>';
+                $html .= '<li' . ($page['isCurrent'] ? ' class="active"' : '') . '><a href="' . htmlspecialchars($page['url'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401) . '">' . htmlspecialchars($page['num'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401) . '</a></li>';
             } else {
-                $html .= '<li class="disabled"><span>' . htmlspecialchars($page['num']) . '</span></li>';
+                $html .= '<li class="disabled"><span>' . htmlspecialchars($page['num'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401) . '</span></li>';
             }
         }
 
         if ($this->getNextUrl()) {
-            $html .= '<li><a href="' . htmlspecialchars($this->getNextUrl()) . '">'. $this->nextText .' &raquo;</a></li>';
+            $html .= '<li><a href="' . htmlspecialchars($this->getNextUrl(), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401) . '">'. $this->nextText .' &raquo;</a></li>';
         }
         $html .= '</ul>';
 

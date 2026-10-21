@@ -470,15 +470,22 @@ class FileUploader {
 			'_paramCrop' => $crop
 		), is_array($crop) ? $crop : array());
 		if (is_array($crop['_paramCrop'])) {
-			$crop['left'] = round($crop['_paramCrop']['left']);
-			$crop['top'] = round($crop['_paramCrop']['top']);
-			$crop['width'] = round($crop['_paramCrop']['width']);
-			$crop['height'] = round($crop['_paramCrop']['height']);
+			// the crop comes from the request as JSON; round() of a non-numeric value is a TypeError on PHP 8,
+			// the (float) cast gives the 0 that 7.4 ended up with
+			foreach (array('left', 'top', 'width', 'height') as $side) {
+				$crop[$side] = round((float) (isset($crop['_paramCrop'][$side]) ? $crop['_paramCrop'][$side] : 0));
+			}
 		}
 
 		// set default $width and $height
 		$width = !$width ? $crop['width'] : $width;
 		$height = !$height ? $crop['height'] : $height;
+
+		// an empty or negative size is a DivisionByZeroError / ValueError on PHP 8 (a warning and garbage on 7.4)
+		if ($width <= 0 || $height <= 0 || $crop['width'] <= 0 || $crop['height'] <= 0) {
+			imagedestroy($source);
+			return false;
+		}
         $ratio = $width/$height;
 
 		// resize
@@ -531,25 +538,25 @@ class FileUploader {
 		}
 		switch($imageType) {
 			case IMAGETYPE_GIF:
-				$dest = imagecreatetruecolor($width, $height);
+				$dest = imagecreatetruecolor((int) $width, (int) $height);
 				$background = imagecolorallocatealpha($dest, 255, 255, 255, 1);
                 imagecolortransparent($dest, $background);
                 imagefill($dest, 0, 0 , $background);
                 imagesavealpha($dest, true);
 				break;
 			case IMAGETYPE_JPEG:
-				$dest = imagecreatetruecolor($width, $height);
+				$dest = imagecreatetruecolor((int) $width, (int) $height);
                 $background = imagecolorallocate($dest, 255, 255, 255);
-                imagefilledrectangle($dest, 0, 0, $width, $height, $background);
+                imagefilledrectangle($dest, 0, 0, (int) $width, (int) $height, $background);
 				break;
 			case IMAGETYPE_PNG:
 				if (!imageistruecolor($source)) {
-					$dest = imagecreate($width, $height);
+					$dest = imagecreate((int) $width, (int) $height);
                     $background = imagecolorallocatealpha($dest, 255, 255, 255, 1);
                     imagecolortransparent($dest, $background);
                     imagefill($dest, 0, 0 , $background);
 				} else {
-					$dest = imagecreatetruecolor($width, $height);
+					$dest = imagecreatetruecolor((int) $width, (int) $height);
 				}
 				imagealphablending($dest, false);
                 imagesavealpha($dest, true);
@@ -560,17 +567,19 @@ class FileUploader {
 
 		imageinterlace($dest, true);
 
+		// GD takes int coordinates and sizes; PHP 7.4 truncated the floats computed above silently,
+		// PHP 8.1+ reports the implicit conversion as deprecated, so truncate explicitly
 		imagecopyresampled(
             $dest,
             $source,
-            isset($crop['newWidth']) ? $crop['left'] : 0,
-            isset($crop['newHeight']) ? $crop['top'] : 0,
-            !isset($crop['newWidth']) ? $crop['left'] : 0,
-            !isset($crop['newHeight']) ? $crop['top'] : 0,
-            isset($crop['newWidth']) ? $crop['newWidth'] : $width,
-            isset($crop['newHeight']) ? $crop['newHeight'] : $height,
-            $crop['width'],
-            $crop['height']
+            (int) (isset($crop['newWidth']) ? $crop['left'] : 0),
+            (int) (isset($crop['newHeight']) ? $crop['top'] : 0),
+            (int) (!isset($crop['newWidth']) ? $crop['left'] : 0),
+            (int) (!isset($crop['newHeight']) ? $crop['top'] : 0),
+            (int) (isset($crop['newWidth']) ? $crop['newWidth'] : $width),
+            (int) (isset($crop['newHeight']) ? $crop['newHeight'] : $height),
+            (int) $crop['width'],
+            (int) $crop['height']
         );
 
 		switch ($imageType) {
@@ -581,7 +590,7 @@ class FileUploader {
                 imagejpeg($dest, $destination, $quality);
                 break;
             case IMAGETYPE_PNG:
-                imagepng($dest, $destination, 10-$quality/10);
+                imagepng($dest, $destination, max(0, min(9, (int) (10 - $quality / 10))));
                 break;
         }
 

@@ -35,7 +35,7 @@ class func
         if (get_instance()->session->isLogin()) {
 
 
-            if (!isset($_REQUEST['vote']) OR empty($_REQUEST['vote']) OR count($_REQUEST['vote']) < 1)
+            if (!isset($_REQUEST['vote']) OR empty($_REQUEST['vote']) OR (is_countable($_REQUEST['vote']) ? count($_REQUEST['vote']) : 1) < 1) // PHP 7.4 count(scalar) === 1
                 return get_instance()->ajaxmsg->notify(get_lang('vote.lang')['no_select_pool'])->danger();
             else
                 $vars["vote"] = $_REQUEST['vote'];

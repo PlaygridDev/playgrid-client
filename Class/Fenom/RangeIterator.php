@@ -40,6 +40,7 @@ class RangeIterator implements \Iterator, \Countable
     /**
      * Return the current element
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->current;
@@ -48,6 +49,7 @@ class RangeIterator implements \Iterator, \Countable
     /**
      * Move forward to next element
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->current += $this->step;
@@ -58,6 +60,7 @@ class RangeIterator implements \Iterator, \Countable
      * Return the key of the current element
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->index;
@@ -67,6 +70,7 @@ class RangeIterator implements \Iterator, \Countable
      * Checks if current position is valid
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return $this->current >= $this->min && $this->current <= $this->max;
@@ -75,6 +79,7 @@ class RangeIterator implements \Iterator, \Countable
     /**
      * Rewind the Iterator to the first element
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         if($this->step > 0) {
@@ -88,6 +93,7 @@ class RangeIterator implements \Iterator, \Countable
     /**
      * Count elements of an object
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return intval(($this->max - $this->min + 1) / $this->step);

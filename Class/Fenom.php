@@ -62,6 +62,13 @@ class Fenom
     const ACCESSOR_METHOD   = 'Fenom\Accessor::parserMethod';
     const ACCESSOR_CHAIN    = 'Fenom\Accessor::parserChain';
 
+    /**
+     * Site-wide template data exposed through the "site" accessor (set by Controller); declared so that
+     * PHP 8.2+ does not report a dynamic property
+     * @var array
+     */
+    public $data = array();
+
     public static $charset = "UTF-8";
 
     /**

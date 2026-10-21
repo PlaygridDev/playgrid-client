@@ -118,6 +118,7 @@ class Template extends Render
     private $_before = array();
 
     private $_filters = array();
+    private $_tag_filters = array();
 
     /**
      * @var int crc32 of the template name

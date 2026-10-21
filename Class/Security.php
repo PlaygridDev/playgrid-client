@@ -90,8 +90,10 @@ class Security
     {
         // Is the string an array?
         if (is_array($str)) {
-            while (list($key) = each($str)) {
+            // PHP 8: each() removed; key()/next() keep its pointer semantics
+            while (($key = key($str)) !== null) {
                 $str[$key] = $this->xss_clean($str[$key]);
+                next($str);
             }
             return $str;
         }

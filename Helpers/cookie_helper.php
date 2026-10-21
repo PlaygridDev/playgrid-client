@@ -50,6 +50,32 @@ defined('ROOT_DIR') OR exit('No direct script access allowed');
 // ------------------------------------------------------------------------
 
 
+if ( ! function_exists('cookie_domain_from_host'))
+{
+    /**
+     * Cookie domain for "." (current host): the host without port, cut to its parent domain when it has
+     * more than one dot, otherwise prefixed with a dot (the rule set_cookie() and delete_cookie() always used;
+     * parse_url() of a bare host returned it as "path", which fails once a port is appended).
+     *
+     * @return string
+     */
+    function cookie_domain_from_host()
+    {
+        if (isset($_SERVER['HTTP_HOST']) AND !empty($_SERVER['HTTP_HOST']))
+            $host = $_SERVER['HTTP_HOST'];
+        elseif (isset($_SERVER['SERVER_NAME']) AND !empty($_SERVER['SERVER_NAME']))
+            $host = $_SERVER['SERVER_NAME'];
+        else
+            $host = '';
+        $host = preg_replace('/:\d+$/', '', (string) $host);
+
+        if (substr_count($host, '.') > 1)
+            return stristr($host, '.');
+
+        return '.' . $host;
+    }
+}
+
 if ( ! function_exists('set_cookie'))
 {
     /**
@@ -71,20 +97,7 @@ if ( ! function_exists('set_cookie'))
     function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $secure = FALSE, $httponly = FALSE)
     {
         if ($domain == '.'){
-            if(isset($_SERVER['HTTP_HOST']) AND !empty($_SERVER['HTTP_HOST']))
-                $pars_url = parse_url($_SERVER['HTTP_HOST']);
-            elseif(isset($_SERVER['SERVER_NAME']) AND !empty($_SERVER['SERVER_NAME']))
-                $pars_url = parse_url($_SERVER['SERVER_NAME']);
-            else
-                $pars_url["path"] = '';
-
-            if(substr_count($pars_url["path"], '.') > 1){
-                $pars_url["path"] = stristr($pars_url["path"], '.');
-            }else{
-                $pars_url["path"] = '.' . $pars_url["path"];
-            }
-
-            $domain = $pars_url["path"];
+            $domain = cookie_domain_from_host();
         }
 
         // Set the config file options
@@ -128,20 +141,7 @@ if ( ! function_exists('delete_cookie'))
     function delete_cookie($name, $domain = '', $path = '/')
     {
         if ($domain == '.'){
-            if(isset($_SERVER['HTTP_HOST']) AND !empty($_SERVER['HTTP_HOST']))
-                $pars_url = parse_url($_SERVER['HTTP_HOST']);
-            elseif(isset($_SERVER['SERVER_NAME']) AND !empty($_SERVER['SERVER_NAME']))
-                $pars_url = parse_url($_SERVER['SERVER_NAME']);
-            else
-                $pars_url["path"] = '';
-
-            if(substr_count($pars_url["path"], '.') > 1){
-                $pars_url["path"] = stristr($pars_url["path"], '.');
-            }else{
-                $pars_url["path"] = '.' . $pars_url["path"];
-            }
-
-            $domain = $pars_url["path"];
+            $domain = cookie_domain_from_host();
         }
 
         setcookie($name, '', 0, $path, $domain);

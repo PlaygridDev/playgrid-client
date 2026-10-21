@@ -331,9 +331,11 @@ class MultiCurl
             $curl->close();
         }
 
-        if (is_resource($this->multiCurl)) {
+        // PHP 8: CurlMultiHandle object; drop the reference like a closed PHP 7 resource
+        if (is_resource($this->multiCurl) || $this->multiCurl instanceof \CurlMultiHandle) {
             curl_multi_close($this->multiCurl);
         }
+        $this->multiCurl = null;
     }
 
     /**

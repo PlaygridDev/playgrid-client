@@ -43,6 +43,9 @@ class func
                     'categorys' => $category,
                     'shops' => $shop,
                     'premium_club_sale' => \PremiumClub\func::getDiscount('games'),
+                    // the Cases module has never applied the master-account discount (Shop passes getDiscount('shop'));
+                    // the templates add this value to the sale, so it is passed explicitly instead of being read undefined
+                    'sale_ma' => 0,
                 ),
                 get_lang('cases.lang'),
                 get_lang('premium_club.lang')
@@ -88,6 +91,9 @@ class func
                     'categorys' => $category,
                     'item' => $item,
                     'premium_club_sale' => \PremiumClub\func::getDiscount('games'),
+                    // the Cases module has never applied the master-account discount (Shop passes getDiscount('shop'));
+                    // the templates add this value to the sale, so it is passed explicitly instead of being read undefined
+                    'sale_ma' => 0,
 
                     'module_form' => 'Modules\\\\Plugins\\\\Cases\\\\Cases',
                     'module' => 'ajax_get_prize',

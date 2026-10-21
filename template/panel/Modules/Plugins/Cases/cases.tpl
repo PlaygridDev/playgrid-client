@@ -37,7 +37,6 @@
                                 <div class="box__title">{$shop.name}</div>
                                 <div class="box__price">
                                     {if $sale.status}
-                                        {if $sale.sale_ma == false}{set $sale_ma = false}{/if}
                                         <div class="box__price-new">{$.php.percentage($shop.price, $sale.sale + $sale_ma + $premium_club_sale)} {$payment_system.short_name_valute}</div>
                                         <div class="box__price-old">{if $shop.complect == 0}{$price_from} {/if}{$shop.price} {$payment_system.short_name_valute}</div>
                                     {else}

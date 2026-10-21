@@ -92,6 +92,13 @@ class URI {
 	protected $_permitted_uri_chars;
 
 	/**
+	 * URI configuration
+	 *
+	 * @var	array
+	 */
+	public $config;
+
+	/**
 	 * Class constructor
 	 *
 	 * @return	void

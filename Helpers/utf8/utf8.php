@@ -138,7 +138,12 @@ if(!function_exists('utf8_strlen')){
      * @see    utf8_decode()
      */
     function utf8_strlen($string){
-        return strlen(utf8_decode($string));
+        // utf8_decode() is deprecated since PHP 8.2; mb_strlen() gives the same count: one per UTF-8 character,
+        // one per invalid byte (which utf8_decode() turned into a single '?')
+        if (UTF8_MBSTRING) {
+            return mb_strlen($string, 'UTF-8');
+        }
+        return (int) preg_match_all('/./us', $string, $m);
     }
 }
 
@@ -192,7 +197,7 @@ if(!function_exists('utf8_substr')){
 
         // normalise -ve offsets (we could use a tail anchored pattern, but they are horribly slow!)
         if ($offset < 0) {
-            $strlen = strlen(utf8_decode($str));        // see notes
+            $strlen = utf8_strlen($str);                // see notes
             $offset = $strlen + $offset;
             if ($offset < 0) $offset = 0;
         }
@@ -213,7 +218,7 @@ if(!function_exists('utf8_substr')){
             $length_pattern = '(.*)$';                  // the rest of the string
         } else {
 
-            if (!isset($strlen)) $strlen = strlen(utf8_decode($str));    // see notes
+            if (!isset($strlen)) $strlen = utf8_strlen($str);            // see notes
             if ($offset > $strlen) return '';           // another trivial case
 
             if ($length > 0) {
@@ -593,7 +598,7 @@ if(!class_exists('utf8_entity_decoder')){
          * Initializes the decoding tables
          */
         function __construct() {
-            $table = get_html_translation_table(HTML_ENTITIES);
+            $table = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT | ENT_HTML401);
             $table = array_flip($table);
             #
             # $this->table = array_map(array(&$this,'makeutf8'), $table);

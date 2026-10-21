@@ -220,7 +220,14 @@ class Controller
         if (isset($TEMP['DB']))
             return $TEMP['DB'];
         else {
-            $TEMP['DB'] = new \PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
+            // PHP 8 changed the PDO default to ERRMODE_EXCEPTION; keep the PHP 7 default (silent, false on query errors)
+            $TEMP['DB'] = new \PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD, array(
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_SILENT,
+                // PHP 8.1 made pdo_mysql return int/float columns as native numbers. The client was written against
+                // the 7.4 contract, where every fetched value is a string (templates, JSON for the pages, loose
+                // comparisons), so keep that contract for the whole connection
+                \PDO::ATTR_STRINGIFY_FETCHES => true,
+            ));
             return $TEMP['DB'];
         }
     }

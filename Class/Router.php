@@ -58,6 +58,13 @@ class Router {
 	public $config;
 
 	/**
+	 * URI instance
+	 *
+	 * @var	URI
+	 */
+	public $uri;
+
+	/**
 	 * List of routes
 	 *
 	 * @var	array

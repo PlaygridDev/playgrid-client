@@ -99,7 +99,7 @@ class func
                         return '<div class="item-name" title="' . $row['description'] . '">'
                             . '<img ' . get_icon_item($val, $row['icon_panel'], $this->sid) . '>'
                             . '<div>'
-                            . "<span class='item-name__content'>" . $row['name'] . ' <span class="item-name__additional">' . htmlspecialchars($row['add_name']) . "</span>"
+                            . "<span class='item-name__content'>" . $row['name'] . ' <span class="item-name__additional">' . htmlspecialchars((string) $row['add_name'], ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401) . "</span>"
                             . ($row['enc'] > 0 ? " +" . $row['enc'] : '') . "</span>"
                             . ($row['aug_1'] > 0 ? "<span class='item-augment'>"
                                 . "<span>" . implode(",", get_augmentation($row['aug_1'])) . "</span><span>" . implode(",", get_augmentation($row['aug_2'])) . "</span>"

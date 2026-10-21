@@ -2,9 +2,12 @@
 if (!defined('ROOT_DIR')) { exit ("Error, wrong way to file.<a href=\"/\">Go to main</a>."); }
 
 $arr_error = [];
+$arr_warning = [];
 
 if (version_compare(PHP_VERSION, REQUIREMENTS['MIN_PHP'], '<')) {
     $arr_error[] = "PHP >= " . REQUIREMENTS['MIN_PHP'] . " требуется, обнаружено " . PHP_VERSION;
+} elseif (version_compare(PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, REQUIREMENTS['MAX_PHP_VERIFIED'], '>')) {
+    $arr_warning[] = "PHP " . PHP_VERSION . " новее проверенных версий: поддерживаются PHP " . REQUIREMENTS['MIN_PHP'] . " – " . REQUIREMENTS['MAX_PHP_VERIFIED'] . ". Установка возможна, но работа на этой версии не проверялась.";
 }
 
 $sapi = php_sapi_name();
@@ -47,5 +50,17 @@ if (count($arr_error) > 0){
     <hr>
 <?php
 }
-unset($arr_error);
+if (count($arr_warning) > 0){
+?>
+    <div class="alert alert-info d-flex align-items-center justify-content-between mb-15" role="alert">
+        <div class="flex-fill mr-10">
+            <?php foreach ($arr_warning as $warn) { echo '<p class="mb-0">' . $warn . '</p>'; } ?>
+        </div>
+        <div class="flex-00-auto">
+            <i class="fa fa-fw fa-2x fa-info-circle"></i>
+        </div>
+    </div>
+<?php
+}
+unset($arr_error, $arr_warning);
 ?>

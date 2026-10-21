@@ -91,7 +91,7 @@ class XMLFormatter
             else
             {
                 $key = $this->normalizeXMLTag($key);
-                $output->addChild("$key", htmlspecialchars("$value"));
+                $output->addChild("$key", htmlspecialchars("$value", ENT_COMPAT | ENT_HTML401));
             }
         }
     }

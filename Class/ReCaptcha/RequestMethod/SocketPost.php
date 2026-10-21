@@ -52,6 +52,12 @@ class SocketPost implements RequestMethod
     private $socket;
 
     /**
+     * URL for reCAPTCHA siteverify API
+     * @var string
+     */
+    private $siteVerifyUrl;
+
+    /**
      * Only needed if you want to override the defaults
      *
      * @param \ReCaptcha\RequestMethod\Socket $socket optional socket, injectable for testing

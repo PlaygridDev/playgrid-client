@@ -10,7 +10,7 @@ class Api
     public Curl $curl;
     public string $key;
     public string $base_url;
-    public int $time = 0;
+    public float $time = 0; // microtime() start of the last request, read by stopTime() in debug()
 
     public $post_data = array();
     public $throttler = false;
@@ -161,7 +161,7 @@ class Api
 
         if(isset($return['response']->code)) {
             $return['response'] = $this->curl->response;
-            $return['error'] = (string) $return['response']->error;
+            $return['error'] = isset($return['response']->error) ? (string) $return['response']->error : ''; // a reply with a code but no error node
             $return['code'] = (int) $return['response']->code;
             $return['ok'] = true;
         }

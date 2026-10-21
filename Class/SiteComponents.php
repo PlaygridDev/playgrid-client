@@ -131,11 +131,11 @@ class SiteComponents
 
             $cfg = getConfig('forum_config');
 
-            if ($count === false AND $cfg["count"] > 0){
+            if ($count === false AND !empty($cfg["count"])){
                 $count = (int) $cfg["count"];
             }
 
-            if ($cfg['enable'] AND $count > 0) {
+            if (!empty($cfg['enable']) AND $count > 0) {
 
                 if (!empty($cfg['enable'])) {
 

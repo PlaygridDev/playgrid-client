@@ -10,7 +10,14 @@ if(file_exists(ROOT_DIR . '/Config.php')) {
 
 if (DEBUG OR $_SERVER[HEADER_IP] == DEBUG_IP) {
     error_reporting(E_ALL & ~E_NOTICE);
-    @ini_set('display_errors', 1);
+    // PHP 8 reports as E_WARNING what 7.4 reported as E_NOTICE (undefined index, offset on null, ...).
+    // Print them only into HTML pages a browser asked for; AJAX, payment callbacks and other machine
+    // clients get JSON or XML, where a printed warning breaks the body, so for them log instead
+    $is_page = !(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+        && isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false;
+    @ini_set('display_errors', $is_page ? '1' : '0');
+    @ini_set('log_errors', '1');
+    unset($is_page);
 } else {
     error_reporting(0);
 }

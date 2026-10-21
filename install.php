@@ -10,6 +10,7 @@ if (file_exists(ROOT_DIR . '/Files/blocked_install.txt'))
 // минимальные требования
 define('REQUIREMENTS', [
     'MIN_PHP' => '7.4.33',
+    'MAX_PHP_VERIFIED' => '8.3', // последняя проверенная ветка PHP: новее — предупреждение, не отказ / last verified PHP branch: newer only warns
     'MIN_APACHE' => '2.4.0',
     'ALLOW_SAPI' => ['apache2handler', 'fpm-fcgi'],
 ]);

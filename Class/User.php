@@ -25,6 +25,7 @@ class User
             "platform" => '',
         ),
         'user_data' => array(
+            'account' => array(),   // game accounts keyed by login; the api omits the key while there are none
             'logs' => '',
             'balance' => '',
             'bonus_balance' => '',

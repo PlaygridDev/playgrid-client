@@ -26,6 +26,7 @@ use Fenom\Error\UnexpectedTokenException;
  * @package    Fenom
  * @author     Ivan Shalganov <a.cobest@gmail.com>
  */
+#[\AllowDynamicProperties]
 class Tokenizer
 {
     const TOKEN      = 0;
@@ -92,15 +93,15 @@ class Tokenizer
             \T_EXTENDS       => 1, \T_FILE          => 1, \T_FINAL         => 1, \T_FOR           => 1,
             \T_FOREACH       => 1, \T_FUNCTION      => 1, \T_FUNC_C        => 1, \T_GLOBAL        => 1,
             \T_GOTO          => 1, \T_HALT_COMPILER => 1, \T_IF            => 1, \T_IMPLEMENTS    => 1,
-            \T_INCLUDE       => 1, \T_INCLUDE_ONCE  => 1, \T_INSTANCEOF    => 1, 341 /* T_INSTEADOF */ => 1,
+            \T_INCLUDE       => 1, \T_INCLUDE_ONCE  => 1, \T_INSTANCEOF    => 1, \T_INSTEADOF => 1,
             \T_INTERFACE     => 1, \T_ISSET         => 1, \T_LINE          => 1, \T_LIST          => 1,
             \T_LOGICAL_AND   => 1, \T_LOGICAL_OR    => 1, \T_LOGICAL_XOR   => 1, \T_METHOD_C      => 1,
             \T_NAMESPACE     => 1, \T_NS_C          => 1, \T_NEW           => 1, \T_PRINT         => 1,
             \T_PRIVATE       => 1, \T_PUBLIC        => 1, \T_PROTECTED     => 1, \T_REQUIRE       => 1,
             \T_REQUIRE_ONCE  => 1, \T_RETURN        => 1, \T_RETURN        => 1, \T_STRING        => 1,
-            \T_SWITCH        => 1, \T_THROW         => 1, 355 /* T_TRAIT */   => 1, 365 /* T_TRAIT_C */ => 1,
+            \T_SWITCH        => 1, \T_THROW         => 1, \T_TRAIT   => 1, \T_TRAIT_C => 1,
             \T_TRY           => 1, \T_UNSET         => 1, \T_USE           => 1, \T_VAR           => 1,
-            \T_WHILE         => 1, 267 /* T_YIELD */ => 1
+            \T_WHILE         => 1, \T_YIELD => 1
         ),
         self::MACRO_INCDEC  => array(
             \T_INC => 1, \T_DEC => 1
@@ -176,6 +177,23 @@ class Tokenizer
      */
     public function __construct($query)
     {
+        // Words that became PHP keywords after 7.4 ("match" in 8.0, "enum" and "readonly" in 8.1; "fn" in 7.4)
+        // are still plain names in templates, e.g. the |match modifier: treat their tokens as strings too.
+        static $keywords_registered = false, $name_tokens = array();
+        if (!$keywords_registered) {
+            foreach (array('T_FN', 'T_MATCH', 'T_ENUM', 'T_READONLY') as $keyword) {
+                if (defined($keyword)) {
+                    self::$macros[self::MACRO_STRING][constant($keyword)] = 1;
+                }
+            }
+            // PHP 8 lexes "Foo\Bar" as a single token (none of these constants exist on 7.4)
+            foreach (array('T_NAME_QUALIFIED', 'T_NAME_FULLY_QUALIFIED', 'T_NAME_RELATIVE') as $name_token) {
+                if (defined($name_token)) {
+                    $name_tokens[constant($name_token)] = 1;
+                }
+            }
+            $keywords_registered = true;
+        }
         $tokens  = array(-1 => array(\T_WHITESPACE, '', '', 1));
         $_tokens = token_get_all("<?php " . $query);
         $line    = 1;
@@ -193,6 +211,21 @@ class Tokenizer
                 );
             } elseif ($token[0] === \T_WHITESPACE) {
                 $tokens[$i - 1][2] = $token[1];
+                continue;
+            } elseif ($name_tokens && isset($name_tokens[$token[0]])) {
+                // the parser expects the 7.4 form, T_STRING parts joined by T_NS_SEPARATOR (same split as Fenom 3.x)
+                $parts = explode('\\', $token[1]);
+                $last  = count($parts) - 1;
+                foreach ($parts as $k => $part) {
+                    if ($part !== '') {
+                        $tokens[] = array(\T_STRING, $part, "", $line = $token[2]);
+                        $i++;
+                    }
+                    if ($k < $last) {
+                        $tokens[] = array(\T_NS_SEPARATOR, '\\', "", $line = $token[2]);
+                        $i++;
+                    }
+                }
                 continue;
             } elseif ($token[0] === \T_DNUMBER) { // fix .1 and 1.
                 if(strpos($token[1], '.') === 0) {

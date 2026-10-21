@@ -37,8 +37,8 @@ class In extends Controller
     {
 
         $send = 'Not found action!';
-        $module_form = isset($GLOBALS['_POST']['module_form']) ? $GLOBALS['_POST']['module_form'] : false;
-        $module = isset($GLOBALS['_POST']['module']) ? $GLOBALS['_POST']['module'] : false;
+        $module_form = isset($GLOBALS['_POST']['module_form']) && is_string($GLOBALS['_POST']['module_form']) ? $GLOBALS['_POST']['module_form'] : false;
+        $module = isset($GLOBALS['_POST']['module']) && is_string($GLOBALS['_POST']['module']) ? $GLOBALS['_POST']['module'] : false;
         if ($module_form AND $module) {
 
             if (isset($this->ajax_data[$module_form])) {
@@ -85,16 +85,16 @@ class In extends Controller
                     if ($send = $this->ajax_data[$module_form][$module]()) {
 
                         if (empty($send)) {
-                            $send = $this->ajaxmsg->notify('This module does not accept requests. (array)' . htmlspecialchars($module_form))->danger();
+                            $send = $this->ajaxmsg->notify('This module does not accept requests. (array)' . htmlspecialchars($module_form, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401))->danger();
                         }
 
                     }
 
                 } else {
-                    $send = $this->ajaxmsg->notify('Method - ' . htmlspecialchars($module) . ' not found module - ' . htmlspecialchars($module_form))->danger();
+                    $send = $this->ajaxmsg->notify('Method - ' . htmlspecialchars($module, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401) . ' not found module - ' . htmlspecialchars($module_form, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401))->danger();
                 }
             } else {
-                $send = $this->ajaxmsg->notify('Module not found - ' . htmlspecialchars($module_form))->danger();
+                $send = $this->ajaxmsg->notify('Module not found - ' . htmlspecialchars($module_form, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401))->danger();
             }
 
 

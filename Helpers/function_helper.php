@@ -1080,7 +1080,7 @@ if ( ! function_exists('detect_lang')) {
                 /* check and set the uri identifier to the default value */
                 $index_page .= empty($index_page) ? $default_abbr : "/$default_abbr";
 
-                if (strlen($lang_abbr) == 2) {
+                if (strlen((string) $lang_abbr) == 2) {
 
                     /* remove invalid abbreviation */
                     $URI->uri_string = preg_replace("|^\/?$lang_abbr|", '', $URI->uri_string);

@@ -22,7 +22,9 @@ class func
     public function widget_gift_code(){
         $this->set_label_new();
         $sid = get_instance()->get_sid();
-        $config = false;
+        // no gift codes for this server: the template tests is_array($config.items), and reading a key of false
+        // is a warning on PHP 8, so hand it an empty list instead of false
+        $config = array('items' => array());
 
         if (isset($this->gift_code[$sid]['items'])){
             $config = $this->gift_code[$sid];

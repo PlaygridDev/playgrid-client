@@ -124,6 +124,16 @@ class ReCaptcha
     private $requestMethod;
 
     /**
+     * Expected values checked in verify(); set by the setExpected*() / setScoreThreshold() / setChallengeTimeout()
+     * methods, null (not set) until then.
+     */
+    private $hostname;
+    private $apkPackageName;
+    private $action;
+    private $threshold;
+    private $timeoutSeconds;
+
+    /**
      * Create a configured instance to use the reCAPTCHA service.
      *
      * @param string $secret The shared key between your site and reCAPTCHA.

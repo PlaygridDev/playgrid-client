@@ -31,7 +31,131 @@ class Modifier
                 $date = time();
             }
         }
-        return strftime($format, $date);
+        // strftime() is deprecated since PHP 8.1 and removed in PHP 9
+        return self::strftimeFormat($format, (int) $date);
+    }
+
+    /**
+     * Renders a strftime()-style format through date().
+     *
+     * The application never calls setlocale(), so strftime() ran under the "C" locale and date() gives the same
+     * English names. The conversion specifiers and the glibc flags (%-d, %_H, %0e, %^b, %#Z, %Ey, %Od) are
+     * rendered byte by byte so that multibyte literals in the format survive; an unknown specifier is left in
+     * place as strftime() did.
+     *
+     * @param string $format strftime() format
+     * @param int $time unix timestamp
+     * @return string
+     */
+    public static function strftimeFormat($format, $time)
+    {
+        $out = '';
+        $len = strlen($format);
+        for ($i = 0; $i < $len; $i++) {
+            $c = $format[$i];
+            if ($c !== '%' || $i + 1 >= $len) {
+                $out .= $c;
+                continue;
+            }
+            $spec = $format[++$i];
+            $flag = '';
+            if (strpos('-_0^#', $spec) !== false && $i + 1 < $len) {
+                $flag = $spec;
+                $spec = $format[++$i];
+            }
+            if (($spec === 'E' || $spec === 'O') && $i + 1 < $len) {
+                // locale alternative representations: identical to the plain ones in the "C" locale
+                $spec = $format[++$i];
+            }
+            $piece = self::strftimeSpec($spec, $time);
+            if ($piece === null) {
+                $out .= '%' . $flag . $spec;
+                continue;
+            }
+            switch ($flag) {
+                case '-':
+                    $trimmed = ltrim($piece, '0 ');
+                    $piece = $trimmed === '' ? substr($piece, -1) : $trimmed;
+                    break;
+                case '_':
+                    $trimmed = ltrim($piece, '0 ');
+                    $piece = str_pad($trimmed === '' ? substr($piece, -1) : $trimmed, strlen($piece), ' ', STR_PAD_LEFT);
+                    break;
+                case '0':
+                    $piece = str_pad(ltrim($piece, ' '), strlen($piece), '0', STR_PAD_LEFT);
+                    break;
+                case '^':
+                    $piece = strtoupper($piece);
+                    break;
+                case '#':
+                    $piece = ($spec === 'p' || $spec === 'Z') ? strtolower($piece) : strtoupper($piece);
+                    break;
+            }
+            $out .= $piece;
+        }
+        return $out;
+    }
+
+    /**
+     * One strftime() conversion specifier rendered through date(), null when the specifier is unknown.
+     *
+     * @param string $spec specifier letter
+     * @param int $time unix timestamp
+     * @return string|null
+     */
+    private static function strftimeSpec($spec, $time)
+    {
+        switch ($spec) {
+            // day
+            case 'a': return date('D', $time);
+            case 'A': return date('l', $time);
+            case 'd': return date('d', $time);
+            case 'e': return sprintf('%2d', date('j', $time));
+            case 'j': return sprintf('%03d', date('z', $time) + 1);
+            case 'u': return date('N', $time);
+            case 'w': return date('w', $time);
+            // week
+            case 'U': return sprintf('%02d', floor((date('z', $time) + 7 - date('w', $time)) / 7));
+            case 'W': return sprintf('%02d', floor((date('z', $time) + 7 - (date('w', $time) + 6) % 7) / 7));
+            case 'V': return date('W', $time);
+            // month
+            case 'b':
+            case 'h': return date('M', $time);
+            case 'B': return date('F', $time);
+            case 'm': return date('m', $time);
+            // year
+            case 'C': return sprintf('%02d', floor(date('Y', $time) / 100));
+            case 'g': return sprintf('%02d', date('o', $time) % 100);
+            case 'G': return date('o', $time);
+            case 'y': return date('y', $time);
+            case 'Y': return date('Y', $time);
+            // time
+            case 'H': return date('H', $time);
+            case 'k': return sprintf('%2d', date('G', $time));
+            case 'I': return date('h', $time);
+            case 'l': return sprintf('%2d', date('g', $time));
+            case 'M': return date('i', $time);
+            case 'p': return date('A', $time);
+            case 'P': return date('a', $time);
+            case 'r': return date('h:i:s A', $time);
+            case 'R': return date('H:i', $time);
+            case 'S': return date('s', $time);
+            case 'T':
+            case 'X': return date('H:i:s', $time);
+            case 'z': return date('O', $time);
+            case 'Z': return date('T', $time);
+            // stamps
+            case 'c': return self::strftimeFormat('%a %b %e %H:%M:%S %Y', $time);
+            case 'D':
+            case 'x': return date('m/d/y', $time);
+            case 'F': return date('Y-m-d', $time);
+            case 's': return (string) $time;
+            // literals
+            case 'n': return "\n";
+            case 't': return "\t";
+            case '%': return '%';
+        }
+        return null;
     }
 
     /**
@@ -85,7 +209,7 @@ class Modifier
             case "url":
                 return urldecode($text);
             case "html";
-                return htmlspecialchars_decode($text);
+                return htmlspecialchars_decode($text, ENT_COMPAT | ENT_HTML401);
             default:
                 return $text;
         }

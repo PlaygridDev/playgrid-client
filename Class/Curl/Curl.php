@@ -5,6 +5,7 @@ namespace Curl;
 use Curl\ArrayUtil;
 use Curl\Decoder;
 
+#[\AllowDynamicProperties]
 class Curl
 {
     const VERSION = '8.5.0';
@@ -211,9 +212,12 @@ class Curl
      */
     public function close()
     {
-        if (is_resource($this->curl)) {
+        // PHP 8: handle is a CurlHandle object and curl_close() is a no-op,
+        // drop the reference so the handle is freed/invalidated like in PHP 7
+        if (is_resource($this->curl) || $this->curl instanceof \CurlHandle) {
             curl_close($this->curl);
         }
+        $this->curl = null;
         $this->options = null;
         $this->jsonDecoder = null;
         $this->jsonDecoderArgs = null;
@@ -1286,7 +1290,7 @@ class Curl
      */
     public function reset()
     {
-        if (function_exists('curl_reset') && is_resource($this->curl)) {
+        if (function_exists('curl_reset') && (is_resource($this->curl) || $this->curl instanceof \CurlHandle)) {
             curl_reset($this->curl);
         } else {
             $this->curl = curl_init();
@@ -1598,7 +1602,7 @@ class Curl
      */
     private function parseHeaders($raw_headers)
     {
-        $raw_headers = preg_split('/\r\n/', $raw_headers, null, PREG_SPLIT_NO_EMPTY);
+        $raw_headers = preg_split('/\r\n/', $raw_headers, -1, PREG_SPLIT_NO_EMPTY);
         $http_headers = new CaseInsensitiveArray();
 
         $raw_headers_count = count($raw_headers);
