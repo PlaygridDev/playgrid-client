@@ -40,6 +40,7 @@ class GiftCode extends MainModulesClass
 
         return array(
             'ajax_buy_gift' => function () { return $this->func->ajax_buy_gift(); },
+            'ajax_refresh_history' => function () { return $this->func->ajax_refresh_history(); },
         );
 
     }

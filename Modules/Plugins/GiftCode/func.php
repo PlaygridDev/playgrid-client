@@ -122,6 +122,33 @@ class func
         return $send;
     }
 
+    /**
+     * Кнопка «Обновить список»: свежая история кодов из api в сессию и перезагрузка страницы.
+     * Виджет истории рендерится из сессии, сам в api не ходит.
+     */
+    public function ajax_refresh_history()
+    {
+        if (!get_instance()->session->isLogin())
+            return get_instance()->ajaxmsg->notify(get_lang('api.lang')['session_lost'])->location('sign-in')->danger();
+
+        $api = new \ApiLib\v2\Plugins\GiftCode();
+        $response = $api->getHistory();
+
+        if (!$response['ok'])
+            return get_instance()->ajaxmsg->notify('Error: ' . $response['http_error'] . '<br>Code: ' . $response['http_code'])->danger();
+
+        if (isset($response['error']))
+            return get_instance()->ajaxmsg->notify($response['error'])->danger();
+
+        if (!isset($response["response"]->data->user_data->gift_code))
+            return get_instance()->ajaxmsg->notify(get_lang('signin.lang')['signin_ajax_login_error'])->danger();
+
+        $data = json_decode(json_encode($response["response"]->data), true);
+        get_instance()->session->updateSessionDB($data);
+
+        return get_instance()->ajaxmsg->notify((string)$response["response"]->success)->eval_js('document.location.reload(true);')->success();
+    }
+
     public function set_label_new(){
         $t = @filemtime(ROOT_DIR.'/Library/configs/gift_code.json');
         set_cookie('gift_code_new', $t, strtotime("+1 year"));

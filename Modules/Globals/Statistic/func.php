@@ -147,11 +147,14 @@ class func
                                         }
                                     }
 
-                                    if (!$find AND isset($lib['raidboss'][$row['rb_name']])){
-                                        $row['rb_name'] = $lib['raidboss'][$row['rb_name']]['npc_name'];
-                                        $row['level'] = $lib['raidboss'][$row['rb_name']]['level'];
-                                        $row['respawn'] = $lib['raidboss'][$row['rb_name']]['respawn'];
-                                        $row['random'] = $lib['raidboss'][$row['rb_name']]['random'];
+                                    //Ключи справочника в нижнем регистре, сервер может отдавать имя в любом
+                                    $name_key = is_string($row['rb_name']) ? strtolower($row['rb_name']) : '';
+                                    if (!$find AND isset($lib['raidboss'][$name_key])){
+                                        $rb_info = $lib['raidboss'][$name_key];
+                                        $row['rb_name'] = $rb_info['npc_name'];
+                                        $row['level'] = $rb_info['level'];
+                                        $row['respawn'] = $rb_info['respawn'];
+                                        $row['random'] = $rb_info['random'];
                                         $find = true;
                                     }
 
